@@ -8,5 +8,7 @@ import java.util.List;
 public interface JiraWorklogProxy {
     List<WorklogDto> findAllForPreviousWeek();
 
+    List<WorklogDto> findAllForCurrentWeek();
+
     List<WorklogDto> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
 }

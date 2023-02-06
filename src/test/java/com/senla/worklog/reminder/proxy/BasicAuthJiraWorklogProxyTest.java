@@ -64,6 +64,28 @@ class BasicAuthJiraWorklogProxyTest {
     }
 
     @Test
+    void findAllForCurrentWeek_shouldReturnExpectedForMondayFriday_whenInputIsNoArgs() {
+        LocalDate dateFrom = LocalDate.now().with(MONDAY);
+        LocalDate dateTo = LocalDate.now().with(FRIDAY);
+
+        WorklogDto worklog1 = new WorklogDto();
+        WorklogDto worklog2 = new WorklogDto();
+        worklog1.setId(120L);
+        worklog2.setId(210L);
+        WorklogDto[] worklogs = {worklog1, worklog2};
+
+        String url = jiraProperties.getWorklogsUrlTemplate();
+
+        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(WorklogDto[].class), eq(dateFrom), eq(dateTo)))
+                .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
+
+        List<WorklogDto> expected = Arrays.asList(worklogs);
+        List<WorklogDto> actual = jiraWorklogProxy.findAllForCurrentWeek();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void findAllForPeriod_shouldReturnExpected_whenInputIsCorrectDates() {
         String url = jiraProperties.getWorklogsUrlTemplate();
 

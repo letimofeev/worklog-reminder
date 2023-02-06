@@ -38,6 +38,13 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     }
 
     @Override
+    public List<WorklogDto> findAllForCurrentWeek() {
+        LocalDate monday = LocalDate.now().with(MONDAY);
+        LocalDate friday = LocalDate.now().with(FRIDAY);
+        return findAllForPeriod(monday, friday);
+    }
+
+    @Override
     public List<WorklogDto> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
             HttpHeaders headers = buildHeadersWithAuth();
