@@ -22,11 +22,11 @@ import static java.time.DayOfWeek.MONDAY;
 import static java.time.temporal.TemporalAdjusters.previous;
 
 public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
-    private final RestTemplate restTemplate = new RestTemplate();
-
+    private final RestTemplate restTemplate;
     private final JiraProperties jiraProperties;
 
-    public BasicAuthJiraWorklogProxy(JiraProperties jiraProperties) {
+    public BasicAuthJiraWorklogProxy(RestTemplate restTemplate, JiraProperties jiraProperties) {
+        this.restTemplate = restTemplate;
         this.jiraProperties = jiraProperties;
     }
 
