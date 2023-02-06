@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
+          distribution: 'corretto'
 
       - name: Checkout project sources
         uses: actions/checkout@v2
