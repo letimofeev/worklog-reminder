@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-@ConfigurationProperties(prefix = "jira.properties")
+@ConfigurationProperties(prefix = "jira")
 public class JiraProperties {
     private String worklogsUrlTemplate;
     private String username;
