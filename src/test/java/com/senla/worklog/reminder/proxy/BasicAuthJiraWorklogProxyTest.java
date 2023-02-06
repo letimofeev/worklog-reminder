@@ -43,8 +43,8 @@ class BasicAuthJiraWorklogProxyTest {
 
     @Test
     void findAllForPreviousWeek_shouldReturnExpectedForPrevMondayFriday_whenInputIsNoArgs() {
-        LocalDate dateFrom = LocalDate.now().with(previous(MONDAY));
-        LocalDate dateTo = LocalDate.now().with(previous(FRIDAY));
+        LocalDate dateFrom = LocalDate.now().with(MONDAY).minusWeeks(1);
+        LocalDate dateTo = LocalDate.now().with(FRIDAY).minusWeeks(1);
 
         WorklogDto worklog1 = new WorklogDto();
         WorklogDto worklog2 = new WorklogDto();

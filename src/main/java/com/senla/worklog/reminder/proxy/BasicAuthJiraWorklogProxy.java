@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.proxy;
 
 import com.senla.worklog.reminder.config.JiraProperties;
-import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
 import com.senla.worklog.reminder.dto.WorklogDto;
+import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,7 +19,6 @@ import java.util.Objects;
 
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
-import static java.time.temporal.TemporalAdjusters.previous;
 
 public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     private final RestTemplate restTemplate;
@@ -32,8 +31,8 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
 
     @Override
     public List<WorklogDto> findAllForPreviousWeek() {
-        LocalDate previousMonday = LocalDate.now().with(previous(MONDAY));
-        LocalDate previousFriday = LocalDate.now().with(previous(FRIDAY));
+        LocalDate previousMonday = LocalDate.now().with(MONDAY).minusWeeks(1);
+        LocalDate previousFriday = LocalDate.now().with(FRIDAY).minusWeeks(1);
         return findAllForPeriod(previousMonday, previousFriday);
     }
 
