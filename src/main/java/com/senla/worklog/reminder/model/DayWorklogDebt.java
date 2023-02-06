@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class DayWorklogDebt {
     private LocalDate date;
-    private int timeDeptSeconds;
+    private Long timeDeptSeconds;
 
     @Override
     public String toString() {
@@ -31,14 +31,14 @@ public class DayWorklogDebt {
 
         DayWorklogDebt that = (DayWorklogDebt) o;
 
-        if (timeDeptSeconds != that.timeDeptSeconds) return false;
-        return Objects.equals(date, that.date);
+        if (!Objects.equals(date, that.date)) return false;
+        return Objects.equals(timeDeptSeconds, that.timeDeptSeconds);
     }
 
     @Override
     public int hashCode() {
         int result = date != null ? date.hashCode() : 0;
-        result = 31 * result + timeDeptSeconds;
+        result = 31 * result + (timeDeptSeconds != null ? timeDeptSeconds.hashCode() : 0);
         return result;
     }
 }

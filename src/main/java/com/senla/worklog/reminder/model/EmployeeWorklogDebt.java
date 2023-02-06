@@ -13,13 +13,13 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorklogsDebt {
+public class EmployeeWorklogDebt {
     private EmployeeDto employee;
     private List<DayWorklogDebt> dayWorklogDebts;
 
     @Override
     public String toString() {
-        return "Reminder{" +
+        return "EmployeeWorklogDebt{" +
                 "employee=" + employee +
                 ", dayWorklogDebts=" + dayWorklogDebts +
                 '}';
@@ -30,10 +30,10 @@ public class WorklogsDebt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WorklogsDebt worklogsDebt = (WorklogsDebt) o;
+        EmployeeWorklogDebt that = (EmployeeWorklogDebt) o;
 
-        if (!Objects.equals(employee, worklogsDebt.employee)) return false;
-        return Objects.equals(dayWorklogDebts, worklogsDebt.dayWorklogDebts);
+        if (!Objects.equals(employee, that.employee)) return false;
+        return Objects.equals(dayWorklogDebts, that.dayWorklogDebts);
     }
 
     @Override
