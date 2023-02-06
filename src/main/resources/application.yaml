@@ -1,0 +1,5 @@
+jira:
+  properties:
+    password: admin
+    username: admin
+    worklogs-url-template: http://localhost:8080/rest/tempo-timesheets/3/worklogs?dateFrom={dateFrom}&dateTo={dateTo}
