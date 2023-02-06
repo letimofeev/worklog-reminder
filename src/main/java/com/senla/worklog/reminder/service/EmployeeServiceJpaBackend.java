@@ -31,7 +31,14 @@ public class EmployeeServiceJpaBackend implements EmployeeService {
     public EmployeeDto getEmployeeById(Long id) {
         return repository.findById(id)
                 .map(mapper::mapToDto)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee wih id = '" + id + "' not found"));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id = '" + id + "' not found"));
+    }
+
+    @Override
+    public EmployeeDto getEmployeeByJiraKey(String jiraKey) {
+        return repository.findByJiraKey(jiraKey)
+                .map(mapper::mapToDto)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with jiraKey = '" + jiraKey + "' not found"));
     }
 
     @Override

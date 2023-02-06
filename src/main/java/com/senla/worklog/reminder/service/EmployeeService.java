@@ -9,6 +9,8 @@ public interface EmployeeService {
 
     EmployeeDto getEmployeeById(Long id);
 
+    EmployeeDto getEmployeeByJiraKey(String jiraKey);
+
     List<EmployeeDto> getAllEmployees();
 
     EmployeeDto updateEmployee(EmployeeDto employeeDto);
