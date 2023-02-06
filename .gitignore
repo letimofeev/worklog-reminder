@@ -5,6 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+deploy/docker-compose/pgdata/
+
 ### STS ###
 .apt_generated
 .classpath
