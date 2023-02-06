@@ -1,7 +1,6 @@
 package com.senla.worklog.reminder.exception;
 
 public class JiraWorklogProxyException extends RuntimeException {
-
     public JiraWorklogProxyException(String message) {
         super(message);
     }

@@ -1,12 +1,11 @@
 
-package com.senla.worklog.reminder.model;
+package com.senla.worklog.reminder.dto;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Author {
-
+public class AuthorDto {
     private String avatar;
     private String displayName;
     private String key;
@@ -69,7 +68,7 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Author author = (Author) o;
+        AuthorDto author = (AuthorDto) o;
 
         if (avatar != null ? !avatar.equals(author.avatar) : author.avatar != null) return false;
         if (displayName != null ? !displayName.equals(author.displayName) : author.displayName != null) return false;

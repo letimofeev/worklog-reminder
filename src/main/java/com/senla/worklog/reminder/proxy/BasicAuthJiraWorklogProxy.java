@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.proxy;
 
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
-import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.dto.WorklogDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,28 +31,28 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     }
 
     @Override
-    public List<Worklog> findAllForPreviousWeek() {
+    public List<WorklogDto> findAllForPreviousWeek() {
         LocalDate previousMonday = LocalDate.now().with(previous(MONDAY));
         LocalDate previousFriday = LocalDate.now().with(previous(FRIDAY));
         return findAllForPeriod(previousMonday, previousFriday);
     }
 
     @Override
-    public List<Worklog> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+    public List<WorklogDto> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
             HttpHeaders headers = buildHeadersWithAuth();
-            HttpEntity<Worklog[]> entity = new HttpEntity<>(headers);
+            HttpEntity<WorklogDto[]> entity = new HttpEntity<>(headers);
             String url = jiraProperties.getWorklogsUrlTemplate();
-            ResponseEntity<Worklog[]> response = restTemplate.exchange(url, HttpMethod.GET,
-                    entity, Worklog[].class, dateFrom, dateTo);
+            ResponseEntity<WorklogDto[]> response = restTemplate.exchange(url, HttpMethod.GET,
+                    entity, WorklogDto[].class, dateFrom, dateTo);
             return parseResponse(response);
         } catch (Exception e) {
             throw new JiraWorklogProxyException(e);
         }
     }
 
-    private List<Worklog> parseResponse(ResponseEntity<Worklog[]> response) {
-        Worklog[] body = response.getBody();
+    private List<WorklogDto> parseResponse(ResponseEntity<WorklogDto[]> response) {
+        WorklogDto[] body = response.getBody();
         Objects.requireNonNull(body, "Worklogs from response body must not be null");
         return Arrays.asList(body);
     }

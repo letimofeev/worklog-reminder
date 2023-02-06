@@ -1,31 +1,30 @@
 
-package com.senla.worklog.reminder.model;
+package com.senla.worklog.reminder.dto;
 
 import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Worklog {
-
-    private Author author;
+public class WorklogDto {
+    private AuthorDto author;
     private String comment;
     private String dateCreated;
     private String dateStarted;
     private String dateUpdated;
     private Long id;
-    private Issue issue;
+    private IssueDto issue;
     private Long jiraWorklogId;
     private String self;
     private Long timeSpentSeconds;
     private List<Object> workAttributeValues;
     private List<Object> worklogAttributes;
 
-    public Author getAuthor() {
+    public AuthorDto getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorDto author) {
         this.author = author;
     }
 
@@ -69,11 +68,11 @@ public class Worklog {
         this.id = id;
     }
 
-    public Issue getIssue() {
+    public IssueDto getIssue() {
         return issue;
     }
 
-    public void setIssue(Issue issue) {
+    public void setIssue(IssueDto issue) {
         this.issue = issue;
     }
 
@@ -140,7 +139,7 @@ public class Worklog {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Worklog worklog = (Worklog) o;
+        WorklogDto worklog = (WorklogDto) o;
 
         if (author != null ? !author.equals(worklog.author) : worklog.author != null) return false;
         if (comment != null ? !comment.equals(worklog.comment) : worklog.comment != null) return false;

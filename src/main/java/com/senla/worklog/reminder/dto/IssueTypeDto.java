@@ -1,12 +1,11 @@
 
-package com.senla.worklog.reminder.model;
+package com.senla.worklog.reminder.dto;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class IssueType {
-
+public class IssueTypeDto {
     private String iconUrl;
     private String name;
 
@@ -39,7 +38,7 @@ public class IssueType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        IssueType issueType = (IssueType) o;
+        IssueTypeDto issueType = (IssueTypeDto) o;
 
         if (iconUrl != null ? !iconUrl.equals(issueType.iconUrl) : issueType.iconUrl != null) return false;
         if (name != null ? !name.equals(issueType.name) : issueType.name != null) return false;
