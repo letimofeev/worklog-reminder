@@ -25,11 +25,21 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     private final EmployeeService employeeService;
     private final AuthorsFetchStrategy authorsFetchStrategy;
 
+    private long requiredDaySeconds;
+
+    private static final long DEFAULT_REQUIRED_DAY_SECONDS = 3600 * 8L;
+
     public WorklogDebtsServiceImpl(JiraWorklogProxy jiraWorklogProxy, EmployeeService employeeService,
                                    AuthorsFetchStrategy authorsFetchStrategy) {
         this.jiraWorklogProxy = jiraWorklogProxy;
         this.employeeService = employeeService;
         this.authorsFetchStrategy = authorsFetchStrategy;
+
+        this.requiredDaySeconds = DEFAULT_REQUIRED_DAY_SECONDS;
+    }
+
+    public void setRequiredDaySeconds(long requiredDaySeconds) {
+        this.requiredDaySeconds = requiredDaySeconds;
     }
 
     @Override
@@ -82,10 +92,9 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
 
     private void addDayDebts(Map<Author, Long> spentTimeByAuthor, LocalDate day,
                              Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
-        Long requiredSeconds = 28800L;
         for (Map.Entry<Author, Long> entry : spentTimeByAuthor.entrySet()) {
             Long secondsSpent = entry.getValue();
-            long debt = requiredSeconds - secondsSpent;
+            long debt = requiredDaySeconds - secondsSpent;
             if (debt > 0) {
                 Author author = entry.getKey();
                 debtsByAuthor.putIfAbsent(author, new ArrayList<>());
