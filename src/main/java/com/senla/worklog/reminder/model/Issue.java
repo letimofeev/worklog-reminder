@@ -18,56 +18,63 @@ public class Issue {
         return id;
     }
 
-    public void setId(Long id) {
+    public Issue setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public IssueType getIssueType() {
         return issueType;
     }
 
-    public void setIssueType(IssueType issueType) {
+    public Issue setIssueType(IssueType issueType) {
         this.issueType = issueType;
+        return this;
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public Issue setKey(String key) {
         this.key = key;
+        return this;
     }
 
     public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public Issue setProjectId(Long projectId) {
         this.projectId = projectId;
+        return this;
     }
 
     public Long getRemainingEstimateSeconds() {
         return remainingEstimateSeconds;
     }
 
-    public void setRemainingEstimateSeconds(Long remainingEstimateSeconds) {
+    public Issue setRemainingEstimateSeconds(Long remainingEstimateSeconds) {
         this.remainingEstimateSeconds = remainingEstimateSeconds;
+        return this;
     }
 
     public String getSelf() {
         return self;
     }
 
-    public void setSelf(String self) {
+    public Issue setSelf(String self) {
         this.self = self;
+        return this;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public Issue setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
     @Override

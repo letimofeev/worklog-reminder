@@ -16,40 +16,45 @@ public class Author {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public Author setAvatar(String avatar) {
         this.avatar = avatar;
+        return this;
     }
 
     public String getDisplayName() {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    public Author setDisplayName(String displayName) {
         this.displayName = displayName;
+        return this;
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public Author setKey(String key) {
         this.key = key;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Author setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getSelf() {
         return self;
     }
 
-    public void setSelf(String self) {
+    public Author setSelf(String self) {
         this.self = self;
+        return this;
     }
 
     @Override

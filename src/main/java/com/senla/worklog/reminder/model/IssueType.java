@@ -13,16 +13,18 @@ public class IssueType {
         return iconUrl;
     }
 
-    public void setIconUrl(String iconUrl) {
+    public IssueType setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public IssueType setName(String name) {
         this.name = name;
+        return this;
     }
 
     @Override
