@@ -2,12 +2,12 @@ package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.dto.mapper.EmployeeDtoMapper;
-import com.senla.worklog.reminder.exception.EmployeeNotFoundException;
 import com.senla.worklog.reminder.model.Employee;
 import com.senla.worklog.reminder.repository.EmployeeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,10 +28,15 @@ public class EmployeeServiceJpaBackend implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Long id) {
+    public Optional<EmployeeDto> getEmployeeById(Long id) {
         return repository.findById(id)
-                .map(mapper::mapToDto)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee wih id = '" + id + "' not found"));
+                .map(mapper::mapToDto);
+    }
+
+    @Override
+    public Optional<EmployeeDto> getEmployeeByJiraKey(String jiraKey) {
+        return repository.findByJiraKey(jiraKey)
+                .map(mapper::mapToDto);
     }
 
     @Override

@@ -1,11 +1,11 @@
 
-package com.senla.worklog.reminder.dto;
+package com.senla.worklog.reminder.model;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class AuthorDto {
+public class Author {
     private String avatar;
     private String displayName;
     private String key;
@@ -16,40 +16,45 @@ public class AuthorDto {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public Author setAvatar(String avatar) {
         this.avatar = avatar;
+        return this;
     }
 
     public String getDisplayName() {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    public Author setDisplayName(String displayName) {
         this.displayName = displayName;
+        return this;
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public Author setKey(String key) {
         this.key = key;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Author setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getSelf() {
         return self;
     }
 
-    public void setSelf(String self) {
+    public Author setSelf(String self) {
         this.self = self;
+        return this;
     }
 
     @Override
@@ -68,7 +73,7 @@ public class AuthorDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AuthorDto author = (AuthorDto) o;
+        Author author = (Author) o;
 
         if (avatar != null ? !avatar.equals(author.avatar) : author.avatar != null) return false;
         if (displayName != null ? !displayName.equals(author.displayName) : author.displayName != null) return false;

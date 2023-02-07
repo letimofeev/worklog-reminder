@@ -1,13 +1,13 @@
 
-package com.senla.worklog.reminder.dto;
+package com.senla.worklog.reminder.model;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class IssueDto {
+public class Issue {
     private Long id;
-    private IssueTypeDto issueType;
+    private IssueType issueType;
     private String key;
     private Long projectId;
     private Long remainingEstimateSeconds;
@@ -18,56 +18,63 @@ public class IssueDto {
         return id;
     }
 
-    public void setId(Long id) {
+    public Issue setId(Long id) {
         this.id = id;
+        return this;
     }
 
-    public IssueTypeDto getIssueType() {
+    public IssueType getIssueType() {
         return issueType;
     }
 
-    public void setIssueType(IssueTypeDto issueType) {
+    public Issue setIssueType(IssueType issueType) {
         this.issueType = issueType;
+        return this;
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public Issue setKey(String key) {
         this.key = key;
+        return this;
     }
 
     public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public Issue setProjectId(Long projectId) {
         this.projectId = projectId;
+        return this;
     }
 
     public Long getRemainingEstimateSeconds() {
         return remainingEstimateSeconds;
     }
 
-    public void setRemainingEstimateSeconds(Long remainingEstimateSeconds) {
+    public Issue setRemainingEstimateSeconds(Long remainingEstimateSeconds) {
         this.remainingEstimateSeconds = remainingEstimateSeconds;
+        return this;
     }
 
     public String getSelf() {
         return self;
     }
 
-    public void setSelf(String self) {
+    public Issue setSelf(String self) {
         this.self = self;
+        return this;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public Issue setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
     @Override
@@ -88,7 +95,7 @@ public class IssueDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        IssueDto issue = (IssueDto) o;
+        Issue issue = (Issue) o;
 
         if (id != null ? !id.equals(issue.id) : issue.id != null) return false;
         if (issueType != null ? !issueType.equals(issue.issueType) : issue.issueType != null) return false;

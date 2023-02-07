@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.proxy;
 
 import com.senla.worklog.reminder.config.JiraProperties;
+import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
-import com.senla.worklog.reminder.dto.WorklogDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,7 +19,6 @@ import java.util.Objects;
 
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
-import static java.time.temporal.TemporalAdjusters.previous;
 
 public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     private final RestTemplate restTemplate;
@@ -31,28 +30,35 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     }
 
     @Override
-    public List<WorklogDto> findAllForPreviousWeek() {
-        LocalDate previousMonday = LocalDate.now().with(previous(MONDAY));
-        LocalDate previousFriday = LocalDate.now().with(previous(FRIDAY));
+    public List<Worklog> findAllForPreviousWeek() {
+        LocalDate previousMonday = LocalDate.now().with(MONDAY).minusWeeks(1);
+        LocalDate previousFriday = LocalDate.now().with(FRIDAY).minusWeeks(1);
         return findAllForPeriod(previousMonday, previousFriday);
     }
 
     @Override
-    public List<WorklogDto> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+    public List<Worklog> findAllForCurrentWeek() {
+        LocalDate monday = LocalDate.now().with(MONDAY);
+        LocalDate friday = LocalDate.now().with(FRIDAY);
+        return findAllForPeriod(monday, friday);
+    }
+
+    @Override
+    public List<Worklog> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
             HttpHeaders headers = buildHeadersWithAuth();
-            HttpEntity<WorklogDto[]> entity = new HttpEntity<>(headers);
+            HttpEntity<Worklog[]> entity = new HttpEntity<>(headers);
             String url = jiraProperties.getWorklogsUrlTemplate();
-            ResponseEntity<WorklogDto[]> response = restTemplate.exchange(url, HttpMethod.GET,
-                    entity, WorklogDto[].class, dateFrom, dateTo);
+            ResponseEntity<Worklog[]> response = restTemplate.exchange(url, HttpMethod.GET,
+                    entity, Worklog[].class, dateFrom, dateTo);
             return parseResponse(response);
         } catch (Exception e) {
             throw new JiraWorklogProxyException(e);
         }
     }
 
-    private List<WorklogDto> parseResponse(ResponseEntity<WorklogDto[]> response) {
-        WorklogDto[] body = response.getBody();
+    private List<Worklog> parseResponse(ResponseEntity<Worklog[]> response) {
+        Worklog[] body = response.getBody();
         Objects.requireNonNull(body, "Worklogs from response body must not be null");
         return Arrays.asList(body);
     }

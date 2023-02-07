@@ -1,12 +1,14 @@
 package com.senla.worklog.reminder.proxy;
 
-import com.senla.worklog.reminder.dto.WorklogDto;
+import com.senla.worklog.reminder.model.Worklog;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface JiraWorklogProxy {
-    List<WorklogDto> findAllForPreviousWeek();
+    List<Worklog> findAllForPreviousWeek();
 
-    List<WorklogDto> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
+    List<Worklog> findAllForCurrentWeek();
+
+    List<Worklog> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
 }
