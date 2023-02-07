@@ -3,7 +3,7 @@ package com.senla.worklog.reminder.service;
 import com.senla.worklog.reminder.model.Author;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
-import com.senla.worklog.reminder.model.EmployeeWorklogDebt;
+import com.senla.worklog.reminder.model.WorklogDebts;
 import com.senla.worklog.reminder.proxy.JiraWorklogProxy;
 import org.springframework.stereotype.Service;
 
@@ -12,36 +12,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static java.time.DayOfWeek.*;
+import static java.time.DayOfWeek.FRIDAY;
+import static java.time.DayOfWeek.MONDAY;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingLong;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtService {
+public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     private final JiraWorklogProxy jiraWorklogProxy;
     private final EmployeeService employeeService;
+    private final AuthorsFetchStrategy authorsFetchStrategy;
 
-    public EmployeeWorklogDebtServiceImpl(JiraWorklogProxy jiraWorklogProxy, EmployeeService employeeService) {
+    public WorklogDebtsServiceImpl(JiraWorklogProxy jiraWorklogProxy, EmployeeService employeeService,
+                                   AuthorsFetchStrategy authorsFetchStrategy) {
         this.jiraWorklogProxy = jiraWorklogProxy;
         this.employeeService = employeeService;
+        this.authorsFetchStrategy = authorsFetchStrategy;
     }
 
     @Override
-    public List<EmployeeWorklogDebt> findAllForCurrentWeek() {
+    public WorklogDebts findAllForCurrentWeek() {
         LocalDate dateFrom = LocalDate.now().with(MONDAY);
         LocalDate dateTo = LocalDate.now().with(FRIDAY);
         return findAllForPeriod(dateFrom, dateTo);
     }
 
     @Override
-    public List<EmployeeWorklogDebt> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        LocalDate dateFromPrev = dateFrom.minusWeeks(1);
-        LocalDate dateToPrev = dateTo.minusWeeks(1);
-        List<Worklog> previousWeek = jiraWorklogProxy.findAllForPeriod(dateFromPrev, dateToPrev);
-        List<Author> previousWeekAuthors = getAllAuthors(previousWeek);
+    public WorklogDebts findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+        List<Author> previousWeekAuthors = authorsFetchStrategy.getAuthors();
 
         List<Worklog> worklogs = jiraWorklogProxy.findAllForPeriod(dateFrom, dateTo);
 
@@ -50,26 +50,25 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
         return mapToEmployeeDebts(debtsByAuthor);
     }
 
-    private List<EmployeeWorklogDebt> mapToEmployeeDebts(Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
-        List<EmployeeWorklogDebt> worklogDebts = new ArrayList<>();
+    private WorklogDebts mapToEmployeeDebts(Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
+        WorklogDebts worklogDebts = new WorklogDebts();
         for (Map.Entry<Author, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
             Author author = entry.getKey();
             List<DayWorklogDebt> authorDebts = entry.getValue();
             employeeService.getEmployeeByJiraKey(author.getKey())
-                    .ifPresent(employee -> worklogDebts.add(new EmployeeWorklogDebt(employee, authorDebts)));
-
+                    .ifPresent(employee -> worklogDebts.put(employee, authorDebts));
         }
         return worklogDebts;
     }
 
-    private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> previousWeekAuthors,
+    private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> authors,
                                                                List<Worklog> currentWeek,
                                                                LocalDate dateFrom, LocalDate dateTo) {
         Map<Author, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
         LocalDate dateToExcluding = dateTo.plusDays(1);
         for (LocalDate date = dateFrom; date.isBefore(dateToExcluding); date = date.plusDays(1)) {
             List<Worklog> dayWorklogs = getDayWorklogs(currentWeek, date);
-            Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, previousWeekAuthors);
+            Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, authors);
             addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
         }
         return debtsByAuthor;
@@ -79,12 +78,6 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
         return currentWeek.stream()
                 .filter(x -> x.getDateStarted().toLocalDate().equals(day))
                 .collect(toList());
-    }
-
-    private List<Author> getAllAuthors(List<Worklog> worklogs) {
-        return worklogs.stream()
-                .map(Worklog::getAuthor)
-                .collect(Collectors.toList());
     }
 
     private void addDayDebts(Map<Author, Long> spentTimeByAuthor, LocalDate day,
