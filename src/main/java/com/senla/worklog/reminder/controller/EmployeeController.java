@@ -1,6 +1,7 @@
 package com.senla.worklog.reminder.controller;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
+import com.senla.worklog.reminder.exception.EmployeeNotFoundException;
 import com.senla.worklog.reminder.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,8 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public EmployeeDto getEmployeeById(@PathVariable long id) {
-        return employeeService.getEmployeeById(id);
+        return employeeService.getEmployeeById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id = '" + id + "' not found"));
     }
 
     @GetMapping
