@@ -1,5 +1,5 @@
 
-package com.senla.worklog.reminder.dto;
+package com.senla.worklog.reminder.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,25 +7,25 @@ import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class WorklogDto {
-    private AuthorDto author;
+public class Worklog {
+    private Author author;
     private String comment;
     private LocalDateTime dateCreated;
     private LocalDateTime dateStarted;
     private LocalDateTime dateUpdated;
     private Long id;
-    private IssueDto issue;
+    private Issue issue;
     private Long jiraWorklogId;
     private String self;
     private Long timeSpentSeconds;
     private List<Object> workAttributeValues;
     private List<Object> worklogAttributes;
 
-    public AuthorDto getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public WorklogDto setAuthor(AuthorDto author) {
+    public Worklog setAuthor(Author author) {
         this.author = author;
         return this;
     }
@@ -34,7 +34,7 @@ public class WorklogDto {
         return comment;
     }
 
-    public WorklogDto setComment(String comment) {
+    public Worklog setComment(String comment) {
         this.comment = comment;
         return this;
     }
@@ -43,7 +43,7 @@ public class WorklogDto {
         return dateCreated;
     }
 
-    public WorklogDto setDateCreated(LocalDateTime dateCreated) {
+    public Worklog setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }
@@ -52,7 +52,7 @@ public class WorklogDto {
         return dateStarted;
     }
 
-    public WorklogDto setDateStarted(LocalDateTime dateStarted) {
+    public Worklog setDateStarted(LocalDateTime dateStarted) {
         this.dateStarted = dateStarted;
         return this;
     }
@@ -61,7 +61,7 @@ public class WorklogDto {
         return dateUpdated;
     }
 
-    public WorklogDto setDateUpdated(LocalDateTime dateUpdated) {
+    public Worklog setDateUpdated(LocalDateTime dateUpdated) {
         this.dateUpdated = dateUpdated;
         return this;
     }
@@ -70,16 +70,16 @@ public class WorklogDto {
         return id;
     }
 
-    public WorklogDto setId(Long id) {
+    public Worklog setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public IssueDto getIssue() {
+    public Issue getIssue() {
         return issue;
     }
 
-    public WorklogDto setIssue(IssueDto issue) {
+    public Worklog setIssue(Issue issue) {
         this.issue = issue;
         return this;
     }
@@ -88,7 +88,7 @@ public class WorklogDto {
         return jiraWorklogId;
     }
 
-    public WorklogDto setJiraWorklogId(Long jiraWorklogId) {
+    public Worklog setJiraWorklogId(Long jiraWorklogId) {
         this.jiraWorklogId = jiraWorklogId;
         return this;
     }
@@ -97,7 +97,7 @@ public class WorklogDto {
         return self;
     }
 
-    public WorklogDto setSelf(String self) {
+    public Worklog setSelf(String self) {
         this.self = self;
         return this;
     }
@@ -106,7 +106,7 @@ public class WorklogDto {
         return timeSpentSeconds;
     }
 
-    public WorklogDto setTimeSpentSeconds(Long timeSpentSeconds) {
+    public Worklog setTimeSpentSeconds(Long timeSpentSeconds) {
         this.timeSpentSeconds = timeSpentSeconds;
         return this;
     }
@@ -115,7 +115,7 @@ public class WorklogDto {
         return workAttributeValues;
     }
 
-    public WorklogDto setWorkAttributeValues(List<Object> workAttributeValues) {
+    public Worklog setWorkAttributeValues(List<Object> workAttributeValues) {
         this.workAttributeValues = workAttributeValues;
         return this;
     }
@@ -124,7 +124,7 @@ public class WorklogDto {
         return worklogAttributes;
     }
 
-    public WorklogDto setWorklogAttributes(List<Object> worklogAttributes) {
+    public Worklog setWorklogAttributes(List<Object> worklogAttributes) {
         this.worklogAttributes = worklogAttributes;
         return this;
     }
@@ -152,7 +152,7 @@ public class WorklogDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WorklogDto that = (WorklogDto) o;
+        Worklog that = (Worklog) o;
 
         if (author != null ? !author.equals(that.author) : that.author != null) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;

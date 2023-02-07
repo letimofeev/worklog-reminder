@@ -1,7 +1,7 @@
 package com.senla.worklog.reminder.proxy;
 
 import com.senla.worklog.reminder.config.JiraProperties;
-import com.senla.worklog.reminder.dto.WorklogDto;
+import com.senla.worklog.reminder.model.Worklog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,19 +45,19 @@ class BasicAuthJiraWorklogProxyTest {
         LocalDate dateFrom = LocalDate.now().with(MONDAY).minusWeeks(1);
         LocalDate dateTo = LocalDate.now().with(FRIDAY).minusWeeks(1);
 
-        WorklogDto worklog1 = new WorklogDto();
-        WorklogDto worklog2 = new WorklogDto();
+        Worklog worklog1 = new Worklog();
+        Worklog worklog2 = new Worklog();
         worklog1.setId(100L);
         worklog2.setId(200L);
-        WorklogDto[] worklogs = {worklog1, worklog2};
+        Worklog[] worklogs = {worklog1, worklog2};
 
         String url = jiraProperties.getWorklogsUrlTemplate();
 
-        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(WorklogDto[].class), eq(dateFrom), eq(dateTo)))
+        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(Worklog[].class), eq(dateFrom), eq(dateTo)))
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
-        List<WorklogDto> expected = Arrays.asList(worklogs);
-        List<WorklogDto> actual = jiraWorklogProxy.findAllForPreviousWeek();
+        List<Worklog> expected = Arrays.asList(worklogs);
+        List<Worklog> actual = jiraWorklogProxy.findAllForPreviousWeek();
 
         assertEquals(expected, actual);
     }
@@ -67,19 +67,19 @@ class BasicAuthJiraWorklogProxyTest {
         LocalDate dateFrom = LocalDate.now().with(MONDAY);
         LocalDate dateTo = LocalDate.now().with(FRIDAY);
 
-        WorklogDto worklog1 = new WorklogDto();
-        WorklogDto worklog2 = new WorklogDto();
+        Worklog worklog1 = new Worklog();
+        Worklog worklog2 = new Worklog();
         worklog1.setId(120L);
         worklog2.setId(210L);
-        WorklogDto[] worklogs = {worklog1, worklog2};
+        Worklog[] worklogs = {worklog1, worklog2};
 
         String url = jiraProperties.getWorklogsUrlTemplate();
 
-        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(WorklogDto[].class), eq(dateFrom), eq(dateTo)))
+        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(Worklog[].class), eq(dateFrom), eq(dateTo)))
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
-        List<WorklogDto> expected = Arrays.asList(worklogs);
-        List<WorklogDto> actual = jiraWorklogProxy.findAllForCurrentWeek();
+        List<Worklog> expected = Arrays.asList(worklogs);
+        List<Worklog> actual = jiraWorklogProxy.findAllForCurrentWeek();
 
         assertEquals(expected, actual);
     }
@@ -91,17 +91,17 @@ class BasicAuthJiraWorklogProxyTest {
         LocalDate dateFrom = LocalDate.of(2022, 1, 15);
         LocalDate dateTo = LocalDate.of(2022, 2, 5);
 
-        WorklogDto worklog1 = new WorklogDto();
-        WorklogDto worklog2 = new WorklogDto();
+        Worklog worklog1 = new Worklog();
+        Worklog worklog2 = new Worklog();
         worklog1.setId(100L);
         worklog2.setId(200L);
-        WorklogDto[] worklogs = {worklog1, worklog2};
+        Worklog[] worklogs = {worklog1, worklog2};
 
-        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(WorklogDto[].class), eq(dateFrom), eq(dateTo)))
+        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(Worklog[].class), eq(dateFrom), eq(dateTo)))
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
-        List<WorklogDto> expected = Arrays.asList(worklogs);
-        List<WorklogDto> actual = jiraWorklogProxy.findAllForPeriod(dateFrom, dateTo);
+        List<Worklog> expected = Arrays.asList(worklogs);
+        List<Worklog> actual = jiraWorklogProxy.findAllForPeriod(dateFrom, dateTo);
 
         assertEquals(expected, actual);
     }

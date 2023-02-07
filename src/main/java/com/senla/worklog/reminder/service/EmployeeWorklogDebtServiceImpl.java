@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.service;
 
-import com.senla.worklog.reminder.dto.AuthorDto;
+import com.senla.worklog.reminder.model.Author;
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.dto.WorklogDto;
+import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.EmployeeWorklogDebt;
 import com.senla.worklog.reminder.proxy.JiraWorklogProxy;
@@ -33,19 +33,19 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
 
     @Override
     public List<EmployeeWorklogDebt> getAllDebts() {
-        List<WorklogDto> previousWeek = jiraWorklogProxy.findAllForPreviousWeek();
-        List<AuthorDto> previousWeekAuthors = getAllAuthors(previousWeek);
+        List<Worklog> previousWeek = jiraWorklogProxy.findAllForPreviousWeek();
+        List<Author> previousWeekAuthors = getAllAuthors(previousWeek);
 
-        List<WorklogDto> currentWeek = jiraWorklogProxy.findAllForCurrentWeek();
+        List<Worklog> currentWeek = jiraWorklogProxy.findAllForCurrentWeek();
 
-        Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors, currentWeek);
+        Map<Author, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors, currentWeek);
         return mapToEmployeeDebts(debtsByAuthor);
     }
 
-    private List<EmployeeWorklogDebt> mapToEmployeeDebts(Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor) {
+    private List<EmployeeWorklogDebt> mapToEmployeeDebts(Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
         List<EmployeeWorklogDebt> worklogDebts = new ArrayList<>();
-        for (Map.Entry<AuthorDto, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
-            AuthorDto author = entry.getKey();
+        for (Map.Entry<Author, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
+            Author author = entry.getKey();
             List<DayWorklogDebt> authorDebts = entry.getValue();
             EmployeeDto employee = employeeService.getEmployeeByJiraKey(author.getKey());
             worklogDebts.add(new EmployeeWorklogDebt(employee, authorDebts));
@@ -53,49 +53,49 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
         return worklogDebts;
     }
 
-    private Map<AuthorDto, List<DayWorklogDebt>> getDebtsByAuthor(List<AuthorDto> previousWeekAuthors,
-                                                                  List<WorklogDto> currentWeek) {
-        Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
+    private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> previousWeekAuthors,
+                                                               List<Worklog> currentWeek) {
+        Map<Author, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
         LocalDate dateFrom = LocalDate.now().with(MONDAY);
         LocalDate dateTo = LocalDate.now().with(SATURDAY);
         for (LocalDate date = dateFrom; date.isBefore(dateTo); date = date.plusDays(1)) {
-            List<WorklogDto> dayWorklogs = getDayWorklogs(currentWeek, date);
-            Map<AuthorDto, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, previousWeekAuthors);
+            List<Worklog> dayWorklogs = getDayWorklogs(currentWeek, date);
+            Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, previousWeekAuthors);
             addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
         }
         return debtsByAuthor;
     }
 
-    private List<WorklogDto> getDayWorklogs(List<WorklogDto> currentWeek, LocalDate day) {
+    private List<Worklog> getDayWorklogs(List<Worklog> currentWeek, LocalDate day) {
         return currentWeek.stream()
                 .filter(x -> x.getDateStarted().toLocalDate().equals(day))
                 .collect(toList());
     }
 
-    private List<AuthorDto> getAllAuthors(List<WorklogDto> worklogs) {
+    private List<Author> getAllAuthors(List<Worklog> worklogs) {
         return worklogs.stream()
-                .map(WorklogDto::getAuthor)
+                .map(Worklog::getAuthor)
                 .collect(Collectors.toList());
     }
 
-    private void addDayDebts(Map<AuthorDto, Long> spentTimeByAuthor, LocalDate day,
-                             Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor) {
+    private void addDayDebts(Map<Author, Long> spentTimeByAuthor, LocalDate day,
+                             Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
         Long requiredSeconds = 28800L;
-        for (Map.Entry<AuthorDto, Long> entry : spentTimeByAuthor.entrySet()) {
+        for (Map.Entry<Author, Long> entry : spentTimeByAuthor.entrySet()) {
             Long secondsSpent = entry.getValue();
             long debt = requiredSeconds - secondsSpent;
             if (debt > 0) {
-                AuthorDto author = entry.getKey();
+                Author author = entry.getKey();
                 debtsByAuthor.putIfAbsent(author, new ArrayList<>());
                 debtsByAuthor.get(author).add(new DayWorklogDebt(day, debt));
             }
         }
     }
 
-    private Map<AuthorDto, Long> getSpentTimeByAuthor(List<WorklogDto> worklogs, List<AuthorDto> authors) {
-        Map<AuthorDto, Long> totalSpentTime = worklogs.stream().collect(groupingBy(WorklogDto::getAuthor,
-                summingLong(WorklogDto::getTimeSpentSeconds)));
-        for (AuthorDto author : authors) {
+    private Map<Author, Long> getSpentTimeByAuthor(List<Worklog> worklogs, List<Author> authors) {
+        Map<Author, Long> totalSpentTime = worklogs.stream().collect(groupingBy(Worklog::getAuthor,
+                summingLong(Worklog::getTimeSpentSeconds)));
+        for (Author author : authors) {
             totalSpentTime.putIfAbsent(author, 0L);
         }
         return totalSpentTime;

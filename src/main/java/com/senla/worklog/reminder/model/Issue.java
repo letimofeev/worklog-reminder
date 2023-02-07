@@ -1,13 +1,13 @@
 
-package com.senla.worklog.reminder.dto;
+package com.senla.worklog.reminder.model;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class IssueDto {
+public class Issue {
     private Long id;
-    private IssueTypeDto issueType;
+    private IssueType issueType;
     private String key;
     private Long projectId;
     private Long remainingEstimateSeconds;
@@ -22,11 +22,11 @@ public class IssueDto {
         this.id = id;
     }
 
-    public IssueTypeDto getIssueType() {
+    public IssueType getIssueType() {
         return issueType;
     }
 
-    public void setIssueType(IssueTypeDto issueType) {
+    public void setIssueType(IssueType issueType) {
         this.issueType = issueType;
     }
 
@@ -88,7 +88,7 @@ public class IssueDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        IssueDto issue = (IssueDto) o;
+        Issue issue = (Issue) o;
 
         if (id != null ? !id.equals(issue.id) : issue.id != null) return false;
         if (issueType != null ? !issueType.equals(issue.issueType) : issue.issueType != null) return false;
