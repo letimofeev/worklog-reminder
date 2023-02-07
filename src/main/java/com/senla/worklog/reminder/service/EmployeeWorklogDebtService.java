@@ -5,5 +5,5 @@ import com.senla.worklog.reminder.model.EmployeeWorklogDebt;
 import java.util.List;
 
 public interface EmployeeWorklogDebtService {
-    List<EmployeeWorklogDebt> getAll();
+    List<EmployeeWorklogDebt> getAllDebts();
 }

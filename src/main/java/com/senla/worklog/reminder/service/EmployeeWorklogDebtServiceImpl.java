@@ -9,12 +9,17 @@ import com.senla.worklog.reminder.proxy.JiraWorklogProxy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.DayOfWeek.SATURDAY;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingLong;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtService {
@@ -27,25 +32,17 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
     }
 
     @Override
-    public List<EmployeeWorklogDebt> getAll() {
+    public List<EmployeeWorklogDebt> getAllDebts() {
         List<WorklogDto> previousWeek = jiraWorklogProxy.findAllForPreviousWeek();
-
-        Set<AuthorDto> previousWeekAuthors = previousWeek.stream()
-                .map(WorklogDto::getAuthor).collect(Collectors.toSet());
+        List<AuthorDto> previousWeekAuthors = getAllAuthors(previousWeek);
 
         List<WorklogDto> currentWeek = jiraWorklogProxy.findAllForCurrentWeek();
 
-        Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
-        LocalDate monday = LocalDate.now().with(MONDAY);
-        LocalDate saturday = LocalDate.now().with(SATURDAY);
-        for (LocalDate date = monday; date.isBefore(saturday); date = date.plusDays(1)) {
-            LocalDate finalDate = date;
-            List<WorklogDto> dayWorklogs = currentWeek.stream()
-                    .filter(x -> x.getDateStarted().toLocalDate().equals(finalDate))
-                    .collect(toList());
-            Map<AuthorDto, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, previousWeekAuthors);
-            addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
-        }
+        Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors, currentWeek);
+        return mapToEmployeeDebts(debtsByAuthor);
+    }
+
+    private List<EmployeeWorklogDebt> mapToEmployeeDebts(Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor) {
         List<EmployeeWorklogDebt> worklogDebts = new ArrayList<>();
         for (Map.Entry<AuthorDto, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
             AuthorDto author = entry.getKey();
@@ -54,6 +51,31 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
             worklogDebts.add(new EmployeeWorklogDebt(employee, authorDebts));
         }
         return worklogDebts;
+    }
+
+    private Map<AuthorDto, List<DayWorklogDebt>> getDebtsByAuthor(List<AuthorDto> previousWeekAuthors,
+                                                                  List<WorklogDto> currentWeek) {
+        Map<AuthorDto, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
+        LocalDate dateFrom = LocalDate.now().with(MONDAY);
+        LocalDate dateTo = LocalDate.now().with(SATURDAY);
+        for (LocalDate date = dateFrom; date.isBefore(dateTo); date = date.plusDays(1)) {
+            List<WorklogDto> dayWorklogs = getDayWorklogs(currentWeek, date);
+            Map<AuthorDto, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, previousWeekAuthors);
+            addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
+        }
+        return debtsByAuthor;
+    }
+
+    private List<WorklogDto> getDayWorklogs(List<WorklogDto> currentWeek, LocalDate day) {
+        return currentWeek.stream()
+                .filter(x -> x.getDateStarted().toLocalDate().equals(day))
+                .collect(toList());
+    }
+
+    private List<AuthorDto> getAllAuthors(List<WorklogDto> worklogs) {
+        return worklogs.stream()
+                .map(WorklogDto::getAuthor)
+                .collect(Collectors.toList());
     }
 
     private void addDayDebts(Map<AuthorDto, Long> spentTimeByAuthor, LocalDate day,
@@ -70,11 +92,10 @@ public class EmployeeWorklogDebtServiceImpl implements EmployeeWorklogDebtServic
         }
     }
 
-    private Map<AuthorDto, Long> getSpentTimeByAuthor(List<WorklogDto> worklogs,
-                                                      Set<AuthorDto> previousWeekAuthors) {
+    private Map<AuthorDto, Long> getSpentTimeByAuthor(List<WorklogDto> worklogs, List<AuthorDto> authors) {
         Map<AuthorDto, Long> totalSpentTime = worklogs.stream().collect(groupingBy(WorklogDto::getAuthor,
                 summingLong(WorklogDto::getTimeSpentSeconds)));
-        for (AuthorDto author : previousWeekAuthors) {
+        for (AuthorDto author : authors) {
             totalSpentTime.putIfAbsent(author, 0L);
         }
         return totalSpentTime;
