@@ -41,7 +41,7 @@ class BasicAuthJiraWorklogProxyTest {
     }
 
     @Test
-    void findAllForPreviousWeek_shouldReturnExpectedForPrevMondayFriday_whenInputIsNoArgs() {
+    void getAllForPreviousWeek_shouldReturnExpectedForPrevMondayFriday_whenInputIsNoArgs() {
         LocalDate dateFrom = LocalDate.now().with(MONDAY).minusWeeks(1);
         LocalDate dateTo = LocalDate.now().with(FRIDAY).minusWeeks(1);
 
@@ -57,13 +57,13 @@ class BasicAuthJiraWorklogProxyTest {
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
         List<Worklog> expected = Arrays.asList(worklogs);
-        List<Worklog> actual = jiraWorklogProxy.findAllForPreviousWeek();
+        List<Worklog> actual = jiraWorklogProxy.getAllForPreviousWeek();
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void findAllForCurrentWeek_shouldReturnExpectedForMondayFriday_whenInputIsNoArgs() {
+    void getAllForCurrentWeek_shouldReturnExpectedForMondayFriday_whenInputIsNoArgs() {
         LocalDate dateFrom = LocalDate.now().with(MONDAY);
         LocalDate dateTo = LocalDate.now().with(FRIDAY);
 
@@ -79,13 +79,13 @@ class BasicAuthJiraWorklogProxyTest {
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
         List<Worklog> expected = Arrays.asList(worklogs);
-        List<Worklog> actual = jiraWorklogProxy.findAllForCurrentWeek();
+        List<Worklog> actual = jiraWorklogProxy.getAllForCurrentWeek();
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void findAllForPeriod_shouldReturnExpected_whenInputIsCorrectDates() {
+    void getAllForPeriod_shouldReturnExpected_whenInputIsCorrectDates() {
         String url = jiraProperties.getWorklogsUrlTemplate();
 
         LocalDate dateFrom = LocalDate.of(2022, 1, 15);
@@ -101,7 +101,7 @@ class BasicAuthJiraWorklogProxyTest {
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
         List<Worklog> expected = Arrays.asList(worklogs);
-        List<Worklog> actual = jiraWorklogProxy.findAllForPeriod(dateFrom, dateTo);
+        List<Worklog> actual = jiraWorklogProxy.getAllForPeriod(dateFrom, dateTo);
 
         assertEquals(expected, actual);
     }

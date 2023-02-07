@@ -27,14 +27,14 @@ public class WorklogDebtsController {
 
     @GetMapping
     public WorklogDebtsDto getAllDebtsForCurrentWeek() {
-        WorklogDebts worklogDebts = worklogDebtsService.findAllForCurrentWeek();
+        WorklogDebts worklogDebts = worklogDebtsService.getAllForCurrentWeek();
         return mapper.mapToDto(worklogDebts);
     }
 
     @GetMapping(params = {"dateFrom", "dateTo"})
     public WorklogDebtsDto getAllDebtsForPeriod(@RequestParam @DateTimeFormat(iso = DATE) LocalDate dateFrom,
                                                 @RequestParam @DateTimeFormat(iso = DATE) LocalDate dateTo) {
-        WorklogDebts worklogDebts = worklogDebtsService.findAllForPeriod(dateFrom, dateTo);
+        WorklogDebts worklogDebts = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
         return mapper.mapToDto(worklogDebts);
     }
 }

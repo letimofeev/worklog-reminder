@@ -5,7 +5,7 @@ import com.senla.worklog.reminder.model.WorklogDebts;
 import java.time.LocalDate;
 
 public interface WorklogDebtsService {
-    WorklogDebts findAllForCurrentWeek();
+    WorklogDebts getAllForCurrentWeek();
 
-    WorklogDebts findAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
+    WorklogDebts getAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
 }

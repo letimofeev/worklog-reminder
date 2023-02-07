@@ -92,7 +92,7 @@ class WorklogDebtsServiceImplTest {
     }
 
     @Test
-    void findAllForPeriod_shouldReturnExpectedDebts_whenInputIsDates() {
+    void getAllForPeriod_shouldReturnExpectedDebts_whenInputIsDates() {
         when(authorsFetchStrategy.getAuthors()).thenReturn(authors);
 
         when(employeeService.getEmployeeByJiraKey("lol_key")).thenReturn(Optional.ofNullable(employees.get(0)));
@@ -102,9 +102,9 @@ class WorklogDebtsServiceImplTest {
         LocalDate dateFrom = LocalDate.of(2022, 2, 6);
         LocalDate dateTo = LocalDate.of(2022, 2, 10);
 
-        when(jiraWorklogProxy.findAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
+        when(jiraWorklogProxy.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
 
-        WorklogDebts actual = worklogDebtsService.findAllForPeriod(dateFrom, dateTo);
+        WorklogDebts actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
 
         List<DayWorklogDebt> employee0Debts = List.of(
                 new DayWorklogDebt()

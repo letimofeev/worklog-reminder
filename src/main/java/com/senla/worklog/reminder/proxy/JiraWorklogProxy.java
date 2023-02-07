@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface JiraWorklogProxy {
-    List<Worklog> findAllForPreviousWeek();
+    List<Worklog> getAllForPreviousWeek();
 
-    List<Worklog> findAllForCurrentWeek();
+    List<Worklog> getAllForCurrentWeek();
 
-    List<Worklog> findAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
+    List<Worklog> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo);
 }

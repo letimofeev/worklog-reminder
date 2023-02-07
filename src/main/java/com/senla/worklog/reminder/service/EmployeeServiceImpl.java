@@ -11,11 +11,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class EmployeeServiceJpaBackend implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository repository;
     private final EmployeeDtoMapper mapper;
 
-    public EmployeeServiceJpaBackend(EmployeeRepository repository, EmployeeDtoMapper mapper) {
+    public EmployeeServiceImpl(EmployeeRepository repository, EmployeeDtoMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

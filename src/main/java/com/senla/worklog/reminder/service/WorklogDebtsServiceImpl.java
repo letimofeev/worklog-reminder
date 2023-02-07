@@ -43,17 +43,17 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     }
 
     @Override
-    public WorklogDebts findAllForCurrentWeek() {
+    public WorklogDebts getAllForCurrentWeek() {
         LocalDate dateFrom = LocalDate.now().with(MONDAY);
         LocalDate dateTo = LocalDate.now().with(FRIDAY);
-        return findAllForPeriod(dateFrom, dateTo);
+        return getAllForPeriod(dateFrom, dateTo);
     }
 
     @Override
-    public WorklogDebts findAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+    public WorklogDebts getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         List<Author> previousWeekAuthors = authorsFetchStrategy.getAuthors();
 
-        List<Worklog> worklogs = jiraWorklogProxy.findAllForPeriod(dateFrom, dateTo);
+        List<Worklog> worklogs = jiraWorklogProxy.getAllForPeriod(dateFrom, dateTo);
 
         Map<Author, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors,
                 worklogs, dateFrom, dateTo);
