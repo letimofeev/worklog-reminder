@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.exception;
+package com.senla.worklog.reminder.exception.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

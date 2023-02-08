@@ -1,7 +1,5 @@
 package com.senla.worklog.reminder.exception.handler;
 
-import com.senla.worklog.reminder.exception.ApiError;
-import com.senla.worklog.reminder.exception.ApiSubError;
 import com.senla.worklog.reminder.exception.EmployeeNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
