@@ -9,6 +9,9 @@ on:
 
 jobs:
   build:
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
