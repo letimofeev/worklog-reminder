@@ -16,10 +16,10 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@DateFromMoreRecentThanDateTo
+@DateFromMoreRecentThanDateTo(groups = Extended.class)
 public class GetAllDebtsForPeriodRequestParameters {
     @NotNull
-    @PastOrPresent(message = "'dateFrom' must be past or present date")
+    @PastOrPresent(message = "{dateFrom.pastOrPresent}")
     @DateTimeFormat(iso = DATE)
     private LocalDate dateFrom;
 
