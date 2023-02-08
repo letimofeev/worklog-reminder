@@ -4,6 +4,7 @@ import com.senla.worklog.reminder.exception.ApiError;
 import com.senla.worklog.reminder.exception.ApiSubError;
 import com.senla.worklog.reminder.exception.EmployeeNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -27,6 +28,13 @@ public class GlobalExceptionHandler {
                 "' and value '" + e.getValue() + "'";
         ApiSubError apiSubError = new ApiSubError(e.getMostSpecificCause().getMessage());
         ApiError apiError = new ApiError(message, BAD_REQUEST, List.of(apiSubError));
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ApiError> handleException(MissingServletRequestParameterException e) {
+        String message = "Missing value for parameter '" + e.getParameterName() + "'";
+        ApiError apiError = new ApiError(message, BAD_REQUEST);
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 }
