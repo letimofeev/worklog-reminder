@@ -26,3 +26,6 @@ jobs:
 
       - name: Run build with Gradle Wrapper
         run: ./gradlew build
+
+      - name: Build and push Docker image
+        run: ./gradlew pushDockerImage
