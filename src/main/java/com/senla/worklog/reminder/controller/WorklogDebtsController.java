@@ -31,6 +31,13 @@ public class WorklogDebtsController {
         return mapper.mapToDto(worklogDebts);
     }
 
+    @GetMapping(params = {"dateFrom"})
+    public WorklogDebtsDto getAllDebtsFrom(@RequestParam @DateTimeFormat(iso = DATE) LocalDate dateFrom) {
+        LocalDate dateTo = LocalDate.now();
+        WorklogDebts worklogDebts = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
+        return mapper.mapToDto(worklogDebts);
+    }
+
     @GetMapping(params = {"dateFrom", "dateTo"})
     public WorklogDebtsDto getAllDebtsForPeriod(@RequestParam @DateTimeFormat(iso = DATE) LocalDate dateFrom,
                                                 @RequestParam @DateTimeFormat(iso = DATE) LocalDate dateTo) {
