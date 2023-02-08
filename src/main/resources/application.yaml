@@ -1,7 +1,7 @@
 jira:
   password: admin
   username: admin
-  worklogs-url-template: http://localhost:8080/rest/tempo-timesheets/3/worklogs?dateFrom={dateFrom}&dateTo={dateTo}
+  worklogs-url-template: ${JIRA_HOST:http://localhost:8080}/rest/tempo-timesheets/3/worklogs?dateFrom={dateFrom}&dateTo={dateTo}
 spring:
   datasource:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/worklog-reminder}
