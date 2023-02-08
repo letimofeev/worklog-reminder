@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
         log.warn("Resolved ConstraintViolationException: {}", e.getMessage());
         String message = "Validation failed";
         List<ApiSubError> subErrors = e.getConstraintViolations().stream()
-                .map(violation -> new ApiSubError(violation.getMessage()))
+                .map(violation -> new ValidationFailedApiSubError(violation.getMessage(), violation.getInvalidValue()))
                 .collect(Collectors.toList());
         ApiError apiError = new ApiError(message, BAD_REQUEST, subErrors);
         return new ResponseEntity<>(apiError, BAD_REQUEST);

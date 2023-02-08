@@ -10,12 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiSubError {
-    private String details;
+    protected String message;
 
     @Override
     public String toString() {
         return "ApiSubError{" +
-                "details='" + details + '\'' +
+                "message='" + message + '\'' +
                 '}';
     }
 }

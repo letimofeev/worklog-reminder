@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
@@ -35,7 +35,7 @@ public class WorklogDebtsController {
     }
 
     @GetMapping(params = {"dateFrom"})
-    public WorklogDebtsDto getAllDebtsFrom(@Past(message = "'dateFrom' without specifying 'dateTo' must be past date")
+    public WorklogDebtsDto getAllDebtsFrom(@PastOrPresent(message = "'dateFrom' without specifying 'dateTo' must be past or present date")
                                            @RequestParam
                                            @DateTimeFormat(iso = DATE)
                                            LocalDate dateFrom) {
