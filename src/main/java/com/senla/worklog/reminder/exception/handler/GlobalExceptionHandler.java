@@ -29,14 +29,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<ApiError> handleException(EmployeeNotFoundException e) {
+    public ResponseEntity<ApiError> handleEmployeeNotFound(EmployeeNotFoundException e) {
         log.warn("Resolved EmployeeNotFoundException: {}", e.getMessage());
         ApiError apiError = new ApiError(e.getMessage(), NOT_FOUND);
         return new ResponseEntity<>(apiError, NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ApiError> handleException(MethodArgumentTypeMismatchException e) {
+    public ResponseEntity<ApiError> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e) {
         log.warn("Resolved MethodArgumentTypeMismatchException: {}", e.getMessage());
         String message = "Failed to parse request parameter with name " + e.getName() +
                 " and value " + e.getValue();
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ApiError> handleException(MissingServletRequestParameterException e) {
+    public ResponseEntity<ApiError> handleMissingServletRequestParameter(MissingServletRequestParameterException e) {
         log.warn("Resolved MissingServletRequestParameterException: {}", e.getMessage());
         String message = "Missing value for parameter " + e.getParameterName();
         ApiError apiError = new ApiError(message, BAD_REQUEST);
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiError> handleException(ConstraintViolationException e) {
+    public ResponseEntity<ApiError> handleConstraintViolation(ConstraintViolationException e) {
         log.warn("Resolved ConstraintViolationException: {}", e.getMessage());
         String message = "Validation failed";
         List<ApiSubError> subErrors = e.getConstraintViolations().stream()
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ApiError> handleException(BindException e) {
+    public ResponseEntity<ApiError> handleBindException(BindException e) {
         log.warn("Resolved BindException: {}", e.getMessage());
         String message = "Validation failed";
         List<ApiSubError> subErrors = e.getFieldErrors().stream()
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleException(Exception e) {
+    public ResponseEntity<ApiError> handleAll(Exception e) {
         log.warn("Resolved {}: {}", e.getClass().getSimpleName(), e.getMessage());
         e.printStackTrace();
         String message = "Internal server error";

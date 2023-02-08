@@ -18,7 +18,6 @@ import java.time.LocalDate;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
-@Validated
 @RestController
 @RequestMapping("/worklog-debts")
 public class WorklogDebtsController {
