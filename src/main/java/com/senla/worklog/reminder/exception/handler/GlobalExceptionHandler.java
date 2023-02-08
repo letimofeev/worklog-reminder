@@ -3,6 +3,7 @@ package com.senla.worklog.reminder.exception.handler;
 import com.senla.worklog.reminder.exception.EmployeeNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,6 +49,17 @@ public class GlobalExceptionHandler {
         String message = "Validation failed";
         List<ApiSubError> subErrors = e.getConstraintViolations().stream()
                 .map(violation -> new ValidationFailedApiSubError(violation.getMessage(), violation.getInvalidValue()))
+                .collect(Collectors.toList());
+        ApiError apiError = new ApiError(message, BAD_REQUEST, subErrors);
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ApiError> handleException(BindException e) {
+        log.warn("Resolved BindException: {}", e.getMessage());
+        String message = "Validation failed";
+        List<ApiSubError> subErrors = e.getFieldErrors().stream()
+                .map(error -> new ValidationFailedApiSubError(error.getDefaultMessage(), error.getRejectedValue()))
                 .collect(Collectors.toList());
         ApiError apiError = new ApiError(message, BAD_REQUEST, subErrors);
         return new ResponseEntity<>(apiError, BAD_REQUEST);

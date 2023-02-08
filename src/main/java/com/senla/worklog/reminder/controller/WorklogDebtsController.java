@@ -4,6 +4,7 @@ import com.senla.worklog.reminder.dto.WorklogDebtsDto;
 import com.senla.worklog.reminder.dto.mapper.WorklogDebtsDtoMapper;
 import com.senla.worklog.reminder.model.WorklogDebts;
 import com.senla.worklog.reminder.service.WorklogDebtsService;
+import com.senla.worklog.reminder.validator.GetAllDebtsForPeriodRequestParameters;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
@@ -35,7 +37,7 @@ public class WorklogDebtsController {
     }
 
     @GetMapping(params = {"dateFrom"})
-    public WorklogDebtsDto getAllDebtsFrom(@PastOrPresent(message = "'dateFrom' without specifying 'dateTo' must be past or present date")
+    public WorklogDebtsDto getAllDebtsFrom(@PastOrPresent(message = "'dateFrom' must be past or present date")
                                            @RequestParam
                                            @DateTimeFormat(iso = DATE)
                                            LocalDate dateFrom) {
@@ -45,8 +47,9 @@ public class WorklogDebtsController {
     }
 
     @GetMapping(params = {"dateFrom", "dateTo"})
-    public WorklogDebtsDto getAllDebtsForPeriod(@RequestParam @DateTimeFormat(iso = DATE) LocalDate dateFrom,
-                                                @RequestParam @DateTimeFormat(iso = DATE) LocalDate dateTo) {
+    public WorklogDebtsDto getAllDebtsForPeriod(@Valid GetAllDebtsForPeriodRequestParameters parameters) {
+        LocalDate dateFrom = parameters.getDateFrom();
+        LocalDate dateTo = parameters.getDateTo();
         WorklogDebts worklogDebts = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
         return mapper.mapToDto(worklogDebts);
     }
