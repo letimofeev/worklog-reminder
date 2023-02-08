@@ -7,11 +7,11 @@ services:
     ports:
       - "8100:8100"
     networks:
-      - internal-network
+      - worklog-reminder-network
     depends_on:
       - postgres
     environment:
-      JIRA_HOST: http://host.docker.internal
+      JIRA_HOST: ${JIRA_HOST}
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-worklog-reminder}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASS:-postgres}
@@ -23,7 +23,7 @@ services:
     expose:
       - 5432
     networks:
-      - internal-network
+      - worklog-reminder-network
     environment:
       - POSTGRES_DB=${POSTGRES_DB:-worklog-reminder}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
@@ -33,5 +33,5 @@ services:
       - .:/var/lib/postgresql/data
 
 networks:
-  internal-network:
+  worklog-reminder-network:
     driver: bridge
