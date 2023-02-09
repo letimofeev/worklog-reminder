@@ -12,6 +12,8 @@ services:
       - postgres
     environment:
       JIRA_HOST: ${JIRA_HOST}
+      JIRA_USER: ${JIRA_USER}
+      JIRA_PASS: ${JIRA_PASS}
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-worklog-reminder}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASS:-postgres}
