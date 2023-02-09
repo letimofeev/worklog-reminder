@@ -5,6 +5,7 @@ import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.WorklogDebts;
 import com.senla.worklog.reminder.proxy.JiraWorklogProxy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingLong;
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     private final JiraWorklogProxy jiraWorklogProxy;
@@ -66,7 +68,8 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
             Author author = entry.getKey();
             List<DayWorklogDebt> authorDebts = entry.getValue();
             employeeService.getEmployeeByJiraKey(author.getKey())
-                    .ifPresent(employee -> worklogDebts.put(employee, authorDebts));
+                    .ifPresentOrElse(employee -> worklogDebts.put(employee, authorDebts),
+                            () -> log.warn("Employee with jiraKey = '" + author.getKey() + "' not found"));
         }
         return worklogDebts;
     }
