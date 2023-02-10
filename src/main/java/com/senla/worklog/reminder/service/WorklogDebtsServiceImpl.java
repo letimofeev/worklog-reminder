@@ -75,11 +75,6 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
         return worklogDebts;
     }
 
-    private void handleEmployeeNotFound(WorklogDebts worklogDebts, Author author, List<DayWorklogDebt> authorDebts) {
-        worklogDebts.put(new EmployeeDto().setJiraKey(author.getKey()), authorDebts);
-        log.warn("Employee with jiraKey = '" + author.getKey() + "' not found");
-    }
-
     private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> authors,
                                                                List<Worklog> currentWeek,
                                                                LocalDate dateFrom, LocalDate dateTo) {
@@ -119,5 +114,13 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
             totalSpentTime.putIfAbsent(author, 0L);
         }
         return totalSpentTime;
+    }
+
+    private void handleEmployeeNotFound(WorklogDebts worklogDebts, Author author, List<DayWorklogDebt> authorDebts) {
+        EmployeeDto employee = new EmployeeDto()
+                .setFirstName(author.getDisplayName())
+                .setJiraKey(author.getKey());
+        worklogDebts.put(employee, authorDebts);
+        log.warn("Employee with jiraKey = '" + author.getKey() + "' not found");
     }
 }
