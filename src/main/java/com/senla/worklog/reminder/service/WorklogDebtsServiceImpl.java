@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,9 +82,11 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
         Map<Author, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
         LocalDate dateToExcluding = dateTo.plusDays(1);
         for (LocalDate date = dateFrom; date.isBefore(dateToExcluding); date = date.plusDays(1)) {
-            List<Worklog> dayWorklogs = getDayWorklogs(currentWeek, date);
-            Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, authors);
-            addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
+            if (isWorkingDay(date)) {
+                List<Worklog> dayWorklogs = getDayWorklogs(currentWeek, date);
+                Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, authors);
+                addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
+            }
         }
         return debtsByAuthor;
     }
@@ -114,6 +117,11 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
             totalSpentTime.putIfAbsent(author, 0L);
         }
         return totalSpentTime;
+    }
+
+    private boolean isWorkingDay(LocalDate date) {
+        return !(date.get(ChronoField.DAY_OF_WEEK) == 6)
+                && !(date.get(ChronoField.DAY_OF_WEEK) == 7);
     }
 
     private void handleEmployeeNotFound(WorklogDebts worklogDebts, Author author, List<DayWorklogDebt> authorDebts) {
