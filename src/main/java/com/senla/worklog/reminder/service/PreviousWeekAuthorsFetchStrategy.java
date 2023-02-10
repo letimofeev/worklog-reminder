@@ -20,6 +20,7 @@ public class PreviousWeekAuthorsFetchStrategy implements AuthorsFetchStrategy {
     public List<Author> getAuthors() {
         List<Worklog> worklogs = jiraWorklogProxy.getAllForPreviousWeek();
         return worklogs.stream()
+                .distinct()
                 .map(Worklog::getAuthor)
                 .collect(Collectors.toList());
     }
