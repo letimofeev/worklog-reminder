@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.service;
 
+import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.model.Author;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
@@ -69,9 +70,14 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
             List<DayWorklogDebt> authorDebts = entry.getValue();
             employeeService.getEmployeeByJiraKey(author.getKey())
                     .ifPresentOrElse(employee -> worklogDebts.put(employee, authorDebts),
-                            () -> log.warn("Employee with jiraKey = '" + author.getKey() + "' not found"));
+                            () -> handleEmployeeNotFound(worklogDebts, author, authorDebts));
         }
         return worklogDebts;
+    }
+
+    private void handleEmployeeNotFound(WorklogDebts worklogDebts, Author author, List<DayWorklogDebt> authorDebts) {
+        worklogDebts.put(new EmployeeDto().setJiraKey(author.getKey()), authorDebts);
+        log.warn("Employee with jiraKey = '" + author.getKey() + "' not found");
     }
 
     private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> authors,

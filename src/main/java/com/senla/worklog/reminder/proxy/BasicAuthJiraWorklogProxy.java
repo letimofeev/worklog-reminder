@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -66,15 +65,9 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     private HttpHeaders buildHeadersWithAuth() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        String encodedCredentials = getEncodedCredentials();
-        headers.setBasicAuth(encodedCredentials);
-        return headers;
-    }
-
-    private String getEncodedCredentials() {
         String username = jiraProperties.getUsername();
         String password = jiraProperties.getPassword();
-        byte[] credentials = (username + ":" + password).getBytes();
-        return Base64.getEncoder().encodeToString(credentials);
+        headers.setBasicAuth(username, password);
+        return headers;
     }
 }
