@@ -1,6 +1,6 @@
 jira:
-  password: ${JIRA_PASS:admin}
   username: ${JIRA_USER:admin}
+  password: ${JIRA_PASS:admin}
   worklogs-url-template: ${JIRA_HOST:http://localhost:8080}/rest/tempo-timesheets/3/worklogs?dateFrom={dateFrom}&dateTo={dateTo}
 spring:
   datasource:
