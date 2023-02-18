@@ -1,16 +1,17 @@
 package com.senla.worklog.reminder.api.client;
 
 import com.senla.worklog.reminder.config.JiraProperties;
-import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.exception.JiraAuthenticationException;
 import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
+import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -18,9 +19,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static java.lang.String.join;
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
 import static java.util.stream.Collectors.joining;
+import static org.springframework.http.HttpMethod.GET;
 
 @Slf4j
 @Component
@@ -48,8 +51,8 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
     public List<Worklog> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
             HttpHeaders headers = authenticationService.getAuthenticationHeaders();
-            HttpEntity<Worklog[]> entity = new HttpEntity<>(headers);
-            ResponseEntity<Worklog[]> response = sendGetWorklogsRequest(dateFrom, dateTo, entity);
+            HttpEntity<Worklog[]> request = new HttpEntity<>(headers);
+            ResponseEntity<Worklog[]> response = sendGetWorklogsRequest(dateFrom, dateTo, request);
             return parseResponse(response);
         } catch (Exception e) {
             throw new JiraWorklogApiClientException(e);
@@ -60,7 +63,14 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
                                                              HttpEntity<Worklog[]> request) {
         String url = jiraProperties.getWorklogsUrlTemplate();
         logGetWorklogsRequest(url, dateFrom, dateTo, request);
-        return restTemplate.exchange(url, HttpMethod.GET, request, Worklog[].class, dateFrom, dateTo);
+        try {
+            ResponseEntity<Worklog[]> response = restTemplate.exchange(url, GET, request,
+                    Worklog[].class, dateFrom, dateTo);
+            log.debug("Get worklogs response status: {}", response.getStatusCode());
+            return response;
+        } catch (HttpClientErrorException.Unauthorized e) {
+            throw new JiraAuthenticationException("Unauthorized, most likely the wrong credentials for basic auth", e);
+        }
     }
 
     private List<Worklog> parseResponse(ResponseEntity<Worklog[]> response) {
@@ -72,12 +82,12 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
     private void logGetWorklogsRequest(String url, LocalDate dateFrom, LocalDate dateTo,
                                        HttpEntity<Worklog[]> request) {
         String headers = request.getHeaders().entrySet().stream()
-                .map(entry -> entry.getKey() + ": " + String.join(", ", entry.getValue()))
+                .map(entry -> entry.getKey() + ": " + join(", ", entry.getValue()))
                 .collect(joining(", "));
         log.debug("Getting worklogs from Jira Rest API:\n\t" +
-                "Request URL                     " + url + "\n\t" +
+                "Request URL Template            " + url + "\n\t" +
                 "Request Parameters              " + dateFrom + ", " + dateTo + "\n\t" +
-                "Request Method                  " + HttpMethod.GET + "\n\t" +
+                "Request Method                  " + GET + "\n\t" +
                 "Request Headers                 " + headers + "\n");
     }
 }

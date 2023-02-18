@@ -8,13 +8,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import static java.lang.String.join;
 import static java.util.stream.Collectors.joining;
+import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
 @Service
@@ -92,9 +93,11 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     }
 
     private ResponseEntity<String> postLoginRequest(String loginUrl, HttpEntity<String> request) {
+        logLoginRequest(loginUrl, request);
         try {
-            logLoginRequest(loginUrl, request);
-            return restTemplate.exchange(loginUrl, HttpMethod.POST, request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(loginUrl, POST, request, String.class);
+            log.debug("Logging in Jira response status: {}", response.getStatusCode());
+            return response;
         } catch (HttpClientErrorException.Unauthorized e) {
             throw new JiraAuthenticationException("Unauthorized, most likely the wrong credentials for basic auth", e);
         }
@@ -102,11 +105,11 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
 
     private void logLoginRequest(String loginUrl, HttpEntity<String> request) {
         String headers = request.getHeaders().entrySet().stream()
-                .map(entry -> entry.getKey() + ": " + String.join(", ", entry.getValue()))
+                .map(entry -> entry.getKey() + ": " + join(", ", entry.getValue()))
                 .collect(joining(", "));
         log.debug("Logging in Jira with the following data:\n\t" +
                 "Request URL                     " + loginUrl + "\n\t" +
-                "Request Method                  " + HttpMethod.POST + "\n\t" +
+                "Request Method                  " + POST + "\n\t" +
                 "Request Headers                 " + headers + "\n\t" +
                 "Request Body                    " + request.getBody() + "\n");
     }
