@@ -104,9 +104,10 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
         String headers = request.getHeaders().entrySet().stream()
                 .map(entry -> entry.getKey() + ": " + String.join(", ", entry.getValue()))
                 .collect(joining(", "));
-        log.debug("Sending POST login form with the following data:\n\t" +
-                "Request url                     " + loginUrl + "\n\t" +
-                "Request headers                 " + headers + "\n\t" +
-                "Request body                    " + request.getBody());
+        log.debug("Logging in Jira with the following data:\n\t" +
+                "Request URL                     " + loginUrl + "\n\t" +
+                "Request Method                  " + HttpMethod.POST + "\n\t" +
+                "Request Headers                 " + headers + "\n\t" +
+                "Request Body                    " + request.getBody() + "\n");
     }
 }

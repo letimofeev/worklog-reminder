@@ -5,6 +5,7 @@ import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,7 +20,9 @@ import java.util.Objects;
 
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
+import static java.util.stream.Collectors.joining;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
@@ -46,18 +49,35 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
         try {
             HttpHeaders headers = authenticationService.getAuthenticationHeaders();
             HttpEntity<Worklog[]> entity = new HttpEntity<>(headers);
-            String url = jiraProperties.getWorklogsUrlTemplate();
-            ResponseEntity<Worklog[]> response = restTemplate.exchange(url, HttpMethod.GET,
-                    entity, Worklog[].class, dateFrom, dateTo);
+            ResponseEntity<Worklog[]> response = sendGetWorklogsRequest(dateFrom, dateTo, entity);
             return parseResponse(response);
         } catch (Exception e) {
             throw new JiraWorklogApiClientException(e);
         }
     }
 
+    private ResponseEntity<Worklog[]> sendGetWorklogsRequest(LocalDate dateFrom, LocalDate dateTo,
+                                                             HttpEntity<Worklog[]> request) {
+        String url = jiraProperties.getWorklogsUrlTemplate();
+        logGetWorklogsRequest(url, dateFrom, dateTo, request);
+        return restTemplate.exchange(url, HttpMethod.GET, request, Worklog[].class, dateFrom, dateTo);
+    }
+
     private List<Worklog> parseResponse(ResponseEntity<Worklog[]> response) {
         Worklog[] body = response.getBody();
         Objects.requireNonNull(body, "Worklogs from response body must not be null");
         return Arrays.asList(body);
+    }
+
+    private void logGetWorklogsRequest(String url, LocalDate dateFrom, LocalDate dateTo,
+                                       HttpEntity<Worklog[]> request) {
+        String headers = request.getHeaders().entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + String.join(", ", entry.getValue()))
+                .collect(joining(", "));
+        log.debug("Getting worklogs from Jira Rest API:\n\t" +
+                "Request URL                     " + url + "\n\t" +
+                "Request Parameters              " + dateFrom + ", " + dateTo + "\n\t" +
+                "Request Method                  " + HttpMethod.GET + "\n\t" +
+                "Request Headers                 " + headers + "\n");
     }
 }
