@@ -3,7 +3,7 @@ package com.senla.worklog.reminder.api.client;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
-import com.senla.worklog.reminder.service.JiraAuthenticationService;
+import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

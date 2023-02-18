@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.event;
 
-import com.senla.worklog.reminder.service.JiraAuthenticationService;
+import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
