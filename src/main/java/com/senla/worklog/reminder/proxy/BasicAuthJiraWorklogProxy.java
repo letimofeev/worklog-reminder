@@ -3,19 +3,17 @@ package com.senla.worklog.reminder.proxy;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
-import com.senla.worklog.reminder.service.JiraSessionService;
+import com.senla.worklog.reminder.service.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +24,7 @@ import static java.time.DayOfWeek.MONDAY;
 @RequiredArgsConstructor
 public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     private final RestTemplate restTemplate;
-    private final JiraSessionService sessionService;
+    private final JiraAuthenticationService authenticationService;
     private final JiraProperties jiraProperties;
 
     @Override
@@ -46,7 +44,7 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     @Override
     public List<Worklog> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
-            HttpHeaders headers = buildHeadersWithAuth();
+            HttpHeaders headers = authenticationService.getAuthenticationHeaders();
             HttpEntity<Worklog[]> entity = new HttpEntity<>(headers);
             String url = jiraProperties.getWorklogsUrlTemplate();
             ResponseEntity<Worklog[]> response = restTemplate.exchange(url, HttpMethod.GET,
@@ -61,15 +59,5 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
         Worklog[] body = response.getBody();
         Objects.requireNonNull(body, "Worklogs from response body must not be null");
         return Arrays.asList(body);
-    }
-
-    private HttpHeaders buildHeadersWithAuth() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        String username = jiraProperties.getBasicAuth().getUsername();
-        String password = jiraProperties.getBasicAuth().getPassword();
-        headers.setBasicAuth(username, password);
-        headers.set("Cookie", sessionService.getSession().getSessionId());
-        return headers;
     }
 }
