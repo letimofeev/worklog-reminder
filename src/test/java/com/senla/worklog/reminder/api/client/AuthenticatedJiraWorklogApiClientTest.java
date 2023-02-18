@@ -1,13 +1,14 @@
-package com.senla.worklog.reminder.proxy;
+package com.senla.worklog.reminder.api.client;
 
-import com.senla.worklog.reminder.api.client.AuthenticatedJiraWorklogApiClient;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,15 @@ class AuthenticatedJiraWorklogApiClientTest {
     @Mock
     private RestTemplate restTemplate;
 
+    @Mock
+    private JiraAuthenticationService authenticationService;
+
     @Spy
     private JiraProperties jiraProperties = new JiraProperties("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}", "",
             new JiraProperties.AuthProperties("", ""), new JiraProperties.AuthProperties("", ""));
 
     @InjectMocks
-    private AuthenticatedJiraWorklogApiClient jiraWorklogProxy;
+    private AuthenticatedJiraWorklogApiClient jiraWorklogApiClient;
 
     @BeforeEach
     void setUp() {
@@ -56,9 +60,10 @@ class AuthenticatedJiraWorklogApiClientTest {
 
         when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(Worklog[].class), eq(dateFrom), eq(dateTo)))
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
+        when(authenticationService.getAuthenticationHeaders()).thenReturn(new HttpHeaders());
 
         List<Worklog> expected = Arrays.asList(worklogs);
-        List<Worklog> actual = jiraWorklogProxy.getAllForPreviousWeek();
+        List<Worklog> actual = jiraWorklogApiClient.getAllForPreviousWeek();
 
         assertEquals(expected, actual);
     }
@@ -80,7 +85,7 @@ class AuthenticatedJiraWorklogApiClientTest {
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
         List<Worklog> expected = Arrays.asList(worklogs);
-        List<Worklog> actual = jiraWorklogProxy.getAllForCurrentWeek();
+        List<Worklog> actual = jiraWorklogApiClient.getAllForCurrentWeek();
 
         assertEquals(expected, actual);
     }
@@ -102,7 +107,7 @@ class AuthenticatedJiraWorklogApiClientTest {
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
 
         List<Worklog> expected = Arrays.asList(worklogs);
-        List<Worklog> actual = jiraWorklogProxy.getAllForPeriod(dateFrom, dateTo);
+        List<Worklog> actual = jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo);
 
         assertEquals(expected, actual);
     }
