@@ -5,6 +5,7 @@ import com.senla.worklog.reminder.exception.JiraAuthenticationException;
 import com.senla.worklog.reminder.model.JiraSession;
 import com.senla.worklog.reminder.repository.JiraSessionStorage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static liquibase.repackaged.org.apache.commons.lang3.StringUtils.substringBefore;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JiraAuthenticationServiceImpl implements JiraAuthenticationService {
@@ -30,7 +32,7 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
             HttpEntity<String> request = getLoginRequest();
             ResponseEntity<String> response = restTemplate.exchange(loginUrl, HttpMethod.POST, request, String.class);
             JiraSession session = parseLoginResponse(response);
-            sessionStorage.addSession(session);
+            sessionStorage.saveSession(session);
             return session;
         } catch (Exception e) {
             throw new JiraAuthenticationException("Exception during Jira login; nested exception: " + e, e);
@@ -95,6 +97,10 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     }
 
     private JiraSession getSessionInternal() {
-        return sessionStorage.getSession().orElseGet(this::login);
+        return sessionStorage.getSession()
+                .orElseGet(() -> {
+                    log.info("Session not found in storage, performing a login");
+                    return login();
+                });
     }
 }

@@ -10,7 +10,7 @@ public class InMemoryJiraSessionStorage implements JiraSessionStorage {
     private JiraSession jiraSession;
 
     @Override
-    public void addSession(JiraSession session) {
+    public void saveSession(JiraSession session) {
         jiraSession = new JiraSession(session);
     }
 
