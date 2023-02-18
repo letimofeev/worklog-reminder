@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import static java.util.stream.Collectors.joining;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
             sessionStorage.saveSession(session);
             return session;
         } catch (Exception e) {
-            throw new JiraAuthenticationException("Exception during Jira login; nested exception: " + e, e);
+            throw new JiraAuthenticationException("Exception during logging in Jira; nested exception: " + e, e);
         }
     }
 
@@ -64,9 +66,9 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     }
 
     private void addBasicAuthHeader(HttpHeaders headers) {
-        String basicAuthUsername = jiraProperties.getBasicAuth().getUsername();
-        String basicAuthPassword = jiraProperties.getBasicAuth().getPassword();
-        headers.setBasicAuth(basicAuthUsername, basicAuthPassword);
+        String username = jiraProperties.getBasicAuth().getUsername();
+        String password = jiraProperties.getBasicAuth().getPassword();
+        headers.setBasicAuth(username, password);
     }
 
     private void addSessionIdHeader(HttpHeaders headers) {
@@ -91,9 +93,20 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
 
     private ResponseEntity<String> postLoginRequest(String loginUrl, HttpEntity<String> request) {
         try {
+            logLoginRequest(loginUrl, request);
             return restTemplate.exchange(loginUrl, HttpMethod.POST, request, String.class);
         } catch (HttpClientErrorException.Unauthorized e) {
             throw new JiraAuthenticationException("Unauthorized, most likely the wrong credentials for basic auth", e);
         }
+    }
+
+    private void logLoginRequest(String loginUrl, HttpEntity<String> request) {
+        String headers = request.getHeaders().entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + String.join(", ", entry.getValue()))
+                .collect(joining(", "));
+        log.debug("Sending POST login form with the following data:\n\t" +
+                "Request url                     " + loginUrl + "\n\t" +
+                "Request headers                 " + headers + "\n\t" +
+                "Request body                    " + request.getBody());
     }
 }
