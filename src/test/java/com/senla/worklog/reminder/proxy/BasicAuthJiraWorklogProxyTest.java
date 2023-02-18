@@ -29,8 +29,8 @@ class BasicAuthJiraWorklogProxyTest {
     private RestTemplate restTemplate;
 
     @Spy
-    private JiraProperties jiraProperties = new JiraProperties("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}",
-            "username", "password");
+    private JiraProperties jiraProperties = new JiraProperties("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}", "",
+            new JiraProperties.AuthProperties("", ""), new JiraProperties.AuthProperties("", ""));
 
     @InjectMocks
     private BasicAuthJiraWorklogProxy jiraWorklogProxy;

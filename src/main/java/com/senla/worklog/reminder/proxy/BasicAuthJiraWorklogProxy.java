@@ -3,11 +3,14 @@ package com.senla.worklog.reminder.proxy;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
+import com.senla.worklog.reminder.service.JiraSessionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -19,14 +22,12 @@ import java.util.Objects;
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
 
+@Component
+@RequiredArgsConstructor
 public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     private final RestTemplate restTemplate;
+    private final JiraSessionService sessionService;
     private final JiraProperties jiraProperties;
-
-    public BasicAuthJiraWorklogProxy(RestTemplate restTemplate, JiraProperties jiraProperties) {
-        this.restTemplate = restTemplate;
-        this.jiraProperties = jiraProperties;
-    }
 
     @Override
     public List<Worklog> getAllForPreviousWeek() {
@@ -65,9 +66,10 @@ public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
     private HttpHeaders buildHeadersWithAuth() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        String username = jiraProperties.getUsername();
-        String password = jiraProperties.getPassword();
+        String username = jiraProperties.getBasicAuth().getUsername();
+        String password = jiraProperties.getBasicAuth().getPassword();
         headers.setBasicAuth(username, password);
+        headers.set("Cookie", sessionService.getSession().getSessionId());
         return headers;
     }
 }
