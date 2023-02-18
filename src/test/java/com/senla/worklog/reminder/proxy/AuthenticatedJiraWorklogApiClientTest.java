@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.proxy;
 
+import com.senla.worklog.reminder.api.client.AuthenticatedJiraWorklogApiClient;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-class BasicAuthJiraWorklogProxyTest {
+class AuthenticatedJiraWorklogApiClientTest {
     @Mock
     private RestTemplate restTemplate;
 
@@ -33,7 +34,7 @@ class BasicAuthJiraWorklogProxyTest {
             new JiraProperties.AuthProperties("", ""), new JiraProperties.AuthProperties("", ""));
 
     @InjectMocks
-    private BasicAuthJiraWorklogProxy jiraWorklogProxy;
+    private AuthenticatedJiraWorklogApiClient jiraWorklogProxy;
 
     @BeforeEach
     void setUp() {

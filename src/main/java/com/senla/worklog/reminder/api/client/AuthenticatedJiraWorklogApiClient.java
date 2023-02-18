@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.proxy;
+package com.senla.worklog.reminder.api.client;
 
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
@@ -22,7 +22,7 @@ import static java.time.DayOfWeek.MONDAY;
 
 @Component
 @RequiredArgsConstructor
-public class BasicAuthJiraWorklogProxy implements JiraWorklogProxy {
+public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
     private final RestTemplate restTemplate;
     private final JiraAuthenticationService authenticationService;
     private final JiraProperties jiraProperties;

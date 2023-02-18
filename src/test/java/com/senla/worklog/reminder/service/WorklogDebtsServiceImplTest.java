@@ -5,7 +5,7 @@ import com.senla.worklog.reminder.model.Author;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.WorklogDebts;
-import com.senla.worklog.reminder.proxy.JiraWorklogProxy;
+import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 class WorklogDebtsServiceImplTest {
     @Mock
-    private JiraWorklogProxy jiraWorklogProxy;
+    private JiraWorklogApiClient jiraWorklogApiClient;
 
     @Mock
     private EmployeeService employeeService;
@@ -102,7 +102,7 @@ class WorklogDebtsServiceImplTest {
         LocalDate dateFrom = LocalDate.of(2023, 2, 6);
         LocalDate dateTo = LocalDate.of(2023, 2, 10);
 
-        when(jiraWorklogProxy.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
+        when(jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
 
         WorklogDebts actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
 

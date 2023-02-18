@@ -5,7 +5,7 @@ import com.senla.worklog.reminder.model.Author;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.WorklogDebts;
-import com.senla.worklog.reminder.proxy.JiraWorklogProxy;
+import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Service
 public class WorklogDebtsServiceImpl implements WorklogDebtsService {
-    private final JiraWorklogProxy jiraWorklogProxy;
+    private final JiraWorklogApiClient jiraWorklogApiClient;
     private final EmployeeService employeeService;
     private final AuthorsFetchStrategy authorsFetchStrategy;
 
@@ -33,9 +33,9 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
 
     private static final long DEFAULT_REQUIRED_DAY_SECONDS = 3600 * 8L;
 
-    public WorklogDebtsServiceImpl(JiraWorklogProxy jiraWorklogProxy, EmployeeService employeeService,
+    public WorklogDebtsServiceImpl(JiraWorklogApiClient jiraWorklogApiClient, EmployeeService employeeService,
                                    AuthorsFetchStrategy authorsFetchStrategy) {
-        this.jiraWorklogProxy = jiraWorklogProxy;
+        this.jiraWorklogApiClient = jiraWorklogApiClient;
         this.employeeService = employeeService;
         this.authorsFetchStrategy = authorsFetchStrategy;
 
@@ -57,7 +57,7 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     public WorklogDebts getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         List<Author> previousWeekAuthors = authorsFetchStrategy.getAuthors();
 
-        List<Worklog> worklogs = jiraWorklogProxy.getAllForPeriod(dateFrom, dateTo);
+        List<Worklog> worklogs = jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo);
 
         Map<Author, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors,
                 worklogs, dateFrom, dateTo);
