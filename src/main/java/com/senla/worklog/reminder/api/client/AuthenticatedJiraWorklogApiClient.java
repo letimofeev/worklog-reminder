@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.api.client;
 
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.model.Worklog;
-import com.senla.worklog.reminder.exception.JiraWorklogProxyException;
+import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
 import com.senla.worklog.reminder.service.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -51,7 +51,7 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
                     entity, Worklog[].class, dateFrom, dateTo);
             return parseResponse(response);
         } catch (Exception e) {
-            throw new JiraWorklogProxyException(e);
+            throw new JiraWorklogApiClientException(e);
         }
     }
 
