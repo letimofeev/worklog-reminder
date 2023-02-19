@@ -59,18 +59,33 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
         }
     }
 
+    private ResponseEntity<Worklog[]> sendGetWorklogsRequest(LocalDate dateFrom, LocalDate dateTo, HttpEntity<Worklog[]> request) {
+        return sendGetWorklogsRequest(dateFrom, dateTo, request, false);
+    }
+
     private ResponseEntity<Worklog[]> sendGetWorklogsRequest(LocalDate dateFrom, LocalDate dateTo,
-                                                             HttpEntity<Worklog[]> request) {
+                                                             HttpEntity<Worklog[]> request, boolean isRetry) {
         String url = jiraProperties.getWorklogsUrlTemplate();
         logGetWorklogsRequest(url, dateFrom, dateTo, request);
         try {
-            ResponseEntity<Worklog[]> response = restTemplate.exchange(url, GET, request,
-                    Worklog[].class, dateFrom, dateTo);
+            ResponseEntity<Worklog[]> response = restTemplate.exchange(url, GET, request, Worklog[].class, dateFrom, dateTo);
             log.debug("Get worklogs response status: {}", response.getStatusCode());
             return response;
         } catch (HttpClientErrorException.Unauthorized e) {
-            throw new JiraAuthenticationException("Unauthorized, most likely the wrong credentials for basic auth", e);
+            return handleUnauthorizedInternal(dateFrom, dateTo, request, isRetry);
         }
+    }
+
+    private ResponseEntity<Worklog[]> handleUnauthorizedInternal(LocalDate dateFrom, LocalDate dateTo,
+                                                                 HttpEntity<Worklog[]> request, boolean isRetry) {
+        if (isRetry) {
+            log.error("Received 401 Unauthorized after retry with login");
+            throw new JiraAuthenticationException("Jira Api Client 401 Unauthorized after retry with login. " +
+                    "Make sure that request was sent with correct headers");
+        }
+        log.warn("Received 401 Unauthorized. Perhaps session is expired, logging in and trying again");
+        authenticationService.login();
+        return sendGetWorklogsRequest(dateFrom, dateTo, request, true);
     }
 
     private List<Worklog> parseResponse(ResponseEntity<Worklog[]> response) {
@@ -79,8 +94,7 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
         return Arrays.asList(body);
     }
 
-    private void logGetWorklogsRequest(String url, LocalDate dateFrom, LocalDate dateTo,
-                                       HttpEntity<Worklog[]> request) {
+    private void logGetWorklogsRequest(String url, LocalDate dateFrom, LocalDate dateTo, HttpEntity<Worklog[]> request) {
         String headers = request.getHeaders().entrySet().stream()
                 .map(entry -> entry.getKey() + ": " + join(", ", entry.getValue()))
                 .collect(joining(", "));
