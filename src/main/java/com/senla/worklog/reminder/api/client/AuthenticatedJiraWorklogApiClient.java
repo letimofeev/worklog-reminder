@@ -3,6 +3,8 @@ package com.senla.worklog.reminder.api.client;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.exception.JiraAuthenticationException;
 import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
+import com.senla.worklog.reminder.logging.LogHttpRequest;
+import com.senla.worklog.reminder.logging.LogMessageBuilder;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.String.join;
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
-import static java.util.stream.Collectors.joining;
 import static org.springframework.http.HttpMethod.GET;
 
 @Slf4j
@@ -32,6 +32,7 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
     private final RestTemplate restTemplate;
     private final JiraAuthenticationService authenticationService;
     private final JiraProperties jiraProperties;
+    private final LogMessageBuilder logMessageBuilder;
 
     @Override
     public List<Worklog> getAllForPreviousWeek() {
@@ -95,13 +96,12 @@ public class AuthenticatedJiraWorklogApiClient implements JiraWorklogApiClient {
     }
 
     private void logGetWorklogsRequest(String url, LocalDate dateFrom, LocalDate dateTo, HttpEntity<Worklog[]> request) {
-        String headers = request.getHeaders().entrySet().stream()
-                .map(entry -> entry.getKey() + ": " + join(", ", entry.getValue()))
-                .collect(joining(", "));
-        log.debug("Getting worklogs from Jira Rest API:\n\t" +
-                "Request URL Template            " + url + "\n\t" +
-                "Request Parameters              " + dateFrom + ", " + dateTo + "\n\t" +
-                "Request Method                  " + GET + "\n\t" +
-                "Request Headers                 " + headers + "\n");
+        String logMessage = logMessageBuilder.buildRequestLogMessage("Getting worklogs from Jira Rest API:",
+                new LogHttpRequest()
+                        .setUrl(url)
+                        .setMethod(GET)
+                        .setParameters(new Object[]{dateFrom, dateTo})
+                        .setHeaders(request.getHeaders()));
+        log.debug(logMessage);
     }
 }

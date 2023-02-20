@@ -2,6 +2,8 @@ package com.senla.worklog.reminder.service.jira;
 
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.exception.JiraAuthenticationException;
+import com.senla.worklog.reminder.logging.LogHttpRequest;
+import com.senla.worklog.reminder.logging.LogMessageBuilder;
 import com.senla.worklog.reminder.model.JiraSession;
 import com.senla.worklog.reminder.repository.JiraSessionStorage;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static java.lang.String.join;
-import static java.util.stream.Collectors.joining;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
@@ -25,6 +25,7 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     private final JiraSessionStorage sessionStorage;
     private final LoginResponseParser loginResponseParser;
     private final JiraProperties jiraProperties;
+    private final LogMessageBuilder logMessageBuilder;
 
     @Override
     public JiraSession login() {
@@ -104,13 +105,12 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     }
 
     private void logLoginRequest(String loginUrl, HttpEntity<String> request) {
-        String headers = request.getHeaders().entrySet().stream()
-                .map(entry -> entry.getKey() + ": " + join(", ", entry.getValue()))
-                .collect(joining(", "));
-        log.debug("Logging in Jira with the following data:\n\t" +
-                "Request URL                     " + loginUrl + "\n\t" +
-                "Request Method                  " + POST + "\n\t" +
-                "Request Headers                 " + headers + "\n\t" +
-                "Request Body                    " + request.getBody() + "\n");
+        String logMessage = logMessageBuilder.buildRequestLogMessage("Logging in Jira with the following data:",
+                new LogHttpRequest()
+                        .setUrl(loginUrl)
+                        .setMethod(POST)
+                        .setHeaders(request.getHeaders())
+                        .setBody(request.getBody()));
+        log.debug(logMessage);
     }
 }

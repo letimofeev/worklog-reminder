@@ -34,8 +34,8 @@ class AuthenticatedJiraWorklogApiClientTest {
     private JiraAuthenticationService authenticationService;
 
     @Spy
-    private JiraProperties jiraProperties = new JiraProperties("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}", "",
-            new JiraProperties.AuthProperties("", ""), new JiraProperties.AuthProperties("", ""));
+    private JiraProperties jiraProperties = new JiraProperties()
+            .setWorklogsUrlTemplate("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}");
 
     @InjectMocks
     private AuthenticatedJiraWorklogApiClient jiraWorklogApiClient;
