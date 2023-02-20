@@ -1,6 +1,7 @@
 package com.senla.worklog.reminder.api.client;
 
 import com.senla.worklog.reminder.config.JiraProperties;
+import com.senla.worklog.reminder.logging.LogMessageBuilder;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,9 @@ class AuthenticatedJiraWorklogApiClientTest {
 
     @Mock
     private JiraAuthenticationService authenticationService;
+
+    @Mock
+    private LogMessageBuilder logMessageBuilder;
 
     @Spy
     private JiraProperties jiraProperties = new JiraProperties()
