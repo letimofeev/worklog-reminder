@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.model.Author;
-import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.model.v3.Author;
+import com.senla.worklog.reminder.model.v3.WorklogV3;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.WorklogDebts;
 import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
@@ -57,7 +57,7 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     public WorklogDebts getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         List<Author> previousWeekAuthors = authorsFetchStrategy.getAuthors();
 
-        List<Worklog> worklogs = jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo);
+        List<WorklogV3> worklogs = jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo);
 
         Map<Author, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors,
                 worklogs, dateFrom, dateTo);
@@ -77,13 +77,13 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     }
 
     private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> authors,
-                                                               List<Worklog> currentWeek,
+                                                               List<WorklogV3> currentWeek,
                                                                LocalDate dateFrom, LocalDate dateTo) {
         Map<Author, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
         LocalDate dateToExcluding = dateTo.plusDays(1);
         for (LocalDate date = dateFrom; date.isBefore(dateToExcluding); date = date.plusDays(1)) {
             if (isWorkingDay(date)) {
-                List<Worklog> dayWorklogs = getDayWorklogs(currentWeek, date);
+                List<WorklogV3> dayWorklogs = getDayWorklogs(currentWeek, date);
                 Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, authors);
                 addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
             }
@@ -91,7 +91,7 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
         return debtsByAuthor;
     }
 
-    private List<Worklog> getDayWorklogs(List<Worklog> currentWeek, LocalDate day) {
+    private List<WorklogV3> getDayWorklogs(List<WorklogV3> currentWeek, LocalDate day) {
         return currentWeek.stream()
                 .filter(x -> x.getDateStarted().toLocalDate().equals(day))
                 .collect(toList());
@@ -110,9 +110,9 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
         }
     }
 
-    private Map<Author, Long> getSpentTimeByAuthor(List<Worklog> worklogs, List<Author> authors) {
-        Map<Author, Long> totalSpentTime = worklogs.stream().collect(groupingBy(Worklog::getAuthor,
-                summingLong(Worklog::getTimeSpentSeconds)));
+    private Map<Author, Long> getSpentTimeByAuthor(List<WorklogV3> worklogs, List<Author> authors) {
+        Map<Author, Long> totalSpentTime = worklogs.stream().collect(groupingBy(WorklogV3::getAuthor,
+                summingLong(WorklogV3::getTimeSpentSeconds)));
         for (Author author : authors) {
             totalSpentTime.putIfAbsent(author, 0L);
         }

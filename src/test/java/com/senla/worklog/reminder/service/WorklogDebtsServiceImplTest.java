@@ -1,9 +1,9 @@
 package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.model.Author;
+import com.senla.worklog.reminder.model.v3.Author;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
-import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.model.v3.WorklogV3;
 import com.senla.worklog.reminder.model.WorklogDebts;
 import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,38 +39,38 @@ class WorklogDebtsServiceImplTest {
             new Author().setName("Who").setKey("who_key")
     );
 
-    private static final List<Worklog> worklogs = List.of(
-            new Worklog()
+    private static final List<WorklogV3> worklogs = List.of(
+            new WorklogV3()
                     .setId(1L)
                     .setJiraWorklogId(101L)
                     .setAuthor(authors.get(1))
                     .setDateStarted(LocalDateTime.of(2023, 2, 6, 0, 0,0))
                     .setTimeSpentSeconds(3600 * 3L),
-            new Worklog()
+            new WorklogV3()
                     .setId(2L)
                     .setJiraWorklogId(102L)
                     .setAuthor(authors.get(1))
                     .setDateStarted(LocalDateTime.of(2023, 2, 7, 0, 0,0))
                     .setTimeSpentSeconds(3600 * 7L),
-            new Worklog()
+            new WorklogV3()
                     .setId(4L)
                     .setJiraWorklogId(104L)
                     .setAuthor(authors.get(1))
                     .setDateStarted(LocalDateTime.of(2023, 2, 9, 0, 0,0))
                     .setTimeSpentSeconds(3600 * 8L),
-            new Worklog()
+            new WorklogV3()
                     .setId(6L)
                     .setJiraWorklogId(106L)
                     .setAuthor(authors.get(1))
                     .setDateStarted(LocalDateTime.of(2023, 2, 10, 0, 0,0))
                     .setTimeSpentSeconds(3600 * 8L),
-            new Worklog()
+            new WorklogV3()
                     .setId(5L)
                     .setJiraWorklogId(105L)
                     .setAuthor(authors.get(0))
                     .setDateStarted(LocalDateTime.of(2023, 2, 6, 0, 0,0))
                     .setTimeSpentSeconds(3600 * 7L),
-            new Worklog()
+            new WorklogV3()
                     .setId(3L)
                     .setJiraWorklogId(103L)
                     .setAuthor(authors.get(0))

@@ -1,14 +1,14 @@
-package com.senla.worklog.reminder.api.client;
+package com.senla.worklog.reminder.api.client.v3;
 
+import com.senla.worklog.reminder.api.client.AuthenticatedJiraWorklogApiClient;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.logging.LogHttpRequest;
 import com.senla.worklog.reminder.logging.LogMessageBuilder;
-import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.model.v3.WorklogV3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
 //@Component
@@ -28,18 +27,18 @@ public class JiraWorklogApiClientV3 extends AuthenticatedJiraWorklogApiClient {
     private final LogMessageBuilder logMessageBuilder;
 
     @Override
-    protected ResponseEntity<Worklog[]> performRequest(LocalDate dateFrom, LocalDate dateTo,
-                                                       HttpEntity<?> requestEntity) {
+    protected ResponseEntity<WorklogV3[]> performRequest(LocalDate dateFrom, LocalDate dateTo,
+                                                         HttpEntity<?> requestEntity) {
         String url = jiraProperties.getHost() + "/rest/tempo-timesheets/3/worklogs?dateFrom={dateFrom}&dateTo={dateTo}";
         logWorklogsRequest(url, dateFrom, dateTo, requestEntity);
-        ResponseEntity<Worklog[]> response = restTemplate.exchange(url, GET, requestEntity, Worklog[].class, dateFrom, dateTo);
+        ResponseEntity<WorklogV3[]> response = restTemplate.exchange(url, GET, requestEntity, WorklogV3[].class, dateFrom, dateTo);
         log.debug("Get worklogs response status: {}", response.getStatusCode());
         return response;
     }
 
     @Override
-    protected List<Worklog> parseResponse(ResponseEntity<?> response) {
-        Worklog[] body = (Worklog[]) response.getBody();
+    protected List<WorklogV3> parseResponse(ResponseEntity<?> response) {
+        WorklogV3[] body = (WorklogV3[]) response.getBody();
         Objects.requireNonNull(body, "Worklogs from response body must not be null");
         return Arrays.asList(body);
     }

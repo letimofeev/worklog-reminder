@@ -2,10 +2,9 @@ package com.senla.worklog.reminder.api.client;
 
 import com.senla.worklog.reminder.annotation.RefreshableSession;
 import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
-import com.senla.worklog.reminder.model.Worklog;
+import com.senla.worklog.reminder.model.v3.WorklogV3;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +27,7 @@ public abstract class AuthenticatedJiraWorklogApiClient implements JiraWorklogAp
 
     @Override
     @RefreshableSession
-    public List<Worklog> getAllForPreviousWeek() {
+    public List<WorklogV3> getAllForPreviousWeek() {
         LocalDate previousMonday = LocalDate.now().with(MONDAY).minusWeeks(1);
         LocalDate previousFriday = LocalDate.now().with(FRIDAY).minusWeeks(1);
         return getAllForPeriod(previousMonday, previousFriday);
@@ -36,7 +35,7 @@ public abstract class AuthenticatedJiraWorklogApiClient implements JiraWorklogAp
 
     @Override
     @RefreshableSession
-    public List<Worklog> getAllForCurrentWeek() {
+    public List<WorklogV3> getAllForCurrentWeek() {
         LocalDate monday = LocalDate.now().with(MONDAY);
         LocalDate friday = LocalDate.now().with(FRIDAY);
         return getAllForPeriod(monday, friday);
@@ -44,7 +43,7 @@ public abstract class AuthenticatedJiraWorklogApiClient implements JiraWorklogAp
 
     @Override
     @RefreshableSession
-    public List<Worklog> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+    public List<WorklogV3> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
             HttpEntity<?> request = buildRequestEntity(dateFrom, dateTo);
             ResponseEntity<?> response = performRequest(dateFrom, dateTo, request);
@@ -62,5 +61,5 @@ public abstract class AuthenticatedJiraWorklogApiClient implements JiraWorklogAp
 
     protected abstract ResponseEntity<?> performRequest(LocalDate dateFrom, LocalDate dateTo, HttpEntity<?> requestEntity);
 
-    protected abstract List<Worklog> parseResponse(ResponseEntity<?> responseEntity);
+    protected abstract List<WorklogV3> parseResponse(ResponseEntity<?> responseEntity);
 }
