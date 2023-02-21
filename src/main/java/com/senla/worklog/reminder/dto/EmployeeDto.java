@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.dto;
 
+import com.senla.worklog.reminder.model.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link com.senla.worklog.reminder.model.Employee} entity
+ * A DTO for the {@link Employee} entity
  */
 @Getter
 @Setter

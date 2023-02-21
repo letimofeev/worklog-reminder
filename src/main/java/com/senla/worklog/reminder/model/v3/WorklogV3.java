@@ -1,15 +1,13 @@
 
-package com.senla.worklog.reminder.model;
+package com.senla.worklog.reminder.model.v3;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import javax.annotation.Generated;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Worklog {
+public class WorklogV3 {
     private Author author;
     private String comment;
     private LocalDateTime dateCreated;
@@ -27,7 +25,7 @@ public class Worklog {
         return author;
     }
 
-    public Worklog setAuthor(Author author) {
+    public WorklogV3 setAuthor(Author author) {
         this.author = author;
         return this;
     }
@@ -36,7 +34,7 @@ public class Worklog {
         return comment;
     }
 
-    public Worklog setComment(String comment) {
+    public WorklogV3 setComment(String comment) {
         this.comment = comment;
         return this;
     }
@@ -45,7 +43,7 @@ public class Worklog {
         return dateCreated;
     }
 
-    public Worklog setDateCreated(LocalDateTime dateCreated) {
+    public WorklogV3 setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }
@@ -54,7 +52,7 @@ public class Worklog {
         return dateStarted;
     }
 
-    public Worklog setDateStarted(LocalDateTime dateStarted) {
+    public WorklogV3 setDateStarted(LocalDateTime dateStarted) {
         this.dateStarted = dateStarted;
         return this;
     }
@@ -63,7 +61,7 @@ public class Worklog {
         return dateUpdated;
     }
 
-    public Worklog setDateUpdated(LocalDateTime dateUpdated) {
+    public WorklogV3 setDateUpdated(LocalDateTime dateUpdated) {
         this.dateUpdated = dateUpdated;
         return this;
     }
@@ -72,7 +70,7 @@ public class Worklog {
         return id;
     }
 
-    public Worklog setId(Long id) {
+    public WorklogV3 setId(Long id) {
         this.id = id;
         return this;
     }
@@ -81,7 +79,7 @@ public class Worklog {
         return issue;
     }
 
-    public Worklog setIssue(Issue issue) {
+    public WorklogV3 setIssue(Issue issue) {
         this.issue = issue;
         return this;
     }
@@ -90,7 +88,7 @@ public class Worklog {
         return jiraWorklogId;
     }
 
-    public Worklog setJiraWorklogId(Long jiraWorklogId) {
+    public WorklogV3 setJiraWorklogId(Long jiraWorklogId) {
         this.jiraWorklogId = jiraWorklogId;
         return this;
     }
@@ -99,7 +97,7 @@ public class Worklog {
         return self;
     }
 
-    public Worklog setSelf(String self) {
+    public WorklogV3 setSelf(String self) {
         this.self = self;
         return this;
     }
@@ -108,7 +106,7 @@ public class Worklog {
         return timeSpentSeconds;
     }
 
-    public Worklog setTimeSpentSeconds(Long timeSpentSeconds) {
+    public WorklogV3 setTimeSpentSeconds(Long timeSpentSeconds) {
         this.timeSpentSeconds = timeSpentSeconds;
         return this;
     }
@@ -117,7 +115,7 @@ public class Worklog {
         return workAttributeValues;
     }
 
-    public Worklog setWorkAttributeValues(List<Object> workAttributeValues) {
+    public WorklogV3 setWorkAttributeValues(List<Object> workAttributeValues) {
         this.workAttributeValues = workAttributeValues;
         return this;
     }
@@ -126,7 +124,7 @@ public class Worklog {
         return worklogAttributes;
     }
 
-    public Worklog setWorklogAttributes(List<Object> worklogAttributes) {
+    public WorklogV3 setWorklogAttributes(List<Object> worklogAttributes) {
         this.worklogAttributes = worklogAttributes;
         return this;
     }
@@ -154,7 +152,7 @@ public class Worklog {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Worklog that = (Worklog) o;
+        WorklogV3 that = (WorklogV3) o;
 
         if (author != null ? !author.equals(that.author) : that.author != null) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
