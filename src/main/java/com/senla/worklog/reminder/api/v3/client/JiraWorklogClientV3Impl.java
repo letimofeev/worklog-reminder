@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,7 +24,7 @@ import java.util.Objects;
 import static org.springframework.http.HttpMethod.GET;
 
 @Slf4j
-//@Component
+@Component
 @RequiredArgsConstructor
 public class JiraWorklogClientV3Impl implements JiraWorklogClientV3 {
     private final JiraAuthenticationService authenticationService;

@@ -2,6 +2,7 @@ package com.senla.worklog.reminder.model.mapper;
 
 import com.senla.worklog.reminder.api.v3.model.AuthorV3;
 import com.senla.worklog.reminder.model.Issue;
+import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.api.v3.model.IssueTypeV3;
 import com.senla.worklog.reminder.api.v3.model.IssueV3;
@@ -43,6 +44,9 @@ public class WorklogV3MapperImpl implements WorklogV3Mapper {
                         .setKey(worklogV3.getIssue().getKey())
                         .setProjectId(worklogV3.getIssue().getProjectId())
                         .setIssueType(worklogV3.getIssue().getIssueType().getName())
-                        .setSummary(worklogV3.getIssue().getSummary()));
+                        .setSummary(worklogV3.getIssue().getSummary()))
+                .setWorker(new Worker()
+                        .setKey(worklogV3.getAuthor().getKey())
+                        .setDisplayName(worklogV3.getAuthor().getDisplayName()));
     }
 }

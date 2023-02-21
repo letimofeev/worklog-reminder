@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.api.client;
 
-import com.senla.worklog.reminder.api.v3.client.JiraWorklogApiClientV3;
+import com.senla.worklog.reminder.api.v3.client.JiraWorklogClientV3Impl;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.logging.LogMessageBuilder;
 import com.senla.worklog.reminder.api.v3.model.WorklogV3;
@@ -42,7 +42,7 @@ class JiraWorklogApiClientV3Test {
     private JiraProperties jiraProperties = new JiraProperties();
 
     @InjectMocks
-    private JiraWorklogApiClientV3 jiraWorklogApiClient;
+    private JiraWorklogClientV3Impl jiraWorklogApiClient;
 
     @BeforeEach
     void setUp() {

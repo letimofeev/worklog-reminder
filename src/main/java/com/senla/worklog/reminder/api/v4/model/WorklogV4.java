@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
 public class WorklogV4 {
-
     private Object attributes;
     private Long billableSeconds;
     private String comment;

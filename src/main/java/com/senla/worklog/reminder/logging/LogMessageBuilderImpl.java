@@ -26,9 +26,9 @@ public class LogMessageBuilderImpl implements LogMessageBuilder {
     }
 
     @Override
-    public String buildRequestLogMessage(String description, LogHttpRequest request) {
+    public String buildRequestLogMessage(String header, LogHttpRequest request) {
         String headers = buildHeaders(request.getHeaders());
-        String logMessage = description + "\n\t" +
+        String logMessage = header + "\n\t" +
                 "Request URL                     " + request.getUrl() + "\n\t" +
                 "Request Method                  " + request.getMethod() + "\n\t" +
                 "Request Headers                 " + headers + "\n\t";
