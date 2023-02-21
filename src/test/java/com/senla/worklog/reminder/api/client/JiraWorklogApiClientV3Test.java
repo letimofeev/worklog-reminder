@@ -38,8 +38,7 @@ class JiraWorklogApiClientV3Test {
     private LogMessageBuilder logMessageBuilder;
 
     @Spy
-    private JiraProperties jiraProperties = new JiraProperties()
-            .setWorklogsUrlTemplate("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}");
+    private JiraProperties jiraProperties = new JiraProperties();
 
     @InjectMocks
     private JiraWorklogApiClientV3 jiraWorklogApiClient;
@@ -60,7 +59,7 @@ class JiraWorklogApiClientV3Test {
         worklog2.setId(200L);
         Worklog[] worklogs = {worklog1, worklog2};
 
-        String url = jiraProperties.getWorklogsUrlTemplate();
+        String url = "url";
 
         when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(Worklog[].class), eq(dateFrom), eq(dateTo)))
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
@@ -83,7 +82,7 @@ class JiraWorklogApiClientV3Test {
         worklog2.setId(210L);
         Worklog[] worklogs = {worklog1, worklog2};
 
-        String url = jiraProperties.getWorklogsUrlTemplate();
+        String url = "url";
 
         when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), any(), eq(Worklog[].class), eq(dateFrom), eq(dateTo)))
                 .thenReturn(new ResponseEntity<>(worklogs, HttpStatus.OK));
@@ -96,7 +95,7 @@ class JiraWorklogApiClientV3Test {
 
     @Test
     void getAllForPeriod_shouldReturnExpected_whenInputIsCorrectDates() {
-        String url = jiraProperties.getWorklogsUrlTemplate();
+        String url = "some-url";
 
         LocalDate dateFrom = LocalDate.of(2022, 1, 15);
         LocalDate dateTo = LocalDate.of(2022, 2, 5);
