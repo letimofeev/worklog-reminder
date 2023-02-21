@@ -7,7 +7,7 @@
 - JIRA_FORM_PASS - Jira account password
 - JIRA_BASIC_USER - username for basic authentication
 - JIRA_BASIC_PASS - password for basic authentication
-- 
+
 
 - POSTGRES_DB - database name
 - POSTGRES_USER - database username
