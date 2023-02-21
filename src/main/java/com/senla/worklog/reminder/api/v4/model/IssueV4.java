@@ -26,104 +26,117 @@ public class IssueV4 {
         return components;
     }
 
-    public void setComponents(List<Object> components) {
+    public IssueV4 setComponents(List<Object> components) {
         this.components = components;
+        return this;
     }
 
     public String getIconUrl() {
         return iconUrl;
     }
 
-    public void setIconUrl(String iconUrl) {
+    public IssueV4 setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+        return this;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public IssueV4 setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Boolean getInternalIssue() {
         return internalIssue;
     }
 
-    public void setInternalIssue(Boolean internalIssue) {
+    public IssueV4 setInternalIssue(Boolean internalIssue) {
         this.internalIssue = internalIssue;
+        return this;
     }
 
     public String getIssueStatus() {
         return issueStatus;
     }
 
-    public void setIssueStatus(String issueStatus) {
+    public IssueV4 setIssueStatus(String issueStatus) {
         this.issueStatus = issueStatus;
+        return this;
     }
 
     public String getIssueType() {
         return issueType;
     }
 
-    public void setIssueType(String issueType) {
+    public IssueV4 setIssueType(String issueType) {
         this.issueType = issueType;
+        return this;
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public IssueV4 setKey(String key) {
         this.key = key;
+        return this;
     }
 
     public String getParentKey() {
         return parentKey;
     }
 
-    public void setParentKey(String parentKey) {
+    public IssueV4 setParentKey(String parentKey) {
         this.parentKey = parentKey;
+        return this;
     }
 
     public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public IssueV4 setProjectId(Long projectId) {
         this.projectId = projectId;
+        return this;
     }
 
     public String getProjectKey() {
         return projectKey;
     }
 
-    public void setProjectKey(String projectKey) {
+    public IssueV4 setProjectKey(String projectKey) {
         this.projectKey = projectKey;
+        return this;
     }
 
     public String getReporterKey() {
         return reporterKey;
     }
 
-    public void setReporterKey(String reporterKey) {
+    public IssueV4 setReporterKey(String reporterKey) {
         this.reporterKey = reporterKey;
+        return this;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public IssueV4 setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
     public List<Object> getVersions() {
         return versions;
     }
 
-    public void setVersions(List<Object> versions) {
+    public IssueV4 setVersions(List<Object> versions) {
         this.versions = versions;
+        return this;
     }
 
     @Override
