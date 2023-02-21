@@ -1,80 +1,74 @@
 package com.senla.worklog.reminder.service;
 
+import com.senla.worklog.reminder.api.adapter.JiraWorklogClientAdapter;
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.model.Author;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
+import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.WorklogDebts;
-import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class WorklogDebtsServiceImplTest {
     @Mock
-    private JiraWorklogApiClient jiraWorklogApiClient;
+    private JiraWorklogClientAdapter worklogClientAdapter;
 
     @Mock
     private EmployeeService employeeService;
 
     @Mock
-    private AuthorsFetchStrategy authorsFetchStrategy;
+    private WorkerFetcher workerFetcher;
 
     @InjectMocks
     private WorklogDebtsServiceImpl worklogDebtsService;
 
-    private static final List<Author> authors = List.of(
-            new Author().setName("Lol").setKey("lol_key"),
-            new Author().setName("Kek").setKey("kek_key"),
-            new Author().setName("Who").setKey("who_key")
+    private static final List<Worker> workers = List.of(
+            new Worker().setDisplayName("Lol").setKey("lol_key"),
+            new Worker().setDisplayName("Kek").setKey("kek_key"),
+            new Worker().setDisplayName("Who").setKey("who_key")
     );
 
     private static final List<Worklog> worklogs = List.of(
             new Worklog()
                     .setId(1L)
-                    .setJiraWorklogId(101L)
-                    .setAuthor(authors.get(1))
-                    .setDateStarted(LocalDateTime.of(2023, 2, 6, 0, 0,0))
+                    .setWorker(workers.get(1))
+                    .setDateStarted(LocalDate.of(2023, 2, 6))
                     .setTimeSpentSeconds(3600 * 3L),
             new Worklog()
                     .setId(2L)
-                    .setJiraWorklogId(102L)
-                    .setAuthor(authors.get(1))
-                    .setDateStarted(LocalDateTime.of(2023, 2, 7, 0, 0,0))
+                    .setWorker(workers.get(1))
+                    .setDateStarted(LocalDate.of(2023, 2, 7))
                     .setTimeSpentSeconds(3600 * 7L),
             new Worklog()
                     .setId(4L)
-                    .setJiraWorklogId(104L)
-                    .setAuthor(authors.get(1))
-                    .setDateStarted(LocalDateTime.of(2023, 2, 9, 0, 0,0))
+                    .setWorker(workers.get(1))
+                    .setDateStarted(LocalDate.of(2023, 2, 9))
                     .setTimeSpentSeconds(3600 * 8L),
             new Worklog()
                     .setId(6L)
-                    .setJiraWorklogId(106L)
-                    .setAuthor(authors.get(1))
-                    .setDateStarted(LocalDateTime.of(2023, 2, 10, 0, 0,0))
+                    .setWorker(workers.get(1))
+                    .setDateStarted(LocalDate.of(2023, 2, 10))
                     .setTimeSpentSeconds(3600 * 8L),
             new Worklog()
                     .setId(5L)
-                    .setJiraWorklogId(105L)
-                    .setAuthor(authors.get(0))
-                    .setDateStarted(LocalDateTime.of(2023, 2, 6, 0, 0,0))
+                    .setWorker(workers.get(0))
+                    .setDateStarted(LocalDate.of(2023, 2, 6))
                     .setTimeSpentSeconds(3600 * 7L),
             new Worklog()
                     .setId(3L)
-                    .setJiraWorklogId(103L)
-                    .setAuthor(authors.get(0))
-                    .setDateStarted(LocalDateTime.of(2023, 2, 8, 0, 0,0))
+                    .setWorker(workers.get(0))
+                    .setDateStarted(LocalDate.of(2023, 2, 8))
                     .setTimeSpentSeconds(3600 * 8L)
     );
 
@@ -93,7 +87,7 @@ class WorklogDebtsServiceImplTest {
 
     @Test
     void getAllForPeriod_shouldReturnExpectedDebts_whenInputIsDates() {
-        when(authorsFetchStrategy.getAuthors()).thenReturn(authors);
+        when(workerFetcher.getWorkers()).thenReturn(workers);
 
         when(employeeService.getEmployeeByJiraKey("lol_key")).thenReturn(Optional.ofNullable(employees.get(0)));
         when(employeeService.getEmployeeByJiraKey("kek_key")).thenReturn(Optional.ofNullable(employees.get(1)));
@@ -102,7 +96,7 @@ class WorklogDebtsServiceImplTest {
         LocalDate dateFrom = LocalDate.of(2023, 2, 6);
         LocalDate dateTo = LocalDate.of(2023, 2, 10);
 
-        when(jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
+        when(worklogClientAdapter.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
 
         WorklogDebts actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
 

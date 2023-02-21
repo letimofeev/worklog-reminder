@@ -1,11 +1,12 @@
 package com.senla.worklog.reminder.service;
 
+import com.senla.worklog.reminder.api.adapter.JiraWorklogClientAdapter;
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.model.Author;
-import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
+import com.senla.worklog.reminder.model.Worker;
+import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.WorklogDebts;
-import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,105 +17,84 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.time.DayOfWeek.FRIDAY;
-import static java.time.DayOfWeek.MONDAY;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.summingLong;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class WorklogDebtsServiceImpl implements WorklogDebtsService {
-    private final JiraWorklogApiClient jiraWorklogApiClient;
+    private final JiraWorklogClientAdapter worklogClientAdapter;
     private final EmployeeService employeeService;
-    private final AuthorsFetchStrategy authorsFetchStrategy;
+    private final WorkerFetcher workerFetcher;
 
-    private long requiredDaySeconds;
+    private long requiredDaySeconds = DEFAULT_REQUIRED_DAY_SECONDS;
 
     private static final long DEFAULT_REQUIRED_DAY_SECONDS = 3600 * 8L;
-
-    public WorklogDebtsServiceImpl(JiraWorklogApiClient jiraWorklogApiClient, EmployeeService employeeService,
-                                   AuthorsFetchStrategy authorsFetchStrategy) {
-        this.jiraWorklogApiClient = jiraWorklogApiClient;
-        this.employeeService = employeeService;
-        this.authorsFetchStrategy = authorsFetchStrategy;
-
-        this.requiredDaySeconds = DEFAULT_REQUIRED_DAY_SECONDS;
-    }
 
     public void setRequiredDaySeconds(long requiredDaySeconds) {
         this.requiredDaySeconds = requiredDaySeconds;
     }
 
     @Override
-    public WorklogDebts getAllForCurrentWeek() {
-        LocalDate dateFrom = LocalDate.now().with(MONDAY);
-        LocalDate dateTo = LocalDate.now().with(FRIDAY);
-        return getAllForPeriod(dateFrom, dateTo);
-    }
-
-    @Override
     public WorklogDebts getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        List<Author> previousWeekAuthors = authorsFetchStrategy.getAuthors();
-
-        List<Worklog> worklogs = jiraWorklogApiClient.getAllForPeriod(dateFrom, dateTo);
-
-        Map<Author, List<DayWorklogDebt>> debtsByAuthor = getDebtsByAuthor(previousWeekAuthors,
+        List<Worker> workers = workerFetcher.getWorkers();
+        List<Worklog> worklogs = worklogClientAdapter.getAllForPeriod(dateFrom, dateTo);
+        Map<Worker, List<DayWorklogDebt>> debtsByAuthor = getDebtsByWorker(workers,
                 worklogs, dateFrom, dateTo);
         return mapToEmployeeDebts(debtsByAuthor);
     }
 
-    private WorklogDebts mapToEmployeeDebts(Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
+    private WorklogDebts mapToEmployeeDebts(Map<Worker, List<DayWorklogDebt>> debtsByAuthor) {
         WorklogDebts worklogDebts = new WorklogDebts();
-        for (Map.Entry<Author, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
-            Author author = entry.getKey();
+        for (Map.Entry<Worker, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
+            Worker worker = entry.getKey();
             List<DayWorklogDebt> authorDebts = entry.getValue();
-            employeeService.getEmployeeByJiraKey(author.getKey())
+            employeeService.getEmployeeByJiraKey(worker.getKey())
                     .ifPresentOrElse(employee -> worklogDebts.put(employee, authorDebts),
-                            () -> handleEmployeeNotFound(worklogDebts, author, authorDebts));
+                            () -> handleEmployeeNotFound(worklogDebts, worker, authorDebts));
         }
         return worklogDebts;
     }
 
-    private Map<Author, List<DayWorklogDebt>> getDebtsByAuthor(List<Author> authors,
-                                                               List<Worklog> currentWeek,
+    private Map<Worker, List<DayWorklogDebt>> getDebtsByWorker(List<Worker> workers, List<Worklog> worklogs,
                                                                LocalDate dateFrom, LocalDate dateTo) {
-        Map<Author, List<DayWorklogDebt>> debtsByAuthor = new HashMap<>();
+        Map<Worker, List<DayWorklogDebt>> debtsByWorker = new HashMap<>();
         LocalDate dateToExcluding = dateTo.plusDays(1);
         for (LocalDate date = dateFrom; date.isBefore(dateToExcluding); date = date.plusDays(1)) {
             if (isWorkingDay(date)) {
-                List<Worklog> dayWorklogs = getDayWorklogs(currentWeek, date);
-                Map<Author, Long> spentTimeByAuthor = getSpentTimeByAuthor(dayWorklogs, authors);
-                addDayDebts(spentTimeByAuthor, date, debtsByAuthor);
+                List<Worklog> dayWorklogs = getDayWorklogs(worklogs, date);
+                Map<Worker, Long> spentTimeByAuthor = getSpentTimeByWorker(dayWorklogs, workers);
+                addDayDebts(spentTimeByAuthor, date, debtsByWorker);
             }
         }
-        return debtsByAuthor;
+        return debtsByWorker;
     }
 
     private List<Worklog> getDayWorklogs(List<Worklog> currentWeek, LocalDate day) {
         return currentWeek.stream()
-                .filter(x -> x.getDateStarted().toLocalDate().equals(day))
+                .filter(x -> x.getDateStarted().equals(day))
                 .collect(toList());
     }
 
-    private void addDayDebts(Map<Author, Long> spentTimeByAuthor, LocalDate day,
-                             Map<Author, List<DayWorklogDebt>> debtsByAuthor) {
-        for (Map.Entry<Author, Long> entry : spentTimeByAuthor.entrySet()) {
+    private void addDayDebts(Map<Worker, Long> spentTimeByAuthor, LocalDate day,
+                             Map<Worker, List<DayWorklogDebt>> debtsByWorker) {
+        for (Map.Entry<Worker, Long> entry : spentTimeByAuthor.entrySet()) {
             Long secondsSpent = entry.getValue();
             long debt = requiredDaySeconds - secondsSpent;
             if (debt > 0) {
-                Author author = entry.getKey();
-                debtsByAuthor.putIfAbsent(author, new ArrayList<>());
-                debtsByAuthor.get(author).add(new DayWorklogDebt(day, debt));
+                Worker worker = entry.getKey();
+                debtsByWorker.putIfAbsent(worker, new ArrayList<>());
+                debtsByWorker.get(worker).add(new DayWorklogDebt(day, debt));
             }
         }
     }
 
-    private Map<Author, Long> getSpentTimeByAuthor(List<Worklog> worklogs, List<Author> authors) {
-        Map<Author, Long> totalSpentTime = worklogs.stream().collect(groupingBy(Worklog::getAuthor,
-                summingLong(Worklog::getTimeSpentSeconds)));
-        for (Author author : authors) {
-            totalSpentTime.putIfAbsent(author, 0L);
+    private Map<Worker, Long> getSpentTimeByWorker(List<Worklog> worklogs, List<Worker> workers) {
+        Map<Worker, Long> totalSpentTime = worklogs.stream()
+                .collect(groupingBy(Worklog::getWorker,
+                        summingLong(Worklog::getTimeSpentSeconds)));
+        for (Worker worker : workers) {
+            totalSpentTime.putIfAbsent(worker, 0L);
         }
         return totalSpentTime;
     }
@@ -124,11 +104,11 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
                 && !(date.get(ChronoField.DAY_OF_WEEK) == 7);
     }
 
-    private void handleEmployeeNotFound(WorklogDebts worklogDebts, Author author, List<DayWorklogDebt> authorDebts) {
+    private void handleEmployeeNotFound(WorklogDebts worklogDebts, Worker worker, List<DayWorklogDebt> workerDebts) {
         EmployeeDto employee = new EmployeeDto()
-                .setFirstName(author.getDisplayName())
-                .setJiraKey(author.getKey());
-        worklogDebts.put(employee, authorDebts);
-        log.warn("Employee with jiraKey = '" + author.getKey() + "' not found");
+                .setFirstName(worker.getDisplayName())
+                .setJiraKey(worker.getKey());
+        worklogDebts.put(employee, workerDebts);
+        log.warn("Employee with jiraKey = '" + worker.getKey() + "' not found");
     }
 }
