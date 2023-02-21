@@ -1,13 +1,13 @@
 
-package com.senla.worklog.reminder.model.v3;
+package com.senla.worklog.reminder.api.v3.model;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Issue {
+public class IssueV3 {
     private Long id;
-    private IssueType issueType;
+    private IssueTypeV3 issueType;
     private String key;
     private Long projectId;
     private Long remainingEstimateSeconds;
@@ -18,16 +18,16 @@ public class Issue {
         return id;
     }
 
-    public Issue setId(Long id) {
+    public IssueV3 setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public IssueType getIssueType() {
+    public IssueTypeV3 getIssueType() {
         return issueType;
     }
 
-    public Issue setIssueType(IssueType issueType) {
+    public IssueV3 setIssueType(IssueTypeV3 issueType) {
         this.issueType = issueType;
         return this;
     }
@@ -36,7 +36,7 @@ public class Issue {
         return key;
     }
 
-    public Issue setKey(String key) {
+    public IssueV3 setKey(String key) {
         this.key = key;
         return this;
     }
@@ -45,7 +45,7 @@ public class Issue {
         return projectId;
     }
 
-    public Issue setProjectId(Long projectId) {
+    public IssueV3 setProjectId(Long projectId) {
         this.projectId = projectId;
         return this;
     }
@@ -54,7 +54,7 @@ public class Issue {
         return remainingEstimateSeconds;
     }
 
-    public Issue setRemainingEstimateSeconds(Long remainingEstimateSeconds) {
+    public IssueV3 setRemainingEstimateSeconds(Long remainingEstimateSeconds) {
         this.remainingEstimateSeconds = remainingEstimateSeconds;
         return this;
     }
@@ -63,7 +63,7 @@ public class Issue {
         return self;
     }
 
-    public Issue setSelf(String self) {
+    public IssueV3 setSelf(String self) {
         this.self = self;
         return this;
     }
@@ -72,7 +72,7 @@ public class Issue {
         return summary;
     }
 
-    public Issue setSummary(String summary) {
+    public IssueV3 setSummary(String summary) {
         this.summary = summary;
         return this;
     }
@@ -95,7 +95,7 @@ public class Issue {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Issue issue = (Issue) o;
+        IssueV3 issue = (IssueV3) o;
 
         if (id != null ? !id.equals(issue.id) : issue.id != null) return false;
         if (issueType != null ? !issueType.equals(issue.issueType) : issue.issueType != null) return false;

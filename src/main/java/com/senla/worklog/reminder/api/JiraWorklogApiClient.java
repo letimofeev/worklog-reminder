@@ -1,6 +1,6 @@
-package com.senla.worklog.reminder.api.client;
+package com.senla.worklog.reminder.api;
 
-import com.senla.worklog.reminder.model.v3.WorklogV3;
+import com.senla.worklog.reminder.api.v3.model.WorklogV3;
 
 import java.time.LocalDate;
 import java.util.List;

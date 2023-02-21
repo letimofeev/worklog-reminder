@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.service;
 
-import com.senla.worklog.reminder.model.v3.Author;
-import com.senla.worklog.reminder.model.v3.WorklogV3;
-import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
+import com.senla.worklog.reminder.api.v3.model.AuthorV3;
+import com.senla.worklog.reminder.api.v3.model.WorklogV3;
+import com.senla.worklog.reminder.api.JiraWorklogApiClient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class PreviousWeekAuthorsFetchStrategy implements AuthorsFetchStrategy {
     }
 
     @Override
-    public List<Author> getAuthors() {
+    public List<AuthorV3> getAuthors() {
         List<WorklogV3> worklogs = jiraWorklogApiClient.getAllForPreviousWeek();
         return worklogs.stream()
                 .map(WorklogV3::getAuthor)

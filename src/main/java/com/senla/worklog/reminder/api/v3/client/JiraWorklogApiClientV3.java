@@ -1,10 +1,10 @@
-package com.senla.worklog.reminder.api.client.v3;
+package com.senla.worklog.reminder.api.v3.client;
 
-import com.senla.worklog.reminder.api.client.AuthenticatedJiraWorklogApiClient;
+import com.senla.worklog.reminder.api.AuthenticatedJiraWorklogApiClient;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.logging.LogHttpRequest;
 import com.senla.worklog.reminder.logging.LogMessageBuilder;
-import com.senla.worklog.reminder.model.v3.WorklogV3;
+import com.senla.worklog.reminder.api.v3.model.WorklogV3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;

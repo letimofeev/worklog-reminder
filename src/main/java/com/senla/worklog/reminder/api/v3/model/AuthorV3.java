@@ -1,11 +1,11 @@
 
-package com.senla.worklog.reminder.model.v3;
+package com.senla.worklog.reminder.api.v3.model;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Author {
+public class AuthorV3 {
     private String avatar;
     private String displayName;
     private String key;
@@ -16,7 +16,7 @@ public class Author {
         return avatar;
     }
 
-    public Author setAvatar(String avatar) {
+    public AuthorV3 setAvatar(String avatar) {
         this.avatar = avatar;
         return this;
     }
@@ -25,7 +25,7 @@ public class Author {
         return displayName;
     }
 
-    public Author setDisplayName(String displayName) {
+    public AuthorV3 setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -34,7 +34,7 @@ public class Author {
         return key;
     }
 
-    public Author setKey(String key) {
+    public AuthorV3 setKey(String key) {
         this.key = key;
         return this;
     }
@@ -43,7 +43,7 @@ public class Author {
         return name;
     }
 
-    public Author setName(String name) {
+    public AuthorV3 setName(String name) {
         this.name = name;
         return this;
     }
@@ -52,7 +52,7 @@ public class Author {
         return self;
     }
 
-    public Author setSelf(String self) {
+    public AuthorV3 setSelf(String self) {
         this.self = self;
         return this;
     }
@@ -73,7 +73,7 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Author author = (Author) o;
+        AuthorV3 author = (AuthorV3) o;
 
         if (avatar != null ? !avatar.equals(author.avatar) : author.avatar != null) return false;
         if (displayName != null ? !displayName.equals(author.displayName) : author.displayName != null) return false;

@@ -1,11 +1,11 @@
 package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.model.v3.Author;
+import com.senla.worklog.reminder.api.v3.model.AuthorV3;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
-import com.senla.worklog.reminder.model.v3.WorklogV3;
+import com.senla.worklog.reminder.api.v3.model.WorklogV3;
 import com.senla.worklog.reminder.model.WorklogDebts;
-import com.senla.worklog.reminder.api.client.JiraWorklogApiClient;
+import com.senla.worklog.reminder.api.JiraWorklogApiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,10 +33,10 @@ class WorklogDebtsServiceImplTest {
     @InjectMocks
     private WorklogDebtsServiceImpl worklogDebtsService;
 
-    private static final List<Author> authors = List.of(
-            new Author().setName("Lol").setKey("lol_key"),
-            new Author().setName("Kek").setKey("kek_key"),
-            new Author().setName("Who").setKey("who_key")
+    private static final List<AuthorV3> authors = List.of(
+            new AuthorV3().setName("Lol").setKey("lol_key"),
+            new AuthorV3().setName("Kek").setKey("kek_key"),
+            new AuthorV3().setName("Who").setKey("who_key")
     );
 
     private static final List<WorklogV3> worklogs = List.of(

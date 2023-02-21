@@ -1,5 +1,5 @@
 
-package com.senla.worklog.reminder.model.v3;
+package com.senla.worklog.reminder.api.v3.model;
 
 import javax.annotation.Generated;
 import java.time.LocalDateTime;
@@ -8,24 +8,24 @@ import java.util.List;
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
 public class WorklogV3 {
-    private Author author;
+    private AuthorV3 author;
     private String comment;
     private LocalDateTime dateCreated;
     private LocalDateTime dateStarted;
     private LocalDateTime dateUpdated;
     private Long id;
-    private Issue issue;
+    private IssueV3 issue;
     private Long jiraWorklogId;
     private String self;
     private Long timeSpentSeconds;
     private List<Object> workAttributeValues;
     private List<Object> worklogAttributes;
 
-    public Author getAuthor() {
+    public AuthorV3 getAuthor() {
         return author;
     }
 
-    public WorklogV3 setAuthor(Author author) {
+    public WorklogV3 setAuthor(AuthorV3 author) {
         this.author = author;
         return this;
     }
@@ -75,11 +75,11 @@ public class WorklogV3 {
         return this;
     }
 
-    public Issue getIssue() {
+    public IssueV3 getIssue() {
         return issue;
     }
 
-    public WorklogV3 setIssue(Issue issue) {
+    public WorklogV3 setIssue(IssueV3 issue) {
         this.issue = issue;
         return this;
     }

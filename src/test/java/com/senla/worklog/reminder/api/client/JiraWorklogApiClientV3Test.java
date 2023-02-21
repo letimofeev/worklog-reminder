@@ -1,9 +1,9 @@
 package com.senla.worklog.reminder.api.client;
 
-import com.senla.worklog.reminder.api.client.v3.JiraWorklogApiClientV3;
+import com.senla.worklog.reminder.api.v3.client.JiraWorklogApiClientV3;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.logging.LogMessageBuilder;
-import com.senla.worklog.reminder.model.v3.WorklogV3;
+import com.senla.worklog.reminder.api.v3.model.WorklogV3;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

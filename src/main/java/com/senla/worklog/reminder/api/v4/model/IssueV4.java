@@ -1,5 +1,5 @@
 
-package com.senla.worklog.reminder.model.v4;
+package com.senla.worklog.reminder.api.v4.model;
 
 import javax.annotation.Generated;
 import java.util.List;

@@ -1,10 +1,10 @@
 package com.senla.worklog.reminder.model.mapper;
 
-import com.senla.worklog.reminder.model.v3.Author;
-import com.senla.worklog.reminder.model.v3.Issue;
-import com.senla.worklog.reminder.model.v3.IssueType;
-import com.senla.worklog.reminder.model.v3.WorklogV3;
-import com.senla.worklog.reminder.model.v4.WorklogV4;
+import com.senla.worklog.reminder.api.v3.model.AuthorV3;
+import com.senla.worklog.reminder.api.v3.model.IssueV3;
+import com.senla.worklog.reminder.api.v3.model.IssueTypeV3;
+import com.senla.worklog.reminder.api.v3.model.WorklogV3;
+import com.senla.worklog.reminder.api.v4.model.WorklogV4;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,12 +19,12 @@ public class WorklogMapperImpl implements WorklogMapper {
                 .setDateStarted(worklogV4.getStarted())
                 .setDateUpdated(worklogV4.getDateUpdated())
                 .setDateCreated(worklogV4.getDateCreated())
-                .setAuthor(new Author()
+                .setAuthor(new AuthorV3()
                         .setKey(worklogV4.getWorker()))
-                .setIssue(new Issue()
+                .setIssue(new IssueV3()
                         .setId(worklogV4.getIssue().getId())
                         .setKey(worklogV4.getIssue().getKey())
-                        .setIssueType(new IssueType()
+                        .setIssueType(new IssueTypeV3()
                                 .setName(worklogV4.getIssue().getIssueType()))
                         .setProjectId(worklogV4.getIssue().getProjectId())
                         .setSummary(worklogV4.getIssue().getSummary()));

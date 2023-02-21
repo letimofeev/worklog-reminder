@@ -1,11 +1,11 @@
 
-package com.senla.worklog.reminder.model.v3;
+package com.senla.worklog.reminder.api.v3.model;
 
 import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class IssueType {
+public class IssueTypeV3 {
     private String iconUrl;
     private String name;
 
@@ -13,7 +13,7 @@ public class IssueType {
         return iconUrl;
     }
 
-    public IssueType setIconUrl(String iconUrl) {
+    public IssueTypeV3 setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
         return this;
     }
@@ -22,7 +22,7 @@ public class IssueType {
         return name;
     }
 
-    public IssueType setName(String name) {
+    public IssueTypeV3 setName(String name) {
         this.name = name;
         return this;
     }
@@ -40,7 +40,7 @@ public class IssueType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        IssueType issueType = (IssueType) o;
+        IssueTypeV3 issueType = (IssueTypeV3) o;
 
         if (iconUrl != null ? !iconUrl.equals(issueType.iconUrl) : issueType.iconUrl != null) return false;
         if (name != null ? !name.equals(issueType.name) : issueType.name != null) return false;
