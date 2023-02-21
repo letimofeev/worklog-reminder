@@ -1,31 +1,24 @@
 
 package com.senla.worklog.reminder.api.v3.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import javax.annotation.Generated;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
 public class IssueTypeV3 {
     private String iconUrl;
     private String name;
-
-    public String getIconUrl() {
-        return iconUrl;
-    }
-
-    public IssueTypeV3 setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public IssueTypeV3 setName(String name) {
-        this.name = name;
-        return this;
-    }
 
     @Override
     public String toString() {

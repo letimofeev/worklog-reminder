@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 public class JiraWorklogClientV3Adapter implements JiraWorklogClientAdapter {
@@ -18,6 +19,6 @@ public class JiraWorklogClientV3Adapter implements JiraWorklogClientAdapter {
     public List<Worklog> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         return worklogClient.getAllForPeriod(dateFrom, dateTo).stream()
                 .map(mapper::mapToModel)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

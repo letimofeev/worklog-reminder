@@ -1,10 +1,21 @@
 
 package com.senla.worklog.reminder.api.v3.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import javax.annotation.Generated;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
 public class WorklogV3 {
@@ -20,114 +31,6 @@ public class WorklogV3 {
     private Long timeSpentSeconds;
     private List<Object> workAttributeValues;
     private List<Object> worklogAttributes;
-
-    public AuthorV3 getAuthor() {
-        return author;
-    }
-
-    public WorklogV3 setAuthor(AuthorV3 author) {
-        this.author = author;
-        return this;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public WorklogV3 setComment(String comment) {
-        this.comment = comment;
-        return this;
-    }
-
-    public LocalDateTime getDateCreated() {
-        return dateCreated;
-    }
-
-    public WorklogV3 setDateCreated(LocalDateTime dateCreated) {
-        this.dateCreated = dateCreated;
-        return this;
-    }
-
-    public LocalDateTime getDateStarted() {
-        return dateStarted;
-    }
-
-    public WorklogV3 setDateStarted(LocalDateTime dateStarted) {
-        this.dateStarted = dateStarted;
-        return this;
-    }
-
-    public LocalDateTime getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public WorklogV3 setDateUpdated(LocalDateTime dateUpdated) {
-        this.dateUpdated = dateUpdated;
-        return this;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public WorklogV3 setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public IssueV3 getIssue() {
-        return issue;
-    }
-
-    public WorklogV3 setIssue(IssueV3 issue) {
-        this.issue = issue;
-        return this;
-    }
-
-    public Long getJiraWorklogId() {
-        return jiraWorklogId;
-    }
-
-    public WorklogV3 setJiraWorklogId(Long jiraWorklogId) {
-        this.jiraWorklogId = jiraWorklogId;
-        return this;
-    }
-
-    public String getSelf() {
-        return self;
-    }
-
-    public WorklogV3 setSelf(String self) {
-        this.self = self;
-        return this;
-    }
-
-    public Long getTimeSpentSeconds() {
-        return timeSpentSeconds;
-    }
-
-    public WorklogV3 setTimeSpentSeconds(Long timeSpentSeconds) {
-        this.timeSpentSeconds = timeSpentSeconds;
-        return this;
-    }
-
-    public List<Object> getWorkAttributeValues() {
-        return workAttributeValues;
-    }
-
-    public WorklogV3 setWorkAttributeValues(List<Object> workAttributeValues) {
-        this.workAttributeValues = workAttributeValues;
-        return this;
-    }
-
-    public List<Object> getWorklogAttributes() {
-        return worklogAttributes;
-    }
-
-    public WorklogV3 setWorklogAttributes(List<Object> worklogAttributes) {
-        this.worklogAttributes = worklogAttributes;
-        return this;
-    }
 
     @Override
     public String toString() {

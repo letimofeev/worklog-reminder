@@ -17,8 +17,8 @@ public interface JiraWorklogClientV4 {
     }
 
     default List<WorklogV4> getAllForPreviousWeek() {
-        LocalDate previousMonday = now().with(MONDAY).minusWeeks(1);
-        LocalDate previousFriday = now().with(FRIDAY).minusWeeks(1);
+        var previousMonday = now().with(MONDAY).minusWeeks(1);
+        var previousFriday = now().with(FRIDAY).minusWeeks(1);
         return getAllForPeriod(previousMonday, previousFriday);
     }
 

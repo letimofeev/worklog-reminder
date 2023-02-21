@@ -1,8 +1,19 @@
 
 package com.senla.worklog.reminder.api.v3.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import javax.annotation.Generated;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
 public class AuthorV3 {
@@ -11,51 +22,6 @@ public class AuthorV3 {
     private String key;
     private String name;
     private String self;
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public AuthorV3 setAvatar(String avatar) {
-        this.avatar = avatar;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public AuthorV3 setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public AuthorV3 setKey(String key) {
-        this.key = key;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AuthorV3 setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSelf() {
-        return self;
-    }
-
-    public AuthorV3 setSelf(String self) {
-        this.self = self;
-        return this;
-    }
 
     @Override
     public String toString() {

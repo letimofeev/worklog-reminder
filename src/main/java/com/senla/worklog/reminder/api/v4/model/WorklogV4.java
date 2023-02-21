@@ -2,10 +2,20 @@
 package com.senla.worklog.reminder.api.v4.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.annotation.Generated;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
 public class WorklogV4 {
@@ -30,132 +40,6 @@ public class WorklogV4 {
     private Long timeSpentSeconds;
     private String updater;
     private String worker;
-
-    public Object getAttributes() {
-        return attributes;
-    }
-
-    public WorklogV4 setAttributes(Object attributes) {
-        this.attributes = attributes;
-        return this;
-    }
-
-    public Long getBillableSeconds() {
-        return billableSeconds;
-    }
-
-    public WorklogV4 setBillableSeconds(Long billableSeconds) {
-        this.billableSeconds = billableSeconds;
-        return this;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public WorklogV4 setComment(String comment) {
-        this.comment = comment;
-        return this;
-    }
-
-    public LocalDateTime getDateCreated() {
-        return dateCreated;
-    }
-
-    public WorklogV4 setDateCreated(LocalDateTime dateCreated) {
-        this.dateCreated = dateCreated;
-        return this;
-    }
-
-    public LocalDateTime getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public WorklogV4 setDateUpdated(LocalDateTime dateUpdated) {
-        this.dateUpdated = dateUpdated;
-        return this;
-    }
-
-    public IssueV4 getIssue() {
-        return issue;
-    }
-
-    public WorklogV4 setIssue(IssueV4 issue) {
-        this.issue = issue;
-        return this;
-    }
-
-    public Long getOriginId() {
-        return originId;
-    }
-
-    public WorklogV4 setOriginId(Long originId) {
-        this.originId = originId;
-        return this;
-    }
-
-    public Long getOriginTaskId() {
-        return originTaskId;
-    }
-
-    public WorklogV4 setOriginTaskId(Long originTaskId) {
-        this.originTaskId = originTaskId;
-        return this;
-    }
-
-    public LocalDateTime getStarted() {
-        return started;
-    }
-
-    public WorklogV4 setStarted(LocalDateTime started) {
-        this.started = started;
-        return this;
-    }
-
-    public Long getTempoWorklogId() {
-        return tempoWorklogId;
-    }
-
-    public WorklogV4 setTempoWorklogId(Long tempoWorklogId) {
-        this.tempoWorklogId = tempoWorklogId;
-        return this;
-    }
-
-    public String getTimeSpent() {
-        return timeSpent;
-    }
-
-    public WorklogV4 setTimeSpent(String timeSpent) {
-        this.timeSpent = timeSpent;
-        return this;
-    }
-
-    public Long getTimeSpentSeconds() {
-        return timeSpentSeconds;
-    }
-
-    public WorklogV4 setTimeSpentSeconds(Long timeSpentSeconds) {
-        this.timeSpentSeconds = timeSpentSeconds;
-        return this;
-    }
-
-    public String getUpdater() {
-        return updater;
-    }
-
-    public WorklogV4 setUpdater(String updater) {
-        this.updater = updater;
-        return this;
-    }
-
-    public String getWorker() {
-        return worker;
-    }
-
-    public WorklogV4 setWorker(String worker) {
-        this.worker = worker;
-        return this;
-    }
 
     @Override
     public String toString() {
