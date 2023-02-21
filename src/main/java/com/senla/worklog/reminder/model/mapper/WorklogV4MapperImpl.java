@@ -5,7 +5,9 @@ import com.senla.worklog.reminder.api.v4.model.WorklogV4;
 import com.senla.worklog.reminder.model.Issue;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WorklogV4MapperImpl implements WorklogV4Mapper {
     @Override
     public WorklogV4 mapToV4(Worklog worklog) {

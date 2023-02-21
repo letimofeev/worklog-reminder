@@ -57,7 +57,7 @@ public class JiraWorklogClientV4Impl implements JiraWorklogClientV4 {
 
     private ResponseEntity<WorklogV4[]> performRequest(LocalDate dateFrom, LocalDate dateTo,
                                                        HttpEntity<String> requestEntity) {
-        String url = jiraProperties.getHost() + "/rest/tempo-timesheets/4/worklogs/search";
+        String url = jiraProperties.getHost() + path;
         logGetWorklogsRequest(url, requestEntity);
         ResponseEntity<WorklogV4[]> response = restTemplate.exchange(url, POST, requestEntity, WorklogV4[].class, dateFrom, dateTo);
         log.debug("Get worklogs response status: {}", response.getStatusCode());
