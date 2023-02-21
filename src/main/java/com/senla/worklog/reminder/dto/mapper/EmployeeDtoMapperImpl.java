@@ -2,26 +2,22 @@ package com.senla.worklog.reminder.dto.mapper;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.model.Employee;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class EmployeeDtoMapperImpl implements EmployeeDtoMapper {
+    private final ModelMapper mapper;
+
     @Override
     public Employee mapToModel(EmployeeDto employeeDto) {
-        Employee employee = new Employee();
-        employee.setId(employeeDto.getId());
-        employee.setFirstName(employeeDto.getFirstName());
-        employee.setLastName(employeeDto.getLastName());
-        employee.setJiraKey(employeeDto.getJiraKey());
-        return employee;
+        return mapper.map(employeeDto, Employee.class);
     }
 
     @Override
     public EmployeeDto mapToDto(Employee employee) {
-        return new EmployeeDto()
-                .setId(employee.getId())
-                .setFirstName(employee.getFirstName())
-                .setLastName(employee.getLastName())
-                .setJiraKey(employee.getJiraKey());
+        return mapper.map(employee, EmployeeDto.class);
     }
 }
