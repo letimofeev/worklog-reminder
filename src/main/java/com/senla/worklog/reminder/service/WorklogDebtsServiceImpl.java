@@ -37,33 +37,32 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
 
     @Override
     public WorklogDebts getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        List<Worker> workers = workerFetcher.getWorkers();
-        List<Worklog> worklogs = worklogClientAdapter.getAllForPeriod(dateFrom, dateTo);
-        Map<Worker, List<DayWorklogDebt>> debtsByAuthor = getDebtsByWorker(workers,
-                worklogs, dateFrom, dateTo);
+        var workers = workerFetcher.getWorkers();
+        var worklogs = worklogClientAdapter.getAllForPeriod(dateFrom, dateTo);
+        var debtsByAuthor = getDebtsByWorker(workers, worklogs, dateFrom, dateTo);
         return mapToEmployeeDebts(debtsByAuthor);
     }
 
-    private WorklogDebts mapToEmployeeDebts(Map<Worker, List<DayWorklogDebt>> debtsByAuthor) {
-        WorklogDebts worklogDebts = new WorklogDebts();
-        for (Map.Entry<Worker, List<DayWorklogDebt>> entry : debtsByAuthor.entrySet()) {
-            Worker worker = entry.getKey();
-            List<DayWorklogDebt> authorDebts = entry.getValue();
+    private WorklogDebts mapToEmployeeDebts(Map<Worker, List<DayWorklogDebt>> debtsByWorker) {
+        var worklogDebts = new WorklogDebts();
+        for (var entry : debtsByWorker.entrySet()) {
+            var worker = entry.getKey();
+            var workerDebts = entry.getValue();
             employeeService.getEmployeeByJiraKey(worker.getKey())
-                    .ifPresentOrElse(employee -> worklogDebts.put(employee, authorDebts),
-                            () -> handleEmployeeNotFound(worklogDebts, worker, authorDebts));
+                    .ifPresentOrElse(employee -> worklogDebts.put(employee, workerDebts),
+                            () -> handleEmployeeNotFound(worklogDebts, worker, workerDebts));
         }
         return worklogDebts;
     }
 
     private Map<Worker, List<DayWorklogDebt>> getDebtsByWorker(List<Worker> workers, List<Worklog> worklogs,
                                                                LocalDate dateFrom, LocalDate dateTo) {
-        Map<Worker, List<DayWorklogDebt>> debtsByWorker = new HashMap<>();
-        LocalDate dateToExcluding = dateTo.plusDays(1);
-        for (LocalDate date = dateFrom; date.isBefore(dateToExcluding); date = date.plusDays(1)) {
+        var debtsByWorker = new HashMap<Worker, List<DayWorklogDebt>>();
+        var dateToExcluding = dateTo.plusDays(1);
+        for (var date = dateFrom; date.isBefore(dateToExcluding); date = date.plusDays(1)) {
             if (isWorkingDay(date)) {
-                List<Worklog> dayWorklogs = getDayWorklogs(worklogs, date);
-                Map<Worker, Long> spentTimeByAuthor = getSpentTimeByWorker(dayWorklogs, workers);
+                var dayWorklogs = getDayWorklogs(worklogs, date);
+                var spentTimeByAuthor = getSpentTimeByWorker(dayWorklogs, workers);
                 addDayDebts(spentTimeByAuthor, date, debtsByWorker);
             }
         }
@@ -78,11 +77,11 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
 
     private void addDayDebts(Map<Worker, Long> spentTimeByAuthor, LocalDate day,
                              Map<Worker, List<DayWorklogDebt>> debtsByWorker) {
-        for (Map.Entry<Worker, Long> entry : spentTimeByAuthor.entrySet()) {
-            Long secondsSpent = entry.getValue();
+        for (var entry : spentTimeByAuthor.entrySet()) {
+            var secondsSpent = entry.getValue();
             long debt = requiredDaySeconds - secondsSpent;
             if (debt > 0) {
-                Worker worker = entry.getKey();
+                var worker = entry.getKey();
                 debtsByWorker.putIfAbsent(worker, new ArrayList<>());
                 debtsByWorker.get(worker).add(new DayWorklogDebt(day, debt));
             }
@@ -90,10 +89,9 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     }
 
     private Map<Worker, Long> getSpentTimeByWorker(List<Worklog> worklogs, List<Worker> workers) {
-        Map<Worker, Long> totalSpentTime = worklogs.stream()
-                .collect(groupingBy(Worklog::getWorker,
-                        summingLong(Worklog::getTimeSpentSeconds)));
-        for (Worker worker : workers) {
+        var totalSpentTime = worklogs.stream()
+                .collect(groupingBy(Worklog::getWorker, summingLong(Worklog::getTimeSpentSeconds)));
+        for (var worker : workers) {
             totalSpentTime.putIfAbsent(worker, 0L);
         }
         return totalSpentTime;
@@ -105,7 +103,7 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     }
 
     private void handleEmployeeNotFound(WorklogDebts worklogDebts, Worker worker, List<DayWorklogDebt> workerDebts) {
-        EmployeeDto employee = new EmployeeDto()
+        var employee = new EmployeeDto()
                 .setFirstName(worker.getDisplayName())
                 .setJiraKey(worker.getKey());
         worklogDebts.put(employee, workerDebts);

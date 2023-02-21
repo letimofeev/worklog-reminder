@@ -2,8 +2,8 @@ package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.dto.mapper.EmployeeDtoMapper;
-import com.senla.worklog.reminder.model.Employee;
 import com.senla.worklog.reminder.repository.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,18 +11,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository repository;
     private final EmployeeDtoMapper mapper;
 
-    public EmployeeServiceImpl(EmployeeRepository repository, EmployeeDtoMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
     @Override
     public EmployeeDto addEmployee(EmployeeDto employeeDto) {
-        Employee employee = mapper.mapToModel(employeeDto);
+        var employee = mapper.mapToModel(employeeDto);
         repository.save(employee);
         return mapper.mapToDto(employee);
     }
@@ -48,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
-        Employee employee = mapper.mapToModel(employeeDto);
+        var employee = mapper.mapToModel(employeeDto);
         repository.save(employee);
         return mapper.mapToDto(employee);
     }

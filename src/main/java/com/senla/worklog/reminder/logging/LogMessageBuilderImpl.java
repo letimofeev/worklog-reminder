@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.join;
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
 @Component
@@ -27,17 +27,17 @@ public class LogMessageBuilderImpl implements LogMessageBuilder {
 
     @Override
     public String buildRequestLogMessage(String header, LogHttpRequest request) {
-        String headers = buildHeaders(request.getHeaders());
-        String logMessage = header + "\n\t" +
+        var headers = buildHeaders(request.getHeaders());
+        var logMessage = header + "\n\t" +
                 "Request URL                     " + request.getUrl() + "\n\t" +
                 "Request Method                  " + request.getMethod() + "\n\t" +
                 "Request Headers                 " + headers + "\n\t";
         if (request.getParameters() != null) {
-            String parameters = buildRequestParameters(request.getParameters());
+            var parameters = buildRequestParameters(request.getParameters());
             logMessage += "Request Parameters              " + parameters + "\n\t";
         }
         if (request.getBody() != null) {
-            String body = hidePasswordIfRequired(request.getBody());
+            var body = hidePasswordIfRequired(request.getBody());
             logMessage += "Request Body                    " + body + "\n";
         }
         return logMessage;
@@ -45,8 +45,8 @@ public class LogMessageBuilderImpl implements LogMessageBuilder {
 
     private String hidePasswordIfRequired(String body) {
         if (!jiraProperties.getDebug().isPasswordEnabled()) {
-            String basicPassword = jiraProperties.getBasicAuth().getPassword();
-            String formPassword = jiraProperties.getFormAuth().getPassword();
+            var basicPassword = jiraProperties.getBasicAuth().getPassword();
+            var formPassword = jiraProperties.getFormAuth().getPassword();
             return body.replace(basicPassword, PASSWORD_HIDER)
                     .replace(formPassword, PASSWORD_HIDER);
         }
@@ -60,7 +60,7 @@ public class LogMessageBuilderImpl implements LogMessageBuilder {
     }
 
     private String hideAuthorizationHeaderIfRequired(Map.Entry<String, List<String>> entry) {
-        String key = entry.getKey();
+        var key = entry.getKey();
         boolean debugPasswordEnabled = jiraProperties.getDebug().isPasswordEnabled();
         String value;
         if (key.equalsIgnoreCase("authorization") && !debugPasswordEnabled) {
@@ -72,7 +72,7 @@ public class LogMessageBuilderImpl implements LogMessageBuilder {
     }
 
     private String buildRequestParameters(Object[] parameters) {
-        return Arrays.stream(parameters)
+        return stream(parameters)
                 .map(Object::toString)
                 .collect(joining(", "));
     }

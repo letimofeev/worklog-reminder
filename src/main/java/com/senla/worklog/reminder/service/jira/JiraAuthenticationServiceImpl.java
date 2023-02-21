@@ -30,10 +30,10 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     @Override
     public JiraSession login() {
         try {
-            String loginUrl = jiraProperties.getLoginUrl();
-            HttpEntity<String> request = getLoginRequest();
-            ResponseEntity<String> response = postLoginRequest(loginUrl, request);
-            JiraSession session = loginResponseParser.parseLoginResponse(response);
+            var loginUrl = jiraProperties.getLoginUrl();
+            var request = getLoginRequest();
+            var response = postLoginRequest(loginUrl, request);
+            var session = loginResponseParser.parseLoginResponse(response);
             sessionStorage.saveSession(session);
             return session;
         } catch (Exception e) {
@@ -48,28 +48,28 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
 
     @Override
     public HttpHeaders getAuthenticationHeaders() {
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         addBasicAuthHeader(headers);
         addSessionIdHeader(headers);
         return headers;
     }
 
     private HttpEntity<String> getLoginRequest() {
-        HttpHeaders headers = getLoginRequestHeaders();
-        String requestBody = getLoginRequestBody();
+        var headers = getLoginRequestHeaders();
+        var requestBody = getLoginRequestBody();
         return new HttpEntity<>(requestBody, headers);
     }
 
     private HttpHeaders getLoginRequestHeaders() {
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         addBasicAuthHeader(headers);
         headers.add("Content-Type", "application/x-www-form-urlencoded");
         return headers;
     }
 
     private void addBasicAuthHeader(HttpHeaders headers) {
-        String username = jiraProperties.getBasicAuth().getUsername();
-        String password = jiraProperties.getBasicAuth().getPassword();
+        var username = jiraProperties.getBasicAuth().getUsername();
+        var password = jiraProperties.getBasicAuth().getPassword();
         headers.setBasicAuth(username, password);
     }
 
@@ -86,8 +86,8 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     }
 
     private String getLoginRequestBody() {
-        String username = jiraProperties.getFormAuth().getUsername();
-        String password = jiraProperties.getFormAuth().getPassword();
+        var username = jiraProperties.getFormAuth().getUsername();
+        var password = jiraProperties.getFormAuth().getPassword();
         return String.format("os_username=%s&os_password=%s&os_destination=&user_role=&atl_token=&login=Log+In",
                 username, password);
 
@@ -96,7 +96,7 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     private ResponseEntity<String> postLoginRequest(String loginUrl, HttpEntity<String> request) {
         logLoginRequest(loginUrl, request);
         try {
-            ResponseEntity<String> response = restTemplate.exchange(loginUrl, POST, request, String.class);
+            var response = restTemplate.exchange(loginUrl, POST, request, String.class);
             log.debug("Logging in Jira response status: {}", response.getStatusCode());
             return response;
         } catch (HttpClientErrorException.Unauthorized e) {
@@ -105,7 +105,7 @@ public class JiraAuthenticationServiceImpl implements JiraAuthenticationService 
     }
 
     private void logLoginRequest(String loginUrl, HttpEntity<String> request) {
-        String logMessage = logMessageBuilder.buildRequestLogMessage("Logging in Jira with the following data:",
+        var logMessage = logMessageBuilder.buildRequestLogMessage("Logging in Jira with the following data:",
                 new LogHttpRequest()
                         .setUrl(loginUrl)
                         .setMethod(POST)

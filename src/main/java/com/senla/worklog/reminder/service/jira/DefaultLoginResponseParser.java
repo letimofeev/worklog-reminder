@@ -3,8 +3,6 @@ package com.senla.worklog.reminder.service.jira;
 import com.senla.worklog.reminder.exception.JiraAuthenticationException;
 import com.senla.worklog.reminder.model.JiraSession;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -23,13 +21,13 @@ public class DefaultLoginResponseParser implements LoginResponseParser {
     }
 
     private JiraSession getJiraSession(ResponseEntity<String> response) {
-        List<String> cookies = getCookies(response);
-        String sessionId = findSessionId(cookies);
+        var cookies = getCookies(response);
+        var sessionId = findSessionId(cookies);
         return new JiraSession(sessionId);
     }
 
     private List<String> getCookies(ResponseEntity<String> response) {
-        List<String> setCookies = response.getHeaders().get("Set-Cookie");
+        var setCookies = response.getHeaders().get("Set-Cookie");
         if (setCookies == null) {
             throw new JiraAuthenticationException("Response on login request does not contain Set-Cookie header");
         }
@@ -46,14 +44,14 @@ public class DefaultLoginResponseParser implements LoginResponseParser {
 
     private void validateLoginResponse(ResponseEntity<String> response) {
         if (!response.getStatusCode().is3xxRedirection()) {
-            String errorMessage = resolveLoginErrorMessage(response.getBody());
+            var errorMessage = resolveLoginErrorMessage(response.getBody());
             throw new JiraAuthenticationException("Login failed; error message: " + errorMessage);
         }
     }
 
     private String resolveLoginErrorMessage(String responseBody) {
-        Document document = Jsoup.parse(responseBody);
-        Element formBody = document.getElementsByClass("form-body").first();
+        var document = Jsoup.parse(responseBody);
+        var formBody = document.getElementsByClass("form-body").first();
         if (formBody == null) {
             return UNEXPECTED_ERROR_MESSAGE;
         }
