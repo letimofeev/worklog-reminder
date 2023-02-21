@@ -8,6 +8,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface LoginAndRetry {
+public @interface RefreshableSession {
     int maxRetries() default 1;
 }

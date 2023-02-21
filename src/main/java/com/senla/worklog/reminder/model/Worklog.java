@@ -1,6 +1,8 @@
 
 package com.senla.worklog.reminder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.annotation.Generated;

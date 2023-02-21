@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-class AuthenticatedJiraWorklogApiClientTest {
+class JiraWorklogApiClientV3Test {
     @Mock
     private RestTemplate restTemplate;
 
@@ -42,7 +42,7 @@ class AuthenticatedJiraWorklogApiClientTest {
             .setWorklogsUrlTemplate("http://host/worklogs?dateFrom={dateFrom}&dateTo={dateTo}");
 
     @InjectMocks
-    private AuthenticatedJiraWorklogApiClient jiraWorklogApiClient;
+    private JiraWorklogApiClientV3 jiraWorklogApiClient;
 
     @BeforeEach
     void setUp() {

@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.aspect;
 
-import com.senla.worklog.reminder.annotation.LoginAndRetry;
+import com.senla.worklog.reminder.annotation.RefreshableSession;
 import com.senla.worklog.reminder.exception.JiraAuthenticationException;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +16,13 @@ import org.springframework.web.client.HttpClientErrorException;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class LoginAndRetryAspect {
+public class RefreshableSessionAspect {
     private final JiraAuthenticationService authenticationService;
 
-    @Around("@annotation(com.senla.worklog.reminder.annotation.LoginAndRetry)")
-    public Object aroundLoginAndRetryAnnotatedMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Around("@annotation(com.senla.worklog.reminder.annotation.RefreshableSession)")
+    public Object aroundRefreshableAnnotatedMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
-        int maxRetries = methodSignature.getMethod().getAnnotation(LoginAndRetry.class).maxRetries();
+        int maxRetries = methodSignature.getMethod().getAnnotation(RefreshableSession.class).maxRetries();
         int currentRetries = 0;
         while (currentRetries <= maxRetries) {
             try {

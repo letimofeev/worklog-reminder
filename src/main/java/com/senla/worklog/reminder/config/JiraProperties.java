@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "jira")
 public class JiraProperties {
-    private String worklogsUrlTemplate;
     private String loginUrl;
+    private String host;
     private DebugOptions debug;
     private AuthProperties basicAuth;
     private AuthProperties formAuth;
