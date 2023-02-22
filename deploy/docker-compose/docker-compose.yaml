@@ -4,6 +4,7 @@ services:
   worklog-reminder:
     image: letimof/worklog-reminder:0.0.2-SNAPSHOT
     mem_reservation: 700m
+    pull_policy: always
     ports:
       - "8100:8100"
     networks:
