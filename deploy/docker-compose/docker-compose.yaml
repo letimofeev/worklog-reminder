@@ -1,8 +1,9 @@
 version: '3.8'
 
 services:
-  worklog-reminder:
-    image: letimof/worklog-reminder:0.0.2-SNAPSHOT
+  worklog-debts-service:
+    image: letimof/worklog-debts-service:0.0.2-SNAPSHOT
+    container_name: worklog-debts-service
     mem_reservation: 700m
     pull_policy: always
     ports:
