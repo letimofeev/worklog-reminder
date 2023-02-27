@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.api.adapter;
+package com.senla.worklog.reminder.api.jira.adapter;
 
 import com.senla.worklog.reminder.model.Worklog;
 

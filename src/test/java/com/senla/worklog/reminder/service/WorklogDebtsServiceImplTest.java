@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.service;
 
-import com.senla.worklog.reminder.api.adapter.JiraWorklogClientAdapter;
+import com.senla.worklog.reminder.api.jira.adapter.JiraWorklogClientAdapter;
 import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.Worker;

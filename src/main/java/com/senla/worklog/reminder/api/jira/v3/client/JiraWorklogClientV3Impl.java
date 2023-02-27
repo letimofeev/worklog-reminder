@@ -1,7 +1,7 @@
-package com.senla.worklog.reminder.api.v4.client;
+package com.senla.worklog.reminder.api.jira.v3.client;
 
 import com.senla.worklog.reminder.annotation.RefreshableSession;
-import com.senla.worklog.reminder.api.v4.model.WorklogV4;
+import com.senla.worklog.reminder.api.jira.v3.model.WorklogV3;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.exception.JiraWorklogApiClientException;
 import com.senla.worklog.reminder.logging.LogHttpRequest;
@@ -13,18 +13,19 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.GET;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JiraWorklogClientV4Impl implements JiraWorklogClientV4 {
+public class JiraWorklogClientV3Impl implements JiraWorklogClientV3 {
     private final JiraAuthenticationService authenticationService;
     private final RestTemplate restTemplate;
     private final JiraProperties jiraProperties;
@@ -32,21 +33,21 @@ public class JiraWorklogClientV4Impl implements JiraWorklogClientV4 {
 
     @Override
     @RefreshableSession
-    public List<WorklogV4> getAllForCurrentWeek() {
-        return JiraWorklogClientV4.super.getAllForCurrentWeek();
+    public List<WorklogV3> getAllForCurrentWeek() {
+        return JiraWorklogClientV3.super.getAllForCurrentWeek();
     }
 
     @Override
     @RefreshableSession
-    public List<WorklogV4> getAllForPreviousWeek() {
-        return JiraWorklogClientV4.super.getAllForPreviousWeek();
+    public List<WorklogV3> getAllForPreviousWeek() {
+        return JiraWorklogClientV3.super.getAllForPreviousWeek();
     }
 
     @Override
     @RefreshableSession
-    public List<WorklogV4> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+    public List<WorklogV3> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
         try {
-            var request = buildRequestEntity(dateFrom, dateTo);
+            var request = buildRequestEntity();
             var response = makeRequest(dateFrom, dateTo, request);
             return parseResponse(response);
         } catch (Exception e) {
@@ -54,34 +55,41 @@ public class JiraWorklogClientV4Impl implements JiraWorklogClientV4 {
         }
     }
 
-    private ResponseEntity<WorklogV4[]> makeRequest(LocalDate dateFrom, LocalDate dateTo, HttpEntity<String> request) {
-        var url = jiraProperties.getHost() + path;
-        logGetWorklogsRequest(url, request);
-        var response = restTemplate.exchange(url, POST, request, WorklogV4[].class, dateFrom, dateTo);
+    private HttpEntity<WorklogV3[]> buildRequestEntity() {
+        var headers = authenticationService.getAuthenticationHeaders();
+        return new HttpEntity<>(headers);
+    }
+
+    private ResponseEntity<WorklogV3[]> makeRequest(LocalDate dateFrom, LocalDate dateTo, HttpEntity<WorklogV3[]> request) {
+        var url = buildUrlTemplate();
+        logWorklogsRequest(url, dateFrom, dateTo, request);
+        var response = restTemplate.exchange(url, GET, request, WorklogV3[].class, dateFrom, dateTo);
         log.debug("Get worklogs response status: {}", response.getStatusCode());
         return response;
     }
 
-    private HttpEntity<String> buildRequestEntity(LocalDate dateFrom, LocalDate dateTo) {
-        var body = String.format("{\"from\": \"%s\", \"to\": \"%s\"}", dateFrom, dateTo);
-        var headers = authenticationService.getAuthenticationHeaders();
-        headers.add("Content-Type", "application/json");
-        return new HttpEntity<>(body, headers);
+    private String buildUrlTemplate() {
+        var url = jiraProperties.getHost() + path;
+        return UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("dateFrom", "{dateFrom}")
+                .queryParam("dateTo", "{dateTo}")
+                .encode()
+                .toUriString();
     }
 
-    private List<WorklogV4> parseResponse(ResponseEntity<WorklogV4[]> response) {
+    private List<WorklogV3> parseResponse(ResponseEntity<WorklogV3[]> response) {
         var body = response.getBody();
         requireNonNull(body, "Worklogs from response body must not be null");
         return asList(body);
     }
 
-    private void logGetWorklogsRequest(String url, HttpEntity<String> request) {
-        var logHeader = "Getting worklogs from Jira using Tempo Timesheets V4 Rest:";
+    private void logWorklogsRequest(String url, LocalDate dateFrom, LocalDate dateTo, HttpEntity<?> request) {
+        var logHeader = "Getting worklogs from Jira using Tempo Timesheets V3 Rest:";
         var logMessage = logMessageBuilder.buildRequestLogMessage(logHeader,
                 new LogHttpRequest()
                         .setUrl(url)
-                        .setMethod(POST)
-                        .setBody(request.getBody())
+                        .setMethod(GET)
+                        .setParameters(new Object[]{dateFrom, dateTo})
                         .setHeaders(request.getHeaders()));
         log.debug(logMessage);
     }

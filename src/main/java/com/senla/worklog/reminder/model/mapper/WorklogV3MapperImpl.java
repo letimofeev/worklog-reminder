@@ -1,12 +1,12 @@
 package com.senla.worklog.reminder.model.mapper;
 
-import com.senla.worklog.reminder.api.v3.model.AuthorV3;
+import com.senla.worklog.reminder.api.jira.v3.model.AuthorV3;
 import com.senla.worklog.reminder.model.Issue;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
-import com.senla.worklog.reminder.api.v3.model.IssueTypeV3;
-import com.senla.worklog.reminder.api.v3.model.IssueV3;
-import com.senla.worklog.reminder.api.v3.model.WorklogV3;
+import com.senla.worklog.reminder.api.jira.v3.model.IssueTypeV3;
+import com.senla.worklog.reminder.api.jira.v3.model.IssueV3;
+import com.senla.worklog.reminder.api.jira.v3.model.WorklogV3;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.senla.worklog.reminder.api.client;
 
-import com.senla.worklog.reminder.api.v3.client.JiraWorklogClientV3Impl;
-import com.senla.worklog.reminder.api.v3.model.WorklogV3;
+import com.senla.worklog.reminder.api.jira.v3.client.JiraWorklogClientV3Impl;
+import com.senla.worklog.reminder.api.jira.v3.model.WorklogV3;
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.logging.LogMessageBuilder;
 import com.senla.worklog.reminder.service.jira.JiraAuthenticationService;

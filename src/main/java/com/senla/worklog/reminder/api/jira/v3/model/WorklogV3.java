@@ -1,5 +1,5 @@
 
-package com.senla.worklog.reminder.api.v3.model;
+package com.senla.worklog.reminder.api.jira.v3.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

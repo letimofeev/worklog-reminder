@@ -1,6 +1,6 @@
-package com.senla.worklog.reminder.api.v4.client;
+package com.senla.worklog.reminder.api.jira.v4.client;
 
-import com.senla.worklog.reminder.api.v4.model.WorklogV4;
+import com.senla.worklog.reminder.api.jira.v4.model.WorklogV4;
 
 import java.time.LocalDate;
 import java.util.List;

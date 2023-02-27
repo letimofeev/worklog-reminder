@@ -1,6 +1,6 @@
-package com.senla.worklog.reminder.api.adapter;
+package com.senla.worklog.reminder.api.jira.adapter;
 
-import com.senla.worklog.reminder.api.v3.client.JiraWorklogClientV3;
+import com.senla.worklog.reminder.api.jira.v3.client.JiraWorklogClientV3;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.mapper.WorklogV3Mapper;
 import lombok.RequiredArgsConstructor;
