@@ -28,7 +28,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Run build with Gradle Wrapper
-        run: ./gradlew build
+        run: |-
+          cd services/debts-service
+          ./gradlew build
 
       - name: Build and push Docker image
-        run: ./gradlew pushDockerImage
+        run: |-
+          cd services/debts-service
+          ./gradlew pushDockerImage
