@@ -1,4 +1,5 @@
 const userService = require('../services/userService')
+const ApiError = require("../errors/apiError");
 
 class UserController {
     async create(request, response, next) {
@@ -17,7 +18,12 @@ class UserController {
     async getById(request, response, next) {
         const {id} = request.params
         return userService.getById(id)
-            .then(user => response.json(user))
+            .then(user => {
+                if (user == null) {
+                    throw ApiError.notFound(`User with id = ${id} not found`)
+                }
+                return response.json(user)
+            })
             .catch(error => next(error))
     }
 

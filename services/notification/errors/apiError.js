@@ -10,6 +10,10 @@ class ApiError extends Error{
         return new ApiError(400, message, errors)
     }
 
+    static notFound(message, errors = []) {
+        return new ApiError(404, message, errors)
+    }
+
     static conflict(message, errors = []) {
         return new ApiError(409, message, errors)
     }
