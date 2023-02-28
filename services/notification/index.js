@@ -4,6 +4,7 @@ const user = require('./models/user')
 const router = require('./routes/index')
 const uncaughtErrorHandler = require('./middleware/uncaughtErrorHandler')
 const apiErrorHandler = require("./middleware/apiErrorHandler");
+const {uniqueConstraintErrorHandler} = require("./middleware/databaseErrorHandler");
 
 const PORT = process.env.PORT || 8200
 
@@ -12,6 +13,7 @@ const app = express()
 app.use(express.json())
 app.use('/api', router)
 app.use(apiErrorHandler)
+app.use(uniqueConstraintErrorHandler)
 app.use(uncaughtErrorHandler)
 
 const start = async () => {

@@ -1,8 +1,8 @@
-const ApiError = require("../error/apiError");
+const ApiError = require("../errors/apiError");
 
 const apiErrorHandler = function (error, request, response, next) {
     if (error instanceof ApiError) {
-        console.log('api error')
+        console.log(`Caught api error: ${error}`)
         return response.status(error.status).json({
             message: error.message,
             httpStatus: error.status,
@@ -10,7 +10,6 @@ const apiErrorHandler = function (error, request, response, next) {
         })
     }
     next(error)
-
 }
 
 module.exports = apiErrorHandler
