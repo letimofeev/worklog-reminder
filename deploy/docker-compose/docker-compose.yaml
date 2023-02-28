@@ -37,7 +37,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASS:-postgres}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - .:/var/lib/postgresql/data
+      - ./worklog-debts-db:/var/lib/postgresql/data
 
 networks:
   worklog-reminder-network:
