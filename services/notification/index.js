@@ -1,11 +1,20 @@
 const express = require('express')
-const path = require("path");
 
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({path: ENV_FILE});
+const sequelize = require('./database')
+const user = require('./models/user')
 
-const PORT = process.env.port || process.env.PORT || 8200
+const PORT = process.env.PORT || 8200
 
 const app = express()
 
-app.listen(PORT, () => console.log(`\nServer started on port ${PORT}`))
+const start = async () => {
+    try {
+        await sequelize.authenticate()
+        await sequelize.sync()
+        app.listen(PORT, () => console.log(`\nServer started on port ${PORT}`))
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+start()
