@@ -19,25 +19,38 @@ services:
       JIRA_FORM_USER: ${JIRA_FORM_USER}
       JIRA_FORM_PASS: ${JIRA_FORM_PASS}
       JIRA_DEBUG_PASSWORD_ENABLED: ${JIRA_DEBUG_PASSWORD_ENABLED:-false}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://worklog-debts-db:5432/${POSTGRES_DB:-worklog-reminder}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASS:-postgres}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://worklog-debts-db:5432/${WORKLOG_DEBTS_DB:-worklog-debts}
+      SPRING_DATASOURCE_USERNAME: ${WORKLOG_DEBTS_DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${WORKLOG_DEBTS_DB_PASS:-postgres}
   worklog-debts-db:
     image: 'postgres:14.4'
     container_name: worklog-debts-db
     ports:
       - "5432:5432"
-    expose:
-      - 5432
     networks:
       - worklog-reminder-network
     environment:
-      - POSTGRES_DB=${POSTGRES_DB:-worklog-reminder}
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASS:-postgres}
+      - POSTGRES_DB=${WORKLOG_DEBTS_DB:-worklog-debts}
+      - POSTGRES_USER=${WORKLOG_DEBTS_DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${WORKLOG_DEBTS_DB_PASS:-postgres}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ./worklog-debts-db:/var/lib/postgresql/data
+  notification-db:
+    image: 'postgres:14.4'
+    container_name: notification-db
+    ports:
+      - "5433:5433"
+    networks:
+      - worklog-reminder-network
+    environment:
+      - POSTGRES_DB=${NOTIFICATION_DB:-notification}
+      - POSTGRES_USER=${NOTIFICATION_DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${NOTIFICATION_DB_PASS:-postgres}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./notification-db:/var/lib/postgresql/data
+    command: -p 5433
 
 networks:
   worklog-reminder-network:
