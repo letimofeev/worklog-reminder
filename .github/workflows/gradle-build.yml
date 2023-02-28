@@ -29,10 +29,10 @@ jobs:
 
       - name: Run build with Gradle Wrapper
         run: |-
-          cd services/worklog-debts-service
+          cd services/worklog-debts
           ./gradlew build
 
       - name: Build and push Docker image
         run: |-
-          cd services/worklog-debts-service
+          cd services/worklog-debts
           ./gradlew pushDockerImage
