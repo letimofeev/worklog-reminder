@@ -11,7 +11,7 @@ services:
     networks:
       - worklog-reminder-network
     depends_on:
-      - postgres
+      - worklog-debts-db
     environment:
       JIRA_HOST: ${JIRA_HOST}
       JIRA_BASIC_USER: ${JIRA_BASIC_USER}
