@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   worklog-debts:
-    image: letimof/worklog-debts:0.0.2-SNAPSHOT
+    image: letimof/worklog-debts:0.0.3-SNAPSHOT
     container_name: worklog-debts
     mem_reservation: 700m
     pull_policy: always
