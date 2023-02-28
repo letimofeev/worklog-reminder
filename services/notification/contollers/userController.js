@@ -2,40 +2,41 @@ const userService = require('../services/userService')
 
 class UserController {
     async create(request, response, next) {
-        try {
-            const user = request.body
-            const createdUser = await userService.create(user)
-            return response.json(createdUser)
-        } catch (e) {
-            next(e)
-        }
-    }
-
-    async getAll(request, response) {
-        const users = await userService.getAll()
-        return response.json(users)
-    }
-
-    async getById(request, response) {
-        const {id} = request.params
-        const user = await userService.getById(id)
-        return response.json(user)
-    }
-
-    async update(request, response) {
         const user = request.body
-        const rowsUpdated = await userService.update(user)
-        return response.json({
-            rowsUpdated: rowsUpdated
-        })
+        return userService.create(user)
+            .then(createdUser => response.json(createdUser))
+            .catch(error => next(error))
     }
 
-    async deleteById(request, response) {
+    async getAll(request, response, next) {
+        return userService.getAll()
+            .then(users => response.json(users))
+            .catch(error => next(error))
+    }
+
+    async getById(request, response, next) {
         const {id} = request.params
-        const rowsDeleted = await userService.deleteById(id)
-        return response.json({
-            rowsDeleted: rowsDeleted
-        })
+        return userService.getById(id)
+            .then(user => response.json(user))
+            .catch(error => next(error))
+    }
+
+    async update(request, response, next) {
+        const user = request.body
+        return userService.update(user)
+            .then(rowsUpdated => response.json({
+                rowsUpdated: rowsUpdated
+            }))
+            .catch(error => next(error))
+    }
+
+    async deleteById(request, response, next) {
+        const {id} = request.params
+        return userService.deleteById(id)
+            .then(rowsDeleted => response.json({
+                rowsDeleted: rowsDeleted
+            }))
+            .catch(error => next(error))
     }
 }
 
