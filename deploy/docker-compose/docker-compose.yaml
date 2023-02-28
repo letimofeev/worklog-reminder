@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  worklog-debts-service:
-    image: letimof/worklog-debts-service:0.0.2-SNAPSHOT
-    container_name: worklog-debts-service
+  worklog-debts:
+    image: letimof/worklog-debts:0.0.2-SNAPSHOT
+    container_name: worklog-debts
     mem_reservation: 700m
     pull_policy: always
     ports:
@@ -19,12 +19,12 @@ services:
       JIRA_FORM_USER: ${JIRA_FORM_USER}
       JIRA_FORM_PASS: ${JIRA_FORM_PASS}
       JIRA_DEBUG_PASSWORD_ENABLED: ${JIRA_DEBUG_PASSWORD_ENABLED:-false}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-worklog-reminder}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://worklog-debts-db:5432/${POSTGRES_DB:-worklog-reminder}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASS:-postgres}
-  postgres:
+  worklog-debts-db:
     image: 'postgres:14.4'
-    container_name: worklog-reminder-database
+    container_name: worklog-debts-db
     ports:
       - "5432:5432"
     expose:
