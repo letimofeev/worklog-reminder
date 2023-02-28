@@ -1,7 +1,4 @@
 const userService = require('../services/userService')
-const {validationResult} = require("express-validator");
-const ApiError = require("../errors/apiError");
-const ValidationFailedApiSubError = require("../errors/validationFailedApiSubError");
 
 class UserController {
     async create(request, response) {
@@ -15,13 +12,7 @@ class UserController {
         return response.json(users)
     }
 
-    async getById(request, response, next) {
-        const errors = validationResult(request);
-        if (!errors.isEmpty()) {
-            const validationFailedErrors = errors.array()
-                .map(error => new ValidationFailedApiSubError(error))
-            return next(ApiError.badRequest('Bad request', validationFailedErrors));
-        }
+    async getById(request, response) {
         const {id} = request.params
         const user = await userService.getById(id)
         return response.json(user)

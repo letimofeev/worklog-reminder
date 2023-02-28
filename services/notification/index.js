@@ -7,6 +7,7 @@ const errorHandler = require('./middlewares/errorHandler')
 const PORT = process.env.PORT || 8200
 
 const app = express()
+
 app.use(express.json())
 app.use('/api', router)
 app.use(errorHandler)
