@@ -1,34 +1,34 @@
 const userService = require('../services/userService')
 
 class UserController {
-    async createUser(request, response) {
+    async create(request, response) {
         const user = request.body
-        const createdUser = await userService.createUser(user)
+        const createdUser = await userService.create(user)
         return response.json(createdUser)
     }
 
-    async getAllUsers(request, response) {
-        const users = await userService.getAllUsers()
+    async getAll(request, response) {
+        const users = await userService.getAll()
         return response.json(users)
     }
 
-    async getUserById(request, response) {
+    async getById(request, response) {
         const {id} = request.params
-        const user = await userService.getUserById(id)
+        const user = await userService.getById(id)
         return response.json(user)
     }
 
-    async updateUser(request, response) {
+    async update(request, response) {
         const user = request.body
-        const rowsUpdated = await userService.updateUser(user)
+        const rowsUpdated = await userService.update(user)
         return response.json({
             rowsUpdated: rowsUpdated
         })
     }
 
-    async deleteUserById(request, response) {
+    async deleteById(request, response) {
         const {id} = request.params
-        const rowsDeleted = await userService.deleteUserById(id)
+        const rowsDeleted = await userService.deleteById(id)
         return response.json({
             rowsDeleted: rowsDeleted
         })

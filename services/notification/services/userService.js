@@ -1,19 +1,19 @@
 const User = require("../models/user");
 
 class UserService {
-    async createUser(user) {
+    async create(user) {
         return User.create(user);
     }
 
-    async getAllUsers() {
+    async getAll() {
         return User.findAll()
     }
 
-    async getUserById(id) {
+    async getById(id) {
         return User.findByPk(id)
     }
 
-    async updateUser(user) {
+    async update(user) {
         const {id, ...columnsToUpdate} = user
         return User.update(columnsToUpdate, {
             where: {
@@ -22,7 +22,7 @@ class UserService {
         }).then(value => value[0])
     }
 
-    async deleteUserById(id) {
+    async deleteById(id) {
         return User.destroy({
             where: {
                 id: id
