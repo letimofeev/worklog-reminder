@@ -2,7 +2,8 @@ const express = require('express')
 const sequelize = require('./database')
 const user = require('./models/user')
 const router = require('./routes/index')
-const errorHandler = require('./middlewares/errorHandler')
+const uncaughtErrorHandler = require('./middleware/uncaughtErrorHandler')
+const apiErrorHandler = require("./middleware/apiErrorHandler");
 
 const PORT = process.env.PORT || 8200
 
@@ -10,7 +11,8 @@ const app = express()
 
 app.use(express.json())
 app.use('/api', router)
-app.use(errorHandler)
+app.use(apiErrorHandler)
+app.use(uncaughtErrorHandler)
 
 const start = async () => {
     try {

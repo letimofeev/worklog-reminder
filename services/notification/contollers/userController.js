@@ -1,10 +1,14 @@
 const userService = require('../services/userService')
 
 class UserController {
-    async create(request, response) {
-        const user = request.body
-        const createdUser = await userService.create(user)
-        return response.json(createdUser)
+    async create(request, response, next) {
+        try {
+            const user = request.body
+            const createdUser = await userService.create(user)
+            return response.json(createdUser)
+        } catch (e) {
+            next(e)
+        }
     }
 
     async getAll(request, response) {
