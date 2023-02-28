@@ -7,11 +7,13 @@ const User = sequelize.define('user', {
         primaryKey: true,
         autoIncrement: true
     },
-    skype_id: {
+    skypeId: {
+        field: 'skype_id',
         type: DataTypes.STRING(64),
         unique: true
     },
-    display_name: {
+    displayName: {
+        field: 'display_name',
         type: DataTypes.STRING(64),
         allowNull: false
     },
@@ -19,9 +21,12 @@ const User = sequelize.define('user', {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     },
-    conversation_reference: {
+    conversationReference: {
+        field: 'conversation_reference',
         type: DataTypes.JSONB
     }
+}, {
+    timestamps: false
 })
 
 module.exports = User
