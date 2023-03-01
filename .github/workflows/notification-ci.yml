@@ -36,7 +36,7 @@ jobs:
           npm test
 
       - name: Build and push Docker Image
-      - run: |-
+        run: |-
           cd services/notification
           npm docker:build
           npm docker:login
