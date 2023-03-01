@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   worklog-debts:
-    image: letimof/worklog-debts:0.0.3-SNAPSHOT
+    image: letimof/worklog-debts:latest
     container_name: worklog-debts
     mem_reservation: 700m
     pull_policy: always
@@ -36,6 +36,25 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ./worklog-debts-db:/var/lib/postgresql/data
+  notification:
+    image: letimof/notification:latest
+    container_name: notification
+    mem_reservation: 700m
+    ports:
+      - "8200:8200"
+    networks:
+      - worklog-reminder-network
+    depends_on:
+      - notification-db
+    environment:
+      MICROSOFT_APP_ID: ${MICROSOFT_APP_ID}
+      MICROSOFT_APP_PASSWORD: ${MICROSOFT_APP_PASSWORD}
+      MICROSOFT_APP_TYPE: ${MICROSOFT_APP_TYPE}
+      POSTGRES_DB: ${NOTIFICATION_DB}
+      POSTGRES_USER: ${NOTIFICATION_DB_USER}
+      POSTGRES_PASSWORD: ${NOTIFICATION_DB_PASS}
+      POSTGRES_HOST: notification-db
+      POSTGRES_PORT: 5433
   notification-db:
     image: 'postgres:14.4'
     container_name: notification-db
