@@ -38,6 +38,6 @@ jobs:
       - name: Build and push Docker Image
         run: |-
           cd services/notification
-          npm docker:build
-          npm docker:login
-          npm docker:push
+          npm run docker:build
+          npm run docker:login
+          npm run docker:push
