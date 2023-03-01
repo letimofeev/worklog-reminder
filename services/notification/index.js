@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 8200
 
 const app = express()
 
+console.log(process.env)
+
 app.use(express.json())
 app.use('/api', router)
 app.use(apiErrorHandler)
