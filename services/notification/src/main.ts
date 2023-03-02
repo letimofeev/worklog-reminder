@@ -4,30 +4,7 @@ import {AppModule} from './app.module';
 import {Sequelize} from "sequelize";
 import * as Umzug from "umzug";
 
-const sequelize = new Sequelize(process.env.POSTGRES_DB || 'notification',
-    process.env.POSTGRES_USER || 'postgres',
-    process.env.POSTGRES_PASSWORD || 'postgres',
-    {
-        dialect: 'postgres',
-        host: process.env.POSTGRES_HOST || 'localhost',
-        port: Number(process.env.POSTGRES_PORT) || 5433
-    })
-
-const umzug = new Umzug({
-    migrations: {
-        path: './db/migrations',
-        params: [
-            sequelize.getQueryInterface(),
-            Sequelize
-        ]
-    },
-    storage: 'sequelize',
-    storageOptions: {
-        sequelize: sequelize
-    }
-});
-
-async function runMigrations() {
+async function runMigrations(umzug) {
     const pendingMigrations = await umzug.pending();
     if (pendingMigrations.length === 0) {
         console.log('No pending migrations');
@@ -39,18 +16,25 @@ async function runMigrations() {
     console.log('Migrations done');
 }
 
-runMigrations()
-    .then(() => {
-        sequelize.close();
-    })
-    .catch((err) => {
-        console.error(err);
-        sequelize.close();
-    });
-
 async function bootstrap() {
     const PORT = process.env.PORT || 8200;
     const app = await NestFactory.create(AppModule);
+
+    const sequelize = app.get('SEQUELIZE');
+    const umzug = new Umzug({
+        migrations: {
+            path: './db/migrations',
+            params: [
+                sequelize.getQueryInterface(),
+                Sequelize
+            ]
+        },
+        storage: 'sequelize',
+        storageOptions: {
+            sequelize: sequelize
+        }
+    });
+    await runMigrations(umzug)
 
     await app.listen(PORT, () => console.log(`Server stated on port = ${PORT}`));
 }
