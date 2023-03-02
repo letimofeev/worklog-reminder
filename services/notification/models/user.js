@@ -7,8 +7,7 @@ const User = sequelize.define('user', {
         primaryKey: true,
         autoIncrement: true
     },
-    skypeId: {
-        field: 'skype_id',
+    login: {
         type: DataTypes.STRING(64),
         unique: true
     },
