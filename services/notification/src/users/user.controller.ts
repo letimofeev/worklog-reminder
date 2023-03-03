@@ -14,7 +14,7 @@ export class UserController {
     @Post()
     @HttpCode(204)
     create(@Body() userDto: CreateUserQueryDto): Promise<User> {
-        return this.userService.create(userDto)
+        return this.userService.create(userDto);
     }
 
     @Get()
