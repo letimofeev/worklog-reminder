@@ -16,7 +16,7 @@ export class UnhandledExceptionFilter implements ExceptionFilter {
     }
 
     catch(exception: Error, host: ArgumentsHost): void {
-        this.logger.error(exception.stack)
+        this.logger.error(`Unhandled exception ${exception.name}: ${exception.message}\n${exception.stack}`)
 
         const {httpAdapter} = this.httpAdapterHost;
         const ctx = host.switchToHttp();

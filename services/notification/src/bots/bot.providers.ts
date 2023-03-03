@@ -13,21 +13,12 @@ export const botProviders = [
                 MicrosoftAppPassword: process.env.MICROSOFT_APP_PASSWORD,
                 MicrosoftAppType: process.env.MICROSOFT_APP_TYPE,
             } as ConfigurationBotFrameworkAuthenticationOptions);
-            const adapter = new CloudAdapter(botFrameworkAuthentication);
 
-            adapter.onTurnError = async (context, error) => {
-                console.error(`\n [onTurnError] unhandled error: ${error}`);
-
-                await context.sendActivity('The bot encountered an error or bug.');
-                await context.sendActivity('To continue to run this bot, please fix the bot source code.');
-            };
-            return adapter;
+            return new CloudAdapter(botFrameworkAuthentication);
         },
     },
     {
         provide: 'BOT_ACTIVITY_HANDLER',
-        useFactory: async () => {
-            return new BotActivityHandler();
-        }
+        useClass: BotActivityHandler
     }
 ];
