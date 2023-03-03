@@ -3,19 +3,22 @@ import {
     Catch,
     ArgumentsHost,
     HttpException,
-    HttpStatus,
+    HttpStatus, Logger,
 } from '@nestjs/common';
 import {HttpAdapterHost} from '@nestjs/core';
 import {ApiError} from "./api-error";
 
 @Catch()
 export class UnhandledExceptionFilter implements ExceptionFilter {
+    private readonly logger = new Logger(UnhandledExceptionFilter.name);
+
     constructor(private readonly httpAdapterHost: HttpAdapterHost) {
     }
 
-    catch(exception: unknown, host: ArgumentsHost): void {
-        const {httpAdapter} = this.httpAdapterHost;
+    catch(exception: Error, host: ArgumentsHost): void {
+        this.logger.error(exception.stack)
 
+        const {httpAdapter} = this.httpAdapterHost;
         const ctx = host.switchToHttp();
 
         const httpStatus =
