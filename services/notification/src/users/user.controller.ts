@@ -1,10 +1,10 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Patch, Post} from '@nestjs/common';
 import {UserService} from "./user.service";
-import {CreateUserQueryDto} from "./dtos/create-user.query.dto";
-import {UpdateUserQueryDto} from "./dtos/update-user.query.dto";
-import {RowsUpdatedResponseDto} from "./dtos/rows-updated.response.dto";
+import {CreateUserQueryDto} from "../dtos/create-user.query.dto";
+import {UpdateUserQueryDto} from "../dtos/update-user.query.dto";
+import {RowsUpdatedResponseDto} from "../dtos/rows-updated.response.dto";
 import {User} from "./user.model";
-import {RowsDeletedResponseDto} from "./dtos/rows-deleted.response.dto";
+import {RowsDeletedResponseDto} from "../dtos/rows-deleted.response.dto";
 import {UserIdParamValidationPipe} from "../pipes/user-id-param.validation.pipe";
 
 @Controller('/api/users')

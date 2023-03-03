@@ -6,9 +6,9 @@ import {
     HttpStatus, Logger,
 } from '@nestjs/common';
 import {HttpAdapterHost} from '@nestjs/core';
-import {ApiError} from "./api-error";
+import {ApiError} from "../dtos/api-error";
 
-@Catch()
+@Catch(Error)
 export class UnhandledExceptionFilter implements ExceptionFilter {
     private readonly logger = new Logger(UnhandledExceptionFilter.name);
 
@@ -16,6 +16,7 @@ export class UnhandledExceptionFilter implements ExceptionFilter {
     }
 
     catch(exception: Error, host: ArgumentsHost): void {
+
         this.logger.error(`Unhandled exception ${exception.name}: ${exception.message}\n${exception.stack}`)
 
         const {httpAdapter} = this.httpAdapterHost;

@@ -1,7 +1,7 @@
 import {Inject, Injectable} from "@nestjs/common";
 import {User} from "./user.model";
-import {CreateUserQueryDto} from "./dtos/create-user.query.dto";
-import {UpdateUserQueryDto} from "./dtos/update-user.query.dto";
+import {CreateUserQueryDto} from "../dtos/create-user.query.dto";
+import {UpdateUserQueryDto} from "../dtos/update-user.query.dto";
 
 @Injectable()
 export class UserService {

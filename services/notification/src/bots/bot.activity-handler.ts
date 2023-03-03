@@ -1,7 +1,7 @@
 import {TurnContext} from "botbuilder";
 import {Injectable, Logger} from "@nestjs/common";
 import {UserService} from "../users/user.service";
-import {CreateUserQueryDto} from "../users/dtos/create-user.query.dto";
+import {CreateUserQueryDto} from "../dtos/create-user.query.dto";
 
 const {ActivityHandler} = require("botbuilder");
 

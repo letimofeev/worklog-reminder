@@ -1,4 +1,4 @@
-import {CloudAdapter, ConfigurationBotFrameworkAuthentication} from "botbuilder";
+import {ActivityHandler, CloudAdapter, ConfigurationBotFrameworkAuthentication} from "botbuilder";
 import {
     ConfigurationBotFrameworkAuthenticationOptions
 } from "botbuilder-core/src/configurationBotFrameworkAuthentication";
@@ -6,7 +6,7 @@ import {BotActivityHandler} from "./bot.activity-handler";
 
 export const botProviders = [
     {
-        provide: 'BOT_ADAPTER',
+        provide: CloudAdapter,
         useFactory: async () => {
             const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
                 MicrosoftAppId: process.env.MICROSOFT_APP_ID,
@@ -18,7 +18,7 @@ export const botProviders = [
         },
     },
     {
-        provide: 'BOT_ACTIVITY_HANDLER',
+        provide: ActivityHandler,
         useClass: BotActivityHandler
     }
 ];
