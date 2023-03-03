@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - dev
+      - 0.0.3-SNAPSHOT
   workflow_dispatch:
 
 jobs:
