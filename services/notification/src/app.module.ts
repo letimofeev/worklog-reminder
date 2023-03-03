@@ -1,9 +1,8 @@
 import {Module} from '@nestjs/common';
 import {UserModule} from "./users/user.module";
+import {BotModule} from "./bots/bot.module";
 
 @Module({
-    controllers: [],
-    providers: [],
-    imports: [UserModule]
+    imports: [UserModule, BotModule]
 })
 export class AppModule {}

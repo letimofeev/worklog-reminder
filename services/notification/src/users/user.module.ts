@@ -14,5 +14,4 @@ import {DatabaseModule} from "../databases/database.module";
     ],
     imports: [DatabaseModule]
 })
-export class UserModule {
-}
+export class UserModule {}
