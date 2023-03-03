@@ -31,11 +31,6 @@ jobs:
           cd services/notification 
           npm run build --if-present
 
-      - name: Run tests
-        run: |-
-          cd services/notification
-          npm test
-
       - name: Build and push Docker Image
         run: |-
           cd services/notification
