@@ -3,6 +3,7 @@ import * as process from 'process';
 import {AppModule} from './app.module';
 import {Sequelize} from "sequelize";
 import * as Umzug from "umzug";
+import {ValidationPipe} from "./pipes/validation.pipe";
 
 async function runMigrations(umzug) {
     const pendingMigrations = await umzug.pending();
@@ -35,6 +36,8 @@ async function bootstrap() {
         }
     });
     await runMigrations(umzug)
+
+    app.useGlobalPipes(new ValidationPipe())
 
     await app.listen(PORT, () => console.log(`Server stated on port = ${PORT}`));
 }

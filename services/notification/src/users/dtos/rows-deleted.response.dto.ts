@@ -1,4 +1,4 @@
-export class RowsDeletedDto {
+export class RowsDeletedResponseDto {
     constructor(rowsDeleted: number) {
         this.rowsDeleted = rowsDeleted;
     }

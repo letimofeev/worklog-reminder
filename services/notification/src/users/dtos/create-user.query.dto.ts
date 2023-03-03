@@ -1,6 +1,6 @@
 import {IsNotEmpty, Length} from "class-validator";
 
-export class CreateUserDto {
+export class CreateUserQueryDto {
     @IsNotEmpty({message: 'skypeId is required'})
     @Length(0, 64, {message: 'skypeId must be less or equal than 64 symbols'})
     skypeId: string;

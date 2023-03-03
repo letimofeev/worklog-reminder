@@ -1,20 +1,19 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, UsePipes} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Patch, Post} from '@nestjs/common';
 import {UserService} from "./user.service";
-import {CreateUserDto} from "./dtos/create-user.dto";
-import {UpdateUserDto} from "./dtos/update-user.dto";
-import {RowsUpdatedDto} from "./dtos/rows-updated.dto";
+import {CreateUserQueryDto} from "./dtos/create-user.query.dto";
+import {UpdateUserQueryDto} from "./dtos/update-user.query.dto";
+import {RowsUpdatedResponseDto} from "./dtos/rows-updated.response.dto";
 import {User} from "./user.model";
-import {RowsDeletedDto} from "./dtos/rows-deleted.dto";
-import {ValidationPipe} from "../pipes/validation.pipe";
+import {RowsDeletedResponseDto} from "./dtos/rows-deleted.response.dto";
+import {UserIdParamValidationPipe} from "../pipes/user-id-param.validation.pipe";
 
 @Controller('/api/users')
 export class UserController {
     constructor(private userService: UserService) {}
 
-    @UsePipes(ValidationPipe)
     @Post()
     @HttpCode(204)
-    create(@Body() userDto: CreateUserDto): Promise<User> {
+    create(@Body() userDto: CreateUserQueryDto): Promise<User> {
         return this.userService.create(userDto)
     }
 
@@ -24,20 +23,19 @@ export class UserController {
     }
 
     @Get(':id')
-    getById(@Param('id') id: number): Promise<User> {
+    getById(@Param('id', UserIdParamValidationPipe) id: number): Promise<User> {
         return this.userService.getById(id);
     }
 
-    @UsePipes(ValidationPipe)
     @Patch()
-    update(@Body() userDto: UpdateUserDto): Promise<RowsUpdatedDto> {
+    update(@Body() userDto: UpdateUserQueryDto): Promise<RowsUpdatedResponseDto> {
         return this.userService.update(userDto)
-            .then(rowsUpdated => new RowsUpdatedDto(rowsUpdated));
+            .then(rowsUpdated => new RowsUpdatedResponseDto(rowsUpdated));
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number): Promise<RowsDeletedDto> {
+    delete(@Param('id', UserIdParamValidationPipe) id: number): Promise<RowsDeletedResponseDto> {
         return this.userService.deleteById(id)
-            .then(rowsDeleted => new RowsDeletedDto(rowsDeleted));
+            .then(rowsDeleted => new RowsDeletedResponseDto(rowsDeleted));
     }
 }

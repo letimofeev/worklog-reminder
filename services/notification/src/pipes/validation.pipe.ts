@@ -1,7 +1,7 @@
 import {ArgumentMetadata, Injectable, PipeTransform} from "@nestjs/common";
 import {plainToInstance} from "class-transformer";
 import {validate} from "class-validator";
-import {ValidationFailedApiSubError} from "../exceptions/handlers/validation-failed-api-sub-error";
+import {ValidationFailedApiSubError} from "../exceptions/handlers/validation-failed.api-sub-error";
 import {ApiError} from "../exceptions/handlers/api-error";
 import {ValidationException} from "../exceptions/validation.exception";
 
