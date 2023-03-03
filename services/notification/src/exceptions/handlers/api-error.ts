@@ -1,7 +1,7 @@
 export class ApiError {
-    private status: number;
-    private message: string;
-    private errors: any[];
+    status: number;
+    message: string;
+    errors: any[];
 
     constructor(status, message, errors = []) {
         this.status = status

@@ -4,6 +4,7 @@ import {AppModule} from './app.module';
 import {Sequelize} from "sequelize";
 import * as Umzug from "umzug";
 import {ValidationPipe} from "./pipes/validation.pipe";
+import {UniqueConstraintErrorFilter} from "./exceptions/handlers/unique-constraint-error.filter";
 
 async function runMigrations(umzug) {
     const pendingMigrations = await umzug.pending();
@@ -38,6 +39,7 @@ async function bootstrap() {
     await runMigrations(umzug)
 
     app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalFilters(new UniqueConstraintErrorFilter())
 
     await app.listen(PORT, () => console.log(`Server stated on port = ${PORT}`));
 }

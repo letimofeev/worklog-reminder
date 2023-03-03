@@ -1,7 +1,7 @@
 import {ArgumentMetadata, Injectable, PipeTransform} from "@nestjs/common";
 import {ValidationException} from "../exceptions/validation.exception";
 import {ApiError} from "../exceptions/handlers/api-error";
-import {ValidationFailedApiSubError} from "../exceptions/handlers/validation-failed.api-sub-error";
+import {ValidationApiSubError} from "../exceptions/handlers/validation.api-sub-error";
 
 @Injectable()
 export class UserIdParamValidationPipe implements PipeTransform<number, number> {
@@ -11,7 +11,7 @@ export class UserIdParamValidationPipe implements PipeTransform<number, number> 
         }
 
         const apiError = ApiError.badRequest('Validation failed', [
-            new ValidationFailedApiSubError('user id must be greater than 0', value)
+            new ValidationApiSubError('user id must be greater than 0', value)
         ]);
         throw new ValidationException(apiError);
     }

@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         log.warn("Resolved ConstraintViolationException: {}", e.getMessage());
         var message = "Validation failed";
         List<ApiSubError> subErrors = e.getConstraintViolations().stream()
-                .map(violation -> new ValidationFailedApiSubError(violation.getMessage(),
+                .map(violation -> new ValidationApiSubError(violation.getMessage(),
                         violation.getInvalidValue()))
                 .collect(toList());
         var apiError = new ApiError(message, BAD_REQUEST, subErrors);
@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
         log.warn("Resolved BindException: {}", e.getMessage());
         var message = "Validation failed";
         List<ApiSubError> subErrors = e.getFieldErrors().stream()
-                .map(error -> new ValidationFailedApiSubError(resolveLocalizedErrorMessage(error),
+                .map(error -> new ValidationApiSubError(resolveLocalizedErrorMessage(error),
                         error.getRejectedValue()))
                 .collect(toList());
         var apiError = new ApiError(message, BAD_REQUEST, subErrors);

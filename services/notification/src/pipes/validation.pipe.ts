@@ -1,7 +1,7 @@
 import {ArgumentMetadata, Injectable, PipeTransform} from "@nestjs/common";
 import {plainToInstance} from "class-transformer";
 import {validate} from "class-validator";
-import {ValidationFailedApiSubError} from "../exceptions/handlers/validation-failed.api-sub-error";
+import {ValidationApiSubError} from "../exceptions/handlers/validation.api-sub-error";
 import {ApiError} from "../exceptions/handlers/api-error";
 import {ValidationException} from "../exceptions/validation.exception";
 
@@ -14,7 +14,7 @@ export class ValidationPipe implements PipeTransform<any> {
         if (errors.length) {
             const validationErrors = errors.map(error =>
                 Object.values(error.constraints).map(msg =>
-                    new ValidationFailedApiSubError(msg, error.value))
+                    new ValidationApiSubError(msg, error.value))
             )
             const apiError = ApiError.badRequest('Validation failed', validationErrors);
             throw new ValidationException(apiError);

@@ -1,6 +1,6 @@
 import {ApiSubError} from "./api-sub-error";
 
-export class ValidationFailedApiSubError extends ApiSubError {
+export class ValidationApiSubError extends ApiSubError {
     private rejectedValue: any;
 
     constructor(message, rejectedValue) {
