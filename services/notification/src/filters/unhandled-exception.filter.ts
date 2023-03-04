@@ -2,8 +2,8 @@ import {
     ExceptionFilter,
     Catch,
     ArgumentsHost,
-    HttpException,
-    HttpStatus, Logger,
+    HttpStatus,
+    Logger,
 } from '@nestjs/common';
 import {HttpAdapterHost} from '@nestjs/core';
 import {ApiError} from "../dtos/api-error";
@@ -20,14 +20,9 @@ export class UnhandledExceptionFilter implements ExceptionFilter {
 
         const {httpAdapter} = this.httpAdapterHost;
         const ctx = host.switchToHttp();
+        const httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        const httpStatus =
-            exception instanceof HttpException
-                ? exception.getStatus()
-                : HttpStatus.INTERNAL_SERVER_ERROR;
-
-
-        const apiError = new ApiError(httpStatus, 'Unhandled error')
+        const apiError = new ApiError(httpStatus, 'Unhandled error');
 
         httpAdapter.reply(ctx.getResponse(), apiError, httpStatus);
     }

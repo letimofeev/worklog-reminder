@@ -7,6 +7,7 @@ import {ValidationPipe} from "./pipes/validation.pipe";
 import {UniqueConstraintErrorFilter} from "./filters/unique-constraint-error.filter";
 import {UnhandledExceptionFilter} from "./filters/unhandled-exception.filter";
 import {ValidationExceptionFilter} from "./filters/validation-exception.filter";
+import {HttpExceptionFilter} from "./filters/http-exception.filter";
 
 async function runMigrations(umzug) {
     const pendingMigrations = await umzug.pending();
@@ -45,6 +46,7 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe())
     app.useGlobalFilters(
         new UnhandledExceptionFilter(httpAdapter),
+        new HttpExceptionFilter(),
         new ValidationExceptionFilter(),
         new UniqueConstraintErrorFilter()
     )
