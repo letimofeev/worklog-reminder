@@ -25,9 +25,8 @@ export class BotActivityHandler extends ActivityHandler {
                     conversationReference: TurnContext.getConversationReference(context.activity)
                 } as CreateUserDto;
 
-                userService.create(user)
-                    .then(created => this.logger.log(`Saved user with id: ${created.id}`))
-                    .catch(error => this.logger.error(`${error.name}: ${error.message}\n ${error.stack}`));
+                const created = await userService.create(user)
+                this.logger.log(`Saved user with id: ${created.id}`)
             }
             await next();
         });

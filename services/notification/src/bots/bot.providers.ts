@@ -1,8 +1,9 @@
-import {ActivityHandler, CloudAdapter, ConfigurationBotFrameworkAuthentication} from "botbuilder";
+import {ActivityHandler, CloudAdapter, ConfigurationBotFrameworkAuthentication, TurnContext} from "botbuilder";
 import {
     ConfigurationBotFrameworkAuthenticationOptions
 } from "botbuilder-core/src/configurationBotFrameworkAuthentication";
 import {BotActivityHandler} from "./bot.activity-handler";
+import {Logger} from "@nestjs/common";
 
 export const botProviders = [
     {
@@ -14,7 +15,15 @@ export const botProviders = [
                 MicrosoftAppType: process.env.MICROSOFT_APP_TYPE,
             } as ConfigurationBotFrameworkAuthenticationOptions);
 
-            return new CloudAdapter(botFrameworkAuthentication);
+            const adapter = new CloudAdapter(botFrameworkAuthentication);
+            const logger = new Logger(CloudAdapter.name);
+
+            adapter.onTurnError = async (context: TurnContext, error: Error) => {
+                logger.error(`Unhandled error ${error.name}: ${error.stack}`);
+                await context.sendActivity('The bot encountered an error or bug.');
+            };
+
+            return adapter
         },
     },
     {
