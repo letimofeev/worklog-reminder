@@ -6,10 +6,13 @@ import {RowsUpdatedDto} from "../dtos/rows-updated.dto";
 import {User} from "./user.model";
 import {RowsDeletedDto} from "../dtos/rows-deleted.dto";
 import {UserIdParamValidationPipe} from "../pipes/user-id-param.validation.pipe";
+import {UserNotFoundException} from "../exceptions/user-not-found.exception";
+import {ApiError} from "../dtos/api-error";
 
 @Controller('/api/users')
 export class UserController {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService) {
+    }
 
     @Post()
     @HttpCode(204)
@@ -24,7 +27,14 @@ export class UserController {
 
     @Get(':id')
     getById(@Param('id', UserIdParamValidationPipe) id: number): Promise<User> {
-        return this.userService.getById(id);
+        return this.userService.getById(id)
+            .then(user => {
+                if (user != null) {
+                    return user;
+                }
+                const apiError = ApiError.notFound(`User with id = ${id} not found`);
+                throw new UserNotFoundException(apiError);
+            });
     }
 
     @Patch()
