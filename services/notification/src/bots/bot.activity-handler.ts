@@ -1,7 +1,7 @@
 import {TurnContext} from "botbuilder";
 import {Injectable, Logger} from "@nestjs/common";
 import {UserService} from "../users/user.service";
-import {CreateUserQueryDto} from "../dtos/create-user.query.dto";
+import {CreateUserDto} from "../dtos/create-user.dto";
 
 const {ActivityHandler} = require("botbuilder");
 
@@ -23,7 +23,7 @@ export class BotActivityHandler extends ActivityHandler {
                     skypeId: context.activity.from.id,
                     login: context.activity.from.name,
                     conversationReference: TurnContext.getConversationReference(context.activity)
-                } as CreateUserQueryDto;
+                } as CreateUserDto;
 
                 userService.create(user)
                     .then(created => this.logger.log(`Saved user with id: ${created.id}`))
