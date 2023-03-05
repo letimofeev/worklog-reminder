@@ -1,7 +1,7 @@
 import {TurnContext} from "botbuilder";
 import {Injectable, Logger} from "@nestjs/common";
 import {UserService} from "../users/user.service";
-import {CreateUserDto} from "../dtos/create-user.dto";
+import {CreateUserDto} from "../users/dtos/create-user.dto";
 
 const {ActivityHandler} = require("botbuilder");
 
@@ -25,8 +25,13 @@ export class BotActivityHandler extends ActivityHandler {
                     conversationReference: TurnContext.getConversationReference(context.activity)
                 } as CreateUserDto;
 
-                const created = await userService.create(user)
-                this.logger.log(`Saved user with id: ${created.id}`)
+                const [createdOrFoundUser, isCreated] = await userService.findOrCreate(user)
+                if (isCreated) {
+                    this.logger.log(`Saved user with id: ${createdOrFoundUser.id}`)
+                } else {
+                    await this.userService.update({id: createdOrFoundUser.id, ...user});
+                    this.logger.log(`User already existed, updated user with id = ${createdOrFoundUser.id}`);
+                }
             }
             await next();
         });

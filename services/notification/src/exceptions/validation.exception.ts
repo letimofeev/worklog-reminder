@@ -1,5 +1,5 @@
 import {HttpException} from "@nestjs/common";
-import {ApiError} from "../dtos/api-error";
+import {ApiError} from "../api-errors/api-error";
 
 export class ValidationException extends HttpException {
     apiError: ApiError;

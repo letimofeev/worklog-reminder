@@ -1,7 +1,7 @@
 import {Inject, Injectable} from "@nestjs/common";
 import {User} from "./user.model";
-import {CreateUserDto} from "../dtos/create-user.dto";
-import {UpdateUserDto} from "../dtos/update-user.dto";
+import {CreateUserDto} from "./dtos/create-user.dto";
+import {UpdateUserDto} from "./dtos/update-user.dto";
 
 @Injectable()
 export class UserService {
@@ -12,11 +12,23 @@ export class UserService {
         return await this.userRepository.create(userDto)
     }
 
-    async getAll(): Promise<User[]> {
+    async findOrCreate(userDto: CreateUserDto): Promise<[User, boolean]> {
+        return await this.userRepository.findOrCreate({
+           where: {login: userDto.login}
+        });
+    }
+
+    async findAll(): Promise<User[]> {
         return await this.userRepository.findAll()
     }
 
-    async getById(id: number): Promise<User> {
+    async findAllByLogins(logins: string[]): Promise<User[]> {
+        return await this.userRepository.findAll({
+            where: {login: logins}
+        })
+    }
+
+    async findById(id: number): Promise<User> {
         return await this.userRepository.findByPk(id)
     }
 
