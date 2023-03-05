@@ -32,7 +32,8 @@ export class NotificationService {
                 } else {
                     response = NotificationResponseDto.failed(user.login, 'User disabled')
                 }
-                this.logger.log(`Notification response: ${response.message}`)
+                this.logger.log(`Notification response for user with id ${user.id}: ` +
+                    `status: ${response.status}, message: ${response.message}`);
                 return JSON.stringify(response);
             })
         );
