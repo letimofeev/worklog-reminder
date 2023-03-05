@@ -1,13 +1,13 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Patch, Post} from '@nestjs/common';
 import {UserService} from "./user.service";
-import {CreateUserDto} from "../dtos/create-user.dto";
-import {UpdateUserDto} from "../dtos/update-user.dto";
-import {RowsUpdatedDto} from "../dtos/rows-updated.dto";
+import {CreateUserDto} from "./dtos/create-user.dto";
+import {UpdateUserDto} from "./dtos/update-user.dto";
+import {UpdateUserResponseDto} from "./dtos/update-user.response.dto";
 import {User} from "./user.model";
-import {RowsDeletedDto} from "../dtos/rows-deleted.dto";
-import {UserIdParamValidationPipe} from "../pipes/user-id-param.validation.pipe";
-import {UserNotFoundException} from "../exceptions/user-not-found.exception";
-import {ApiError} from "../dtos/api-error";
+import {DeleteUserResponseDto} from "./dtos/delete-user.response.dto";
+import {UserIdParamValidationPipe} from "../../pipes/user-id-param.validation.pipe";
+import {UserNotFoundException} from "../../exceptions/user-not-found.exception";
+import {ApiError} from "../../api-errors/api-error";
 
 @Controller('/api/users')
 export class UserController {
@@ -38,14 +38,14 @@ export class UserController {
     }
 
     @Patch()
-    update(@Body() userDto: UpdateUserDto): Promise<RowsUpdatedDto> {
+    update(@Body() userDto: UpdateUserDto): Promise<UpdateUserResponseDto> {
         return this.userService.update(userDto)
-            .then(rowsUpdated => new RowsUpdatedDto(rowsUpdated));
+            .then(rowsUpdated => new UpdateUserResponseDto(rowsUpdated));
     }
 
     @Delete(':id')
-    delete(@Param('id', UserIdParamValidationPipe) id: number): Promise<RowsDeletedDto> {
+    delete(@Param('id', UserIdParamValidationPipe) id: number): Promise<DeleteUserResponseDto> {
         return this.userService.deleteById(id)
-            .then(rowsDeleted => new RowsDeletedDto(rowsDeleted));
+            .then(rowsDeleted => new DeleteUserResponseDto(rowsDeleted));
     }
 }

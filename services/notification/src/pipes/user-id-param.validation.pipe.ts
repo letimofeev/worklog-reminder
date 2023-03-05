@@ -1,7 +1,7 @@
 import {ArgumentMetadata, Injectable, PipeTransform} from "@nestjs/common";
 import {ValidationException} from "../exceptions/validation.exception";
-import {ApiError} from "../dtos/api-error";
-import {ValidationApiSubError} from "../dtos/validation.api-sub-error";
+import {ApiError} from "../api-errors/api-error";
+import {ValidationApiSubError} from "../api-errors/validation.api-sub-error";
 
 @Injectable()
 export class UserIdParamValidationPipe implements PipeTransform<number, number> {
