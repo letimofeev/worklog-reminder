@@ -12,11 +12,17 @@ export class UserService {
         return await this.userRepository.create(userDto)
     }
 
-    async getAll(): Promise<User[]> {
+    async findAll(): Promise<User[]> {
         return await this.userRepository.findAll()
     }
 
-    async getById(id: number): Promise<User> {
+    async findAllByLogins(logins: string[]): Promise<User[]> {
+        return await this.userRepository.findAll({
+            where: {login: logins}
+        })
+    }
+
+    async findById(id: number): Promise<User> {
         return await this.userRepository.findByPk(id)
     }
 

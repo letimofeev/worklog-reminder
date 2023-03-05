@@ -21,13 +21,13 @@ export class UserController {
     }
 
     @Get()
-    getAll(): Promise<User[]> {
-        return this.userService.getAll();
+    findAll(): Promise<User[]> {
+        return this.userService.findAll();
     }
 
     @Get(':id')
-    getById(@Param('id', UserIdParamValidationPipe) id: number): Promise<User> {
-        return this.userService.getById(id)
+    findById(@Param('id', UserIdParamValidationPipe) id: number): Promise<User> {
+        return this.userService.findById(id)
             .then(user => {
                 if (user != null) {
                     return user;
