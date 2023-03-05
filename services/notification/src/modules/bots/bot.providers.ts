@@ -18,7 +18,7 @@ export const botProviders = [
             const logger = new Logger(CloudAdapter.name);
 
             adapter.onTurnError = async (context: TurnContext, error: Error) => {
-                logger.error(`Unhandled error ${error.name}: ${error.stack}`);
+                logger.error(`Error occurred\n${error.stack}`);
                 await context.sendActivity('The bot encountered an error or bug.');
             };
 

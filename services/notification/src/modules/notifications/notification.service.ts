@@ -18,7 +18,6 @@ export class NotificationService {
     }
 
     async sendNotifications(notifications: NotificationDto[]): Promise<Observable<string>> {
-        console.log(notifications)
         const notificationsMap = new Map(notifications.map(notification => [
             notification.login, notification.message
         ]))
@@ -31,8 +30,9 @@ export class NotificationService {
                     const message = notificationsMap.get(user.login);
                     response = await this.sendNotification(user, message);
                 } else {
-                    response = new NotificationResponseDto(user.login, 'User disabled')
+                    response = NotificationResponseDto.failed(user.login, 'User disabled')
                 }
+                this.logger.log(`Notification response: ${response.message}`)
                 return JSON.stringify(response);
             })
         );
@@ -40,10 +40,23 @@ export class NotificationService {
 
     private async sendNotification(user: User, message: string): Promise<NotificationResponseDto> {
         const conversationReference = user.conversationReference as Partial<ConversationReference>;
-        await this.adapter.continueConversationAsync(botConfig.MicrosoftAppId, conversationReference,
-            async (context) => {
-                await context.sendActivity(message);
-            })
-        return new NotificationResponseDto(user.login, 'Notification sent successfully');
+        let notificationResponse;
+        try {
+            await this.adapter.continueConversationAsync(botConfig.MicrosoftAppId, conversationReference,
+                async (context) => {
+                    const response = await context.sendActivity(message);
+                    if (response.id) {
+                        notificationResponse = NotificationResponseDto.pass(user.login);
+                    } else {
+                        this.logger.warn(`Something went wrong, bot notification response ` +
+                            `has not present response id (${response.id})`);
+                        notificationResponse = NotificationResponseDto.failed(user.login);
+                    }
+                })
+        } catch (e) {
+            this.logger.error(`Error during sending notification\n ${e.stack}`);
+            notificationResponse = NotificationResponseDto.failed(user.login);
+        }
+        return notificationResponse;
     }
 }
