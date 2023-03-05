@@ -1,6 +1,6 @@
 import {IsInt, IsNotEmpty, Length, Min} from "class-validator";
 
-export class UpdateUserQueryDto {
+export class UpdateUserDto {
     @IsNotEmpty({message: 'id is required'})
     @IsInt({message: 'id must be a integer'})
     @Min(1, {message: 'id value must be a positive'})

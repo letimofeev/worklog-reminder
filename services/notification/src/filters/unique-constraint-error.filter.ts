@@ -1,8 +1,8 @@
 import {ArgumentsHost, Catch, ExceptionFilter} from "@nestjs/common";
-import {ApiError} from "./api-error";
+import {ApiError} from "../dtos/api-error";
 import {UniqueConstraintError} from "sequelize";
 import {Response} from "express";
-import {ValidationApiSubError} from "./validation.api-sub-error";
+import {ValidationApiSubError} from "../dtos/validation.api-sub-error";
 
 @Catch(UniqueConstraintError)
 export class UniqueConstraintErrorFilter implements ExceptionFilter {
