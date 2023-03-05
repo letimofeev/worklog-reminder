@@ -19,7 +19,7 @@ export class User extends Model<User, UserCreationAttributes> {
 
     @Column({
         field: 'skype_id',
-        type: DataTypes.STRING(64),
+        type: DataTypes.STRING(128),
         unique: true,
         allowNull: false
     })

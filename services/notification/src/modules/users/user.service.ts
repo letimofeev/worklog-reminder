@@ -1,26 +1,38 @@
 import {Inject, Injectable} from "@nestjs/common";
 import {User} from "./user.model";
-import {CreateUserQueryDto} from "./dtos/create-user.query.dto";
-import {UpdateUserQueryDto} from "./dtos/update-user.query.dto";
+import {CreateUserDto} from "./dtos/create-user.dto";
+import {UpdateUserDto} from "./dtos/update-user.dto";
 
 @Injectable()
 export class UserService {
     constructor(@Inject('USER_REPOSITORY') private userRepository: typeof User) {
     }
 
-    async create(userDto: CreateUserQueryDto): Promise<User> {
+    async create(userDto: CreateUserDto): Promise<User> {
         return await this.userRepository.create(userDto)
     }
 
-    async getAll(): Promise<User[]> {
+    async findOrCreate(userDto: CreateUserDto): Promise<[User, boolean]> {
+        return await this.userRepository.findOrCreate({
+           where: {login: userDto.login}
+        });
+    }
+
+    async findAll(): Promise<User[]> {
         return await this.userRepository.findAll()
     }
 
-    async getById(id: number): Promise<User> {
+    async findAllByLogins(logins: string[]): Promise<User[]> {
+        return await this.userRepository.findAll({
+            where: {login: logins}
+        })
+    }
+
+    async findById(id: number): Promise<User> {
         return await this.userRepository.findByPk(id)
     }
 
-    async update(userDto: UpdateUserQueryDto): Promise<number> {
+    async update(userDto: UpdateUserDto): Promise<number> {
         const {id, ...columnsToUpdate} = userDto
         return this.userRepository.update(columnsToUpdate, {
             where: {id: id}

@@ -17,6 +17,6 @@ export const databaseProviders = [
             );
             sequelize.addModels([User]);
             return sequelize;
-        },
-    },
+        }
+    }
 ];
