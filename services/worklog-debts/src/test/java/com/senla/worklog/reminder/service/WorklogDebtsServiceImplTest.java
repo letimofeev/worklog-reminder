@@ -6,6 +6,8 @@ import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.WorklogDebts;
+import com.senla.worklog.reminder.service.employee.EmployeeService;
+import com.senla.worklog.reminder.service.worklogdebt.WorklogDebtsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

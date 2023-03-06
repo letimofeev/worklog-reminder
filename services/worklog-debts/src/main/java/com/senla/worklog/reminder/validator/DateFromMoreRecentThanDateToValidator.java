@@ -5,9 +5,9 @@ import com.senla.worklog.reminder.annotation.DateFromMoreRecentThanDateTo;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class DateFromMoreRecentThanDateToValidator implements ConstraintValidator<DateFromMoreRecentThanDateTo, GetAllDebtsForPeriodRequestParameters> {
+public class DateFromMoreRecentThanDateToValidator implements ConstraintValidator<DateFromMoreRecentThanDateTo, DateRangeRequestParameters> {
     @Override
-    public boolean isValid(GetAllDebtsForPeriodRequestParameters value, ConstraintValidatorContext context) {
+    public boolean isValid(DateRangeRequestParameters value, ConstraintValidatorContext context) {
         var dateFrom = value.getDateFrom();
         var dateTo = value.getDateTo();
         if (dateFrom.isAfter(dateTo)) {

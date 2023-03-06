@@ -19,17 +19,19 @@ import javax.persistence.UniqueConstraint;
 @AllArgsConstructor
 @Entity
 @Table(name = "employees", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_employee_jirakey", columnNames = {"jiraKey"})
+        @UniqueConstraint(name = "uc_employee_jirakey", columnNames = {"jiraKey"}),
+        @UniqueConstraint(name = "uc_employee_skypelogin", columnNames = {"skypeLogin"})
 })
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     private String firstName;
     private String lastName;
     private String jiraKey;
+    private String skypeLogin;
 
     @Override
     public String toString() {
@@ -38,6 +40,7 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", jiraKey='" + jiraKey + '\'' +
+                ", skypeLogin='" + skypeLogin + '\'' +
                 '}';
     }
 }
