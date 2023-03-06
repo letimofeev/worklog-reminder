@@ -2,8 +2,8 @@ package com.senla.worklog.reminder.controller;
 
 import com.senla.worklog.reminder.dto.WorklogDebtsDto;
 import com.senla.worklog.reminder.dto.mapper.WorklogDebtsDtoMapper;
-import com.senla.worklog.reminder.service.WorklogDebtsService;
-import com.senla.worklog.reminder.validator.GetAllDebtsForPeriodRequestParameters;
+import com.senla.worklog.reminder.service.worklogdebt.WorklogDebtsService;
+import com.senla.worklog.reminder.validator.DateRangeRequestParameters;
 import com.senla.worklog.reminder.validator.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
-import static java.time.LocalDate.now;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 @Validated
@@ -38,13 +37,12 @@ public class WorklogDebtsController {
                                            @RequestParam
                                            @DateTimeFormat(iso = DATE)
                                            LocalDate dateFrom) {
-        var dateTo = now();
-        var worklogDebts = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
+        var worklogDebts = worklogDebtsService.getAllFrom(dateFrom);
         return mapper.mapToDto(worklogDebts);
     }
 
     @GetMapping(params = {"dateFrom", "dateTo"})
-    public WorklogDebtsDto getAllDebtsForPeriod(@Validated(ValidationSequence.class) GetAllDebtsForPeriodRequestParameters parameters) {
+    public WorklogDebtsDto getAllDebtsForPeriod(@Validated(ValidationSequence.class) DateRangeRequestParameters parameters) {
         var dateFrom = parameters.getDateFrom();
         var dateTo = parameters.getDateTo();
         var worklogDebts = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);

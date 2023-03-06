@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.controller;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.exception.EmployeeNotFoundException;
-import com.senla.worklog.reminder.service.EmployeeService;
+import com.senla.worklog.reminder.service.employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

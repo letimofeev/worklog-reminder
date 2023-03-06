@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.service;
+package com.senla.worklog.reminder.service.employee;
 
 import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.dto.mapper.EmployeeDtoMapper;

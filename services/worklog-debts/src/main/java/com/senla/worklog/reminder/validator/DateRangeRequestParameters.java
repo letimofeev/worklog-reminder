@@ -18,7 +18,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 @NoArgsConstructor
 @AllArgsConstructor
 @DateFromMoreRecentThanDateTo(groups = Extended.class)
-public class GetAllDebtsForPeriodRequestParameters {
+public class DateRangeRequestParameters {
     @NotNull
     @PastOrPresent(message = "{dateFrom.pastOrPresent}")
     @DateTimeFormat(iso = DATE)

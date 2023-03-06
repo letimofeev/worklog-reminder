@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.service;
+package com.senla.worklog.reminder.service.worklogdebt;
 
 import com.senla.worklog.reminder.api.jira.adapter.JiraWorklogClientAdapter;
 import com.senla.worklog.reminder.dto.EmployeeDto;
@@ -6,6 +6,8 @@ import com.senla.worklog.reminder.model.DayWorklogDebt;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.model.WorklogDebts;
+import com.senla.worklog.reminder.service.employee.EmployeeService;
+import com.senla.worklog.reminder.service.WorkerFetcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
