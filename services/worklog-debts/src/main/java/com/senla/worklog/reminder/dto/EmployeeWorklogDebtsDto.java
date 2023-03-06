@@ -1,6 +1,5 @@
 package com.senla.worklog.reminder.dto;
 
-import com.senla.worklog.reminder.model.DayWorklogDebt;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ import java.util.Objects;
 @Accessors(chain = true)
 public class EmployeeWorklogDebtsDto {
     private EmployeeDto employee;
-    private List<DayWorklogDebt> worklogDebts;
+    private List<DayWorklogDebtDto> worklogDebts;
 
     @Override
     public String toString() {

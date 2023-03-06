@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.model;
+package com.senla.worklog.reminder.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class DayWorklogDebt {
+public class DayWorklogDebtDto {
     private LocalDate date;
     private Long timeDeptSeconds;
 
@@ -31,7 +31,7 @@ public class DayWorklogDebt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DayWorklogDebt that = (DayWorklogDebt) o;
+        DayWorklogDebtDto that = (DayWorklogDebtDto) o;
 
         if (!Objects.equals(date, that.date)) return false;
         return Objects.equals(timeDeptSeconds, that.timeDeptSeconds);

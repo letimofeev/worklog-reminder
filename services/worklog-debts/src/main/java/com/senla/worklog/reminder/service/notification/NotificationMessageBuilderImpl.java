@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.service.notification;
 
 import com.senla.worklog.reminder.config.JiraProperties;
 import com.senla.worklog.reminder.dto.EmployeeWorklogDebtsDto;
-import com.senla.worklog.reminder.model.DayWorklogDebt;
+import com.senla.worklog.reminder.dto.DayWorklogDebtDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +29,13 @@ public class NotificationMessageBuilderImpl implements NotificationMessageBuilde
                 "You can visit %s to log time", name, host);
     }
 
-    private String formatMissingWorklogs(List<DayWorklogDebt> worklogDebts) {
+    private String formatMissingWorklogs(List<DayWorklogDebtDto> worklogDebts) {
         return worklogDebts.stream()
                 .map(this::formatMissingDayWorklogs)
                 .collect(Collectors.joining("\n"));
     }
 
-    private String formatMissingDayWorklogs(DayWorklogDebt worklogDebt) {
+    private String formatMissingDayWorklogs(DayWorklogDebtDto worklogDebt) {
         return String.format("Date: %s\n" +
                 "Required log time: %s\n",
                 worklogDebt.getDate(),

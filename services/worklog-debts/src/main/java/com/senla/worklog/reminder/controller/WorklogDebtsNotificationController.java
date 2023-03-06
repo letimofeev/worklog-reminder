@@ -1,7 +1,7 @@
 package com.senla.worklog.reminder.controller;
 
 import com.senla.worklog.reminder.api.notification.model.NotificationResponse;
-import com.senla.worklog.reminder.dto.WorklogDebtsDto;
+import com.senla.worklog.reminder.dto.EmployeeWorklogDebtsDto;
 import com.senla.worklog.reminder.service.notification.WorklogDebtsNotificationService;
 import com.senla.worklog.reminder.validator.DateRangeRequestParameters;
 import com.senla.worklog.reminder.validator.ValidationSequence;
@@ -13,13 +13,14 @@ import reactor.core.publisher.Flux;
 
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 @Validated
 @RestController
-@RequestMapping("/worklog-debts/notifications")
+@RequestMapping("/notifications/worklog-debts")
 @RequiredArgsConstructor
 public class WorklogDebtsNotificationController {
     private final WorklogDebtsNotificationService notificationService;
@@ -44,8 +45,8 @@ public class WorklogDebtsNotificationController {
         return notificationService.sendWorklogDebtNotifications(dateFrom, dateTo);
     }
 
-    @PostMapping(produces = TEXT_EVENT_STREAM_VALUE)
-    public Flux<NotificationResponse> sendNotifications(@RequestBody WorklogDebtsDto worklogDebtsDto) {
+    @PostMapping(path = "/custom", produces = TEXT_EVENT_STREAM_VALUE)
+    public Flux<NotificationResponse> sendNotifications(@RequestBody List<EmployeeWorklogDebtsDto> worklogDebtsDto) {
         return notificationService.sendWorklogDebtNotifications(worklogDebtsDto);
     }
 }

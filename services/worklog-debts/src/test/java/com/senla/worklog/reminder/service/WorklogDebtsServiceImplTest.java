@@ -2,10 +2,9 @@ package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.api.jira.adapter.JiraWorklogClientAdapter;
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.model.DayWorklogDebt;
+import com.senla.worklog.reminder.dto.DayWorklogDebtDto;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
-import com.senla.worklog.reminder.model.WorklogDebts;
 import com.senla.worklog.reminder.service.employee.EmployeeService;
 import com.senla.worklog.reminder.service.worklogdebt.WorklogDebtsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,61 +94,70 @@ class WorklogDebtsServiceImplTest {
         when(employeeService.getEmployeeByJiraKey("kek_key")).thenReturn(Optional.ofNullable(employees.get(1)));
         when(employeeService.getEmployeeByJiraKey("who_key")).thenReturn(Optional.ofNullable(employees.get(2)));
 
-        LocalDate dateFrom = LocalDate.of(2023, 2, 6);
-        LocalDate dateTo = LocalDate.of(2023, 2, 10);
+        var dateFrom = LocalDate.of(2023, 2, 6);
+        var dateTo = LocalDate.of(2023, 2, 10);
 
         when(worklogClientAdapter.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
 
-        WorklogDebts actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
+        var actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
 
-        List<DayWorklogDebt> employee0Debts = List.of(
-                new DayWorklogDebt()
+        var employee0Debts = List.of(
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 6))
                         .setTimeDeptSeconds(requiredDaySpentSeconds - 3600 * 7L),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 7))
                         .setTimeDeptSeconds(requiredDaySpentSeconds),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 9))
                         .setTimeDeptSeconds(requiredDaySpentSeconds),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 10))
                         .setTimeDeptSeconds(requiredDaySpentSeconds));
 
-        List<DayWorklogDebt> employee1Debts = List.of(
-                new DayWorklogDebt()
+        var employee1Debts = List.of(
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 6))
                         .setTimeDeptSeconds(requiredDaySpentSeconds - 3600 * 3L),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 7))
                         .setTimeDeptSeconds(requiredDaySpentSeconds - 3600 * 7L),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 8))
                         .setTimeDeptSeconds(requiredDaySpentSeconds));
 
-        List<DayWorklogDebt> employee2Debts = List.of(
-                new DayWorklogDebt()
+        var employee2Debts = List.of(
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 6))
                         .setTimeDeptSeconds(requiredDaySpentSeconds),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 7))
                         .setTimeDeptSeconds(requiredDaySpentSeconds),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 8))
                         .setTimeDeptSeconds(requiredDaySpentSeconds),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 9))
                         .setTimeDeptSeconds(requiredDaySpentSeconds),
-                new DayWorklogDebt()
+                new DayWorklogDebtDto()
                         .setDate(LocalDate.of(2023, 2, 10))
                         .setTimeDeptSeconds(requiredDaySpentSeconds));
 
         assertAll(
                 "Grouped Assertions of WorklogDebts",
                 () -> assertEquals(actual.size(), 3),
-                () -> assertEquals(actual.get(employees.get(0)), employee0Debts),
-                () -> assertEquals(actual.get(employees.get(1)), employee1Debts),
-                () -> assertEquals(actual.get(employees.get(2)), employee2Debts)
+                () -> assertEquals(actual.stream()
+                        .filter(e -> e.getEmployee().equals(employees.get(0)))
+                        .findFirst()
+                        .get().getWorklogDebts(), employee0Debts),
+                () -> assertEquals(actual.stream()
+                        .filter(e -> e.getEmployee().equals(employees.get(1)))
+                        .findFirst()
+                        .get().getWorklogDebts(), employee1Debts),
+                () -> assertEquals(actual.stream()
+                        .filter(e -> e.getEmployee().equals(employees.get(2)))
+                        .findFirst()
+                        .get().getWorklogDebts(), employee2Debts)
         );
     }
 }
