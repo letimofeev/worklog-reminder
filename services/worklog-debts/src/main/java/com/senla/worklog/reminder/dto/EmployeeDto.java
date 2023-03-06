@@ -23,6 +23,7 @@ public class EmployeeDto implements Serializable {
     private String firstName;
     private String lastName;
     private String jiraKey;
+    private String skypeLogin;
 
     @Override
     public String toString() {
@@ -31,6 +32,7 @@ public class EmployeeDto implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", jiraKey='" + jiraKey + '\'' +
+                ", skypeLogin='" + skypeLogin + '\'' +
                 '}';
     }
 
@@ -44,7 +46,8 @@ public class EmployeeDto implements Serializable {
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(firstName, that.firstName)) return false;
         if (!Objects.equals(lastName, that.lastName)) return false;
-        return Objects.equals(jiraKey, that.jiraKey);
+        if (!Objects.equals(jiraKey, that.jiraKey)) return false;
+        return Objects.equals(skypeLogin, that.skypeLogin);
     }
 
     @Override
@@ -53,6 +56,7 @@ public class EmployeeDto implements Serializable {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (jiraKey != null ? jiraKey.hashCode() : 0);
+        result = 31 * result + (skypeLogin != null ? skypeLogin.hashCode() : 0);
         return result;
     }
 }
