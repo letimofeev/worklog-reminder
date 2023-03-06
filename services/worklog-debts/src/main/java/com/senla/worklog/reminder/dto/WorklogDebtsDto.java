@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.dto;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,11 @@ import java.util.Objects;
 @Accessors(chain = true)
 public class WorklogDebtsDto {
     private List<EmployeeWorklogDebtsDto> worklogDebts;
+
+    @JsonValue
+    public List<EmployeeWorklogDebtsDto> getWorklogDebts() {
+        return worklogDebts;
+    }
 
     @Override
     public String toString() {

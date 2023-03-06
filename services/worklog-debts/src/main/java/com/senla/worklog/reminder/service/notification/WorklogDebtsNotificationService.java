@@ -1,6 +1,7 @@
 package com.senla.worklog.reminder.service.notification;
 
 import com.senla.worklog.reminder.api.notification.model.NotificationResponse;
+import com.senla.worklog.reminder.dto.WorklogDebtsDto;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
@@ -11,6 +12,8 @@ import static java.time.LocalDate.now;
 
 public interface WorklogDebtsNotificationService {
     Flux<NotificationResponse> sendWorklogDebtNotifications(LocalDate dateFrom, LocalDate dateTo);
+
+    Flux<NotificationResponse> sendWorklogDebtNotifications(WorklogDebtsDto worklogDebtsDto);
 
     default Flux<NotificationResponse> sendWorklogDebtNotifications(LocalDate dateFrom) {
         return sendWorklogDebtNotifications(dateFrom, now());
