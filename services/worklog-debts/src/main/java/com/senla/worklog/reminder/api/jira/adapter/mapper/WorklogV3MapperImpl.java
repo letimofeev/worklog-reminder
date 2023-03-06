@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.model.mapper;
+package com.senla.worklog.reminder.api.jira.adapter.mapper;
 
 import com.senla.worklog.reminder.api.jira.v3.model.AuthorV3;
 import com.senla.worklog.reminder.model.Issue;
