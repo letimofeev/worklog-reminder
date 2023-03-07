@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.api.notification.client;
 
 import com.senla.worklog.reminder.api.notification.model.Notification;
 import com.senla.worklog.reminder.api.notification.model.NotificationResponse;
-import com.senla.worklog.reminder.api.notification.model.User;
+import com.senla.worklog.reminder.api.notification.model.NotificationUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -35,10 +35,10 @@ public class NotificationClientImpl implements NotificationClient {
     }
 
     @Override
-    public List<User> getAllUsersByLogins(List<String> logins) {
+    public List<NotificationUser> getAllUsersByLogins(List<String> logins) {
         var loginParams = String.join(",", logins);
-        var uri = "api/users?login=" + loginParams;
-        ResponseEntity<List<User>> response = restTemplate.exchange(uri, GET, null,
+        var uri = "http://localhost:8200/api/users?login=" + loginParams;
+        ResponseEntity<List<NotificationUser>> response = restTemplate.exchange(uri, GET, null,
                 new ParameterizedTypeReference<>() {
                 });
         return response.getBody();
