@@ -1,15 +1,12 @@
 package com.senla.worklog.reminder.service.worklogdebt;
 
 import com.senla.worklog.reminder.api.jira.adapter.JiraWorklogClientAdapter;
-import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.dto.EmployeeWorklogDebtsDto;
 import com.senla.worklog.reminder.dto.DayWorklogDebtDto;
+import com.senla.worklog.reminder.dto.WorkerWorklogDebtsDto;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
-import com.senla.worklog.reminder.service.employee.EmployeeService;
 import com.senla.worklog.reminder.service.WorkerFetcher;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,41 +18,25 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
-public class WorklogDebtsServiceImpl implements WorklogDebtsService {
+public class WorkerWorklogDebtsServiceImpl implements WorkerWorklogDebtsService {
     private final JiraWorklogClientAdapter worklogClientAdapter;
-    private final EmployeeService employeeService;
     private final WorkerFetcher workerFetcher;
-
-    private long requiredDaySeconds = DEFAULT_REQUIRED_DAY_SECONDS;
 
     private static final long DEFAULT_REQUIRED_DAY_SECONDS = 3600 * 8L;
 
-    public void setRequiredDaySeconds(long requiredDaySeconds) {
-        this.requiredDaySeconds = requiredDaySeconds;
-    }
-
     @Override
-    public List<EmployeeWorklogDebtsDto> getAllForPeriod(LocalDate dateFrom, LocalDate dateTo) {
+    public List<WorkerWorklogDebtsDto> getWorkersDebts(LocalDate dateFrom, LocalDate dateTo) {
         var workers = workerFetcher.getWorkers();
         var worklogs = worklogClientAdapter.getAllForPeriod(dateFrom, dateTo);
-        var debtsByAuthor = getDebtsByWorker(workers, worklogs, dateFrom, dateTo);
-        return mapToEmployeeDebts(debtsByAuthor);
-    }
-
-    private List<EmployeeWorklogDebtsDto> mapToEmployeeDebts(Map<Worker, List<DayWorklogDebtDto>> debtsByWorker) {
-        var worklogDebts = new ArrayList<EmployeeWorklogDebtsDto>();
-        for (var entry : debtsByWorker.entrySet()) {
-            var worker = entry.getKey();
-            var workerDebts = entry.getValue();
-
-            employeeService.getEmployeeByJiraKey(worker.getKey())
-                    .ifPresentOrElse(employee -> worklogDebts.add(new EmployeeWorklogDebtsDto(employee, workerDebts)),
-                            () -> handleEmployeeNotFound(worklogDebts, worker, workerDebts));
-        }
-        return worklogDebts;
+        return getDebtsByWorker(workers, worklogs, dateFrom, dateTo).entrySet().stream()
+                .map(entry -> {
+                    var worker = entry.getKey();
+                    var worklogDebts = entry.getValue();
+                    return new WorkerWorklogDebtsDto(worker, worklogDebts);
+                })
+                .collect(toList());
     }
 
     private Map<Worker, List<DayWorklogDebtDto>> getDebtsByWorker(List<Worker> workers, List<Worklog> worklogs,
@@ -82,7 +63,7 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
                              Map<Worker, List<DayWorklogDebtDto>> debtsByWorker) {
         for (var entry : spentTimeByAuthor.entrySet()) {
             var secondsSpent = entry.getValue();
-            long debt = requiredDaySeconds - secondsSpent;
+            long debt = DEFAULT_REQUIRED_DAY_SECONDS - secondsSpent;
             if (debt > 0) {
                 var worker = entry.getKey();
                 debtsByWorker.putIfAbsent(worker, new ArrayList<>());
@@ -103,14 +84,5 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsService {
     private boolean isWorkingDay(LocalDate date) {
         return !(date.get(ChronoField.DAY_OF_WEEK) == 6)
                 && !(date.get(ChronoField.DAY_OF_WEEK) == 7);
-    }
-
-    private void handleEmployeeNotFound(List<EmployeeWorklogDebtsDto> worklogDebts, Worker worker,
-                                        List<DayWorklogDebtDto> workerDebts) {
-        var employee = new EmployeeDto()
-                .setFirstName(worker.getDisplayName())
-                .setJiraKey(worker.getKey());
-        worklogDebts.add(new EmployeeWorklogDebtsDto(employee, workerDebts));
-        log.warn("Employee with jiraKey = '" + worker.getKey() + "' not found");
     }
 }

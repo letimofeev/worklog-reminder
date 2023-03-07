@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -30,6 +31,24 @@ public class EmployeeDetailsServiceImpl implements EmployeeDetailsService {
         return employees.stream()
                 .map(employee -> mapToEmployeeDetails(employee, usersByLogin))
                 .collect(toList());
+    }
+
+    @Override
+    public Optional<EmployeeDetailsDto> getEmployeeDetailsByJiraKey(String jiraKey) {
+        return employeeService.getEmployeeByJiraKey(jiraKey)
+                .map(this::getEmployeeDetailsDto);
+
+    }
+
+    @Override
+    public EmployeeDetailsDto getEmployeeDetailsDto(EmployeeDto employee) {
+        var login = employee.getSkypeLogin();
+        var users = notificationClient.getAllUsersByLogins(List.of(login));
+        if (users.isEmpty()) {
+            return detailsDtoMapper.mapToDetails(employee);
+        }
+        var user = users.get(0);
+        return detailsDtoMapper.mapToDetails(employee, user);
     }
 
     private List<String> getEmployeesLogins(List<EmployeeDto> employees) {

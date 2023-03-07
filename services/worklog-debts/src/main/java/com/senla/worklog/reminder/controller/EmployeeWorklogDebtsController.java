@@ -1,7 +1,7 @@
 package com.senla.worklog.reminder.controller;
 
 import com.senla.worklog.reminder.dto.EmployeeWorklogDebtsDto;
-import com.senla.worklog.reminder.service.worklogdebt.WorklogDebtsService;
+import com.senla.worklog.reminder.service.worklogdebt.EmployeeWorklogDebtsService;
 import com.senla.worklog.reminder.validator.DateRangeRequestParameters;
 import com.senla.worklog.reminder.validator.ValidationSequence;
 import lombok.RequiredArgsConstructor;
@@ -22,26 +22,26 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 @RestController
 @RequestMapping("/worklog-debts")
 @RequiredArgsConstructor
-public class WorklogDebtsController {
-    private final WorklogDebtsService worklogDebtsService;
+public class EmployeeWorklogDebtsController {
+    private final EmployeeWorklogDebtsService worklogDebtsService;
 
     @GetMapping
-    public List<EmployeeWorklogDebtsDto> getAllDebtsForCurrentWeek() {
-        return worklogDebtsService.getAllForCurrentWeek();
+    public List<EmployeeWorklogDebtsDto> getCurrentWeekEmployeesDebts() {
+        return worklogDebtsService.getCurrentWeekEmployeesDebts();
     }
 
     @GetMapping(params = {"dateFrom"})
-    public List<EmployeeWorklogDebtsDto> getAllDebtsFrom(@PastOrPresent(message = "{dateFrom.pastOrPresent}")
-                                           @RequestParam
-                                           @DateTimeFormat(iso = DATE)
-                                           LocalDate dateFrom) {
-        return worklogDebtsService.getAllFrom(dateFrom);
+    public List<EmployeeWorklogDebtsDto> getEmployeesDebts(@PastOrPresent(message = "{dateFrom.pastOrPresent}")
+                                                           @RequestParam
+                                                           @DateTimeFormat(iso = DATE)
+                                                           LocalDate dateFrom) {
+        return worklogDebtsService.getEmployeesDebts(dateFrom);
     }
 
     @GetMapping(params = {"dateFrom", "dateTo"})
-    public List<EmployeeWorklogDebtsDto> getAllDebtsForPeriod(@Validated(ValidationSequence.class) DateRangeRequestParameters parameters) {
+    public List<EmployeeWorklogDebtsDto> getEmployeesDebts(@Validated(ValidationSequence.class) DateRangeRequestParameters parameters) {
         var dateFrom = parameters.getDateFrom();
         var dateTo = parameters.getDateTo();
-        return worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
+        return worklogDebtsService.getEmployeesDebts(dateFrom, dateTo);
     }
 }

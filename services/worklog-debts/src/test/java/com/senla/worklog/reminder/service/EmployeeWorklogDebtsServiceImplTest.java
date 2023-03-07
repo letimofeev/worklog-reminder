@@ -6,7 +6,7 @@ import com.senla.worklog.reminder.dto.DayWorklogDebtDto;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.service.employee.EmployeeService;
-import com.senla.worklog.reminder.service.worklogdebt.WorklogDebtsServiceImpl;
+import com.senla.worklog.reminder.service.worklogdebt.EmployeeWorklogDebtsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-class WorklogDebtsServiceImplTest {
+class EmployeeWorklogDebtsServiceImplTest {
     @Mock
     private JiraWorklogClientAdapter worklogClientAdapter;
 
@@ -32,7 +32,7 @@ class WorklogDebtsServiceImplTest {
     private WorkerFetcher workerFetcher;
 
     @InjectMocks
-    private WorklogDebtsServiceImpl worklogDebtsService;
+    private EmployeeWorklogDebtsServiceImpl worklogDebtsService;
 
     private static final List<Worker> workers = List.of(
             new Worker().setDisplayName("Lol").setKey("lol_key"),
@@ -99,7 +99,7 @@ class WorklogDebtsServiceImplTest {
 
         when(worklogClientAdapter.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
 
-        var actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
+        var actual = worklogDebtsService.getEmployeesDebts(dateFrom, dateTo);
 
         var employee0Debts = List.of(
                 new DayWorklogDebtDto()
