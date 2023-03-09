@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Patch, Post} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from "@nestjs/common";
 import {UserService} from "./user.service";
 import {CreateUserDto} from "./dtos/create-user.dto";
 import {UpdateUserDto} from "./dtos/update-user.dto";
@@ -21,7 +21,11 @@ export class UserController {
     }
 
     @Get()
-    findAll(): Promise<User[]> {
+    findAll(@Query('login') logins: string): Promise<User[]> {
+        if (logins) {
+            const loginList = logins.split(',');
+            return this.userService.findAllByLogins(loginList);
+        }
         return this.userService.findAll();
     }
 

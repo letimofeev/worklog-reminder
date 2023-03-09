@@ -1,16 +1,14 @@
 package com.senla.worklog.reminder.service;
 
 import com.senla.worklog.reminder.api.jira.adapter.JiraWorklogClientAdapter;
-import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.dto.DayWorklogDebtDto;
+import com.senla.worklog.reminder.dto.EmployeeDto;
 import com.senla.worklog.reminder.model.Worker;
 import com.senla.worklog.reminder.model.Worklog;
 import com.senla.worklog.reminder.service.employee.EmployeeService;
-import com.senla.worklog.reminder.service.worklogdebt.WorklogDebtsServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
+import com.senla.worklog.reminder.service.worklogdebt.EmployeeWorklogDebtsServiceImpl;
+import com.senla.worklog.reminder.service.worklogdebt.WorkerWorklogDebtsServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,21 +16,15 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 
-class WorklogDebtsServiceImplTest {
-    @Mock
-    private JiraWorklogClientAdapter worklogClientAdapter;
-
-    @Mock
-    private EmployeeService employeeService;
-
-    @Mock
-    private WorkerFetcher workerFetcher;
-
-    @InjectMocks
-    private WorklogDebtsServiceImpl worklogDebtsService;
+class EmployeeWorklogDebtsServiceImplTest {
+    private final JiraWorklogClientAdapter worklogClientAdapter = mock(JiraWorklogClientAdapter.class);
+    private final WorkerFetcher workerFetcher = mock(WorkerFetcher.class);
+    private final EmployeeService employeeService = mock(EmployeeService.class);
+    private final WorkerWorklogDebtsServiceImpl workerDebtsService = new WorkerWorklogDebtsServiceImpl(worklogClientAdapter, workerFetcher);
+    private final EmployeeWorklogDebtsServiceImpl worklogDebtsService = new EmployeeWorklogDebtsServiceImpl(employeeService, workerDebtsService);
 
     private static final List<Worker> workers = List.of(
             new Worker().setDisplayName("Lol").setKey("lol_key"),
@@ -81,11 +73,6 @@ class WorklogDebtsServiceImplTest {
 
     private static final long requiredDaySpentSeconds = 3600 * 8L;
 
-    @BeforeEach
-    void setUp() {
-        openMocks(this);
-    }
-
     @Test
     void getAllForPeriod_shouldReturnExpectedDebts_whenInputIsDates() {
         when(workerFetcher.getWorkers()).thenReturn(workers);
@@ -99,7 +86,7 @@ class WorklogDebtsServiceImplTest {
 
         when(worklogClientAdapter.getAllForPeriod(dateFrom, dateTo)).thenReturn(worklogs);
 
-        var actual = worklogDebtsService.getAllForPeriod(dateFrom, dateTo);
+        var actual = worklogDebtsService.getEmployeesDebts(dateFrom, dateTo);
 
         var employee0Debts = List.of(
                 new DayWorklogDebtDto()

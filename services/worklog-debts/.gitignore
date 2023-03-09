@@ -1,11 +1,9 @@
 HELP.md
-../.gradle
+.gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-deploy/docker-compose/pgdata/
 
 ### STS ###
 .apt_generated

@@ -1,0 +1,31 @@
+.emp-notification-status {
+    &__connected,
+    &__disabled,
+    &__disconnected {
+        min-width: 90px;
+        justify-content: center;
+        font-weight: bold;
+        padding: 5px 5px;
+        border-radius: 15px;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    &__connected {
+        background-color: #f2fef8;
+        border: 2px solid #e5f7ed;
+        color: #54aa7a;
+    }
+
+    &__disabled {
+        background-color: #fefdf5;
+        border: 2px solid #f4ede0;
+        color: #efb376;
+    }
+
+    &__disconnected {
+        background-color: #ffe6e6;
+        border: 2px solid #ffc6c6;
+        color: #ec5c5c;
+    }
+}
