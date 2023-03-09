@@ -1,8 +1,8 @@
 import React from 'react';
-import '../worklogDebtsList/worklogDebtsList.scss'
-import {EmployeeDetails} from "../../models/EmployeeDetails";
-import {DayWorklogDebt} from "../../models/DayWorklogDebt";
-import EmpNotificationStatus from "../empNotificationStatus/EmpNotificationStatus";
+import '../styles/worklogDebtsList.scss'
+import {EmployeeDetails} from "../models/EmployeeDetails";
+import {DayWorklogDebt} from "../models/DayWorklogDebt";
+import EmpNotificationStatus from "./EmpNotificationStatus";
 
 interface WorklogDebtsListProps {
     employeeDetails: EmployeeDetails;

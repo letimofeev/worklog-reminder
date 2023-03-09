@@ -1,6 +1,6 @@
 import React from 'react';
-import EmpNotificationStatus from "../empNotificationStatus/EmpNotificationStatus";
-import './empNotificationStatusInfo.scss'
+import EmpNotificationStatus from "./EmpNotificationStatus";
+import '../styles/empNotificationStatusInfo.scss'
 
 const EmpNotificationStatusInfo = () => {
     return (
