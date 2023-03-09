@@ -18,7 +18,7 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
                         Date
                     </div>
                     <div className="worklog-debts-list__body-row__expanded__debt-row__time__header-cell">
-                        Time
+                        Time debt
                     </div>
                 </div>
                 <div className="worklog-debts-list__body-row__expanded__body__container">
