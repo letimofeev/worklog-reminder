@@ -19,7 +19,7 @@ services:
       JIRA_FORM_USER: ${JIRA_FORM_USER}
       JIRA_FORM_PASS: ${JIRA_FORM_PASS}
       JIRA_DEBUG_PASSWORD_ENABLED: ${JIRA_DEBUG_PASSWORD_ENABLED:-false}
-      NOTIFICATION_HOST: notification
+      NOTIFICATION_HOST: http://notification:8200
       SPRING_DATASOURCE_URL: jdbc:postgresql://worklog-debts-db:5432/${WORKLOG_DEBTS_DB:-worklog-debts}
       SPRING_DATASOURCE_USERNAME: ${WORKLOG_DEBTS_DB_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${WORKLOG_DEBTS_DB_PASS:-postgres}
