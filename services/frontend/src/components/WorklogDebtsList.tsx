@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import './worklogDebtsList.scss';
-import WorklogDebtsItem from "../worklogDebtsItem/WorklogDebtsItem";
-import {EmployeeDetailsWorklogDebts} from "../../models/EmployeeDetailsWorklogDebts";
+import '../styles/worklogDebtsList.scss';
+import WorklogDebtsItem from "./WorklogDebtsItem";
+import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
 import {FaInfoCircle} from "react-icons/fa";
-import InfoModal from "../infoModal/InfoModal";
-import EmpNotificationStatusInfo from "../empNotificationStatusInfo/EmpNotificationStatusInfo";
+import InfoModal from "./modal/InfoModal";
+import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
 
 interface WorklogDebtsListProps {
     employeesDebts: EmployeeDetailsWorklogDebts[];

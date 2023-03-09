@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import './worklogDebts.css';
-import WorklogDebtsList from "../worklogDebtsList/WorklogDebtsList";
-import {useFetching} from "../../hooks/useFetching";
-import WorklogDebtsService from "../../services/WorklogDebtsService";
-import {EmployeeDetailsWorklogDebts} from "../../models/EmployeeDetailsWorklogDebts";
+import '../styles/worklogDebts.scss';
+import WorklogDebtsList from "./WorklogDebtsList";
+import {useFetching} from "../hooks/useFetching";
+import WorklogDebtsService from "../services/WorklogDebtsService";
+import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
 
 const WorklogDebts = () => {
     const [worklogDebts, setWorklogDebts] = useState<EmployeeDetailsWorklogDebts[]>([]);

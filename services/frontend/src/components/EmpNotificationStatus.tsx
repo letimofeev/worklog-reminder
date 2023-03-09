@@ -1,5 +1,5 @@
 import React from 'react';
-import './empNotificationStatus.scss';
+import '../styles/empNotificationStatus.scss';
 
 interface EmpNotificationStatusProps {
     notificationEnabled: boolean;
