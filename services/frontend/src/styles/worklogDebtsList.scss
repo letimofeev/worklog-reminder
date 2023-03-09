@@ -1,111 +1,217 @@
 .worklog-debts-list {
-    padding-top: 20px;
+  padding-top: 20px;
 
-    &__header {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #888888;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  &__body-row {
+    width: 100%;
+
+    &__hidden {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 20px;
+      margin: 2px 0;
+      height: 40px;
+      border-radius: 10px;
+    }
+
+    &__expanded {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 10px;
+
+      &__container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin: 5px 10%;
+        border-bottom: 4px solid #f4f6fa;
+        border-top: 4px solid #f4f6fa;
+        background: #ffffff;
+      }
+
+      &__hider {
+        width: 100px;
+        height: 10px;
+        background-color: #cbcbcb;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 0 5px;
+      }
+
+      &__header {
+        width: 80%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 20px;
-        border-radius: 10px;
-        margin-bottom: 5px;
+        padding: 5px 20px;
+        margin-top: 3px;
         font-weight: bold;
         text-transform: uppercase;
         font-size: 12px;
         color: #888888;
-    }
+      }
 
-    &__body {
+      &__body__container {
+        width: 80%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        flex-direction: column;
-        border-radius: 4px;
-        font-weight: bold;
-        font-size: 14px;
-    }
+        border: 2px solid #f4f6fa;
+        border-radius: 16px;
+        margin-bottom: 5px;
+      }
 
-    &__body-row {
+      &__debt-row {
         display: flex;
         align-items: center;
         flex-direction: row;
-        padding: 10px 20px;
-        margin: 2px 0;
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
         justify-content: space-between;
-    }
+        background-color: #f4f6fa;
+        padding: 20px;
+        border: 1px solid #ddd;
+        transition: all 0.2s ease-in-out;
+        width: 100%;
 
-    &__body-row:hover {
-        background: #f4f6fa;
-    }
-
-    &__empty {
-        &__image {
-            width: 200px;
-            height: 200px;
-            background-repeat: no-repeat;
-            background-size: contain;
+        &:first-child {
+          border-top-left-radius: 16px;
+          border-top-right-radius: 16px;
         }
 
-        &__text {
-            margin: 20px;
-            font-size: 30px;
-            font-family: cursive;
+        &:last-child {
+          border-bottom-left-radius: 16px;
+          border-bottom-right-radius: 16px;
         }
-    }
 
-    &__no {
-        &__body-cell,
-        &__header-cell {
-            flex-basis: 5%;
+        &__no {
+          &__body-cell,
+          &__header-cell {
+            flex-basis: 10%;
             text-align: center;
+          }
         }
-    }
 
-    &__employee {
-        &__body-cell,
-        &__header-cell {
-            flex-basis: 30%;
+        &__date {
+          &__body-cell,
+          &__header-cell {
+            flex-basis: 45%;
             text-align: center;
+          }
         }
 
-        &__body-cell {
-        }
-    }
-
-    &__debts-number {
-        &__body-cell,
-        &__header-cell {
-            flex-basis: 15%;
+        &__time {
+          &__body-cell,
+          &__header-cell {
+            flex-basis: 45%;
             text-align: center;
+          }
         }
+      }
 
-        &__body-cell {
-        }
+      &__debt-row:hover {
+        background-color: #e8f0fe;
+      }
+    }
+  }
+
+  &__body-row__hidden:hover {
+    background: #f4f6fa;
+    cursor: pointer;
+  }
+
+  &__empty {
+    &__image {
+      width: 200px;
+      height: 200px;
+      background-repeat: no-repeat;
+      background-size: contain;
     }
 
-    &__status {
-        &__body-cell,
-        &__header-cell {
-            flex-basis: 35%;
-            display: flex;
-            justify-content: center;
+    &__text {
+      margin: 20px;
+      font-size: 30px;
+      font-family: cursive;
+    }
+  }
 
-            &__info {
-                margin-left: 10px;
-                margin-top: 1px;
-                color: #1960ea;
-                cursor: pointer;
-            }
-        }
+  &__no {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 5%;
+      text-align: center;
+    }
+  }
+
+  &__employee {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 30%;
+      text-align: center;
+    }
+  }
+
+  &__debts-number {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 15%;
+      text-align: center;
     }
 
-    &__actions {
-        &__body-cell,
-        &__header-cell {
-            flex-basis: 15%;
-            text-align: center;
-        }
+    &__body-cell {
     }
+  }
+
+  &__status {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 35%;
+      display: flex;
+      justify-content: center;
+
+      &__info {
+        margin-left: 10px;
+        margin-top: 1px;
+        color: #1960ea;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__actions {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 15%;
+      text-align: center;
+    }
+  }
 }
