@@ -1,4 +1,4 @@
-.worklog-debt-list {
+.worklog-debts-list {
     padding-top: 20px;
 
     &__header {
@@ -38,6 +38,21 @@
 
     &__body-row:hover {
         background: #f4f6fa;
+    }
+
+    &__empty {
+        &__image {
+            width: 200px;
+            height: 200px;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        &__text {
+            margin: 20px;
+            font-size: 30px;
+            font-family: cursive;
+        }
     }
 
     &__no {
