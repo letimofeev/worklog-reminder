@@ -3,6 +3,7 @@ package com.senla.worklog.reminder.api.notification.client;
 import com.senla.worklog.reminder.api.notification.model.Notification;
 import com.senla.worklog.reminder.api.notification.model.NotificationResponse;
 import com.senla.worklog.reminder.api.notification.model.NotificationUser;
+import com.senla.worklog.reminder.config.NotificationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -20,7 +22,9 @@ import static org.springframework.http.HttpMethod.GET;
 @RequiredArgsConstructor
 public class NotificationClientImpl implements NotificationClient {
     private final RestTemplate restTemplate;
-    private final WebClient client = WebClient.create("http://localhost:8200");
+    private final NotificationProperties notificationProperties;
+    private final WebClient.Builder builder;
+    private WebClient client;
 
     @Override
     public Flux<NotificationResponse> sendNotifications(List<Notification> notifications) {
@@ -37,10 +41,17 @@ public class NotificationClientImpl implements NotificationClient {
     @Override
     public List<NotificationUser> getAllUsersByLogins(List<String> logins) {
         var loginParams = String.join(",", logins);
-        var uri = "http://localhost:8200/api/users?login=" + loginParams;
+        var uri = notificationProperties.getHost() + "/api/users?login=" + loginParams;
         ResponseEntity<List<NotificationUser>> response = restTemplate.exchange(uri, GET, null,
                 new ParameterizedTypeReference<>() {
                 });
         return response.getBody();
+    }
+
+    @PostConstruct
+    public void initClient() {
+        client = builder
+                .baseUrl(notificationProperties.getHost())
+                .build();
     }
 }
