@@ -38,9 +38,10 @@ services:
     volumes:
       - ./worklog-debts-db:/var/lib/postgresql/data
   notification:
-    image: letimof/notification:latest
+    image: letimof/notification:0.0.1
     container_name: notification
     mem_reservation: 700m
+    pull_policy: always
     ports:
       - "8200:8200"
     networks:
