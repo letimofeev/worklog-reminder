@@ -5,6 +5,7 @@ import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts
 import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
+import {TransitionGroup} from "react-transition-group";
 
 type WorklogDebtsListProps = {
     employeesDebts: EmployeeDetailsWorklogDebts[];
@@ -50,23 +51,27 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => 
             <div className="worklog-debts-list__body">
                 {employeesDebts.length
                     ?
-                    employeesDebts.map((employeeDebts, index) => (
-                        <WorklogDebtsItem
-                            key={index}
-                            employeeDetails={employeeDebts.employeeDetails}
-                            worklogDebts={employeeDebts.worklogDebts}
-                            rowNumber={index + 1}
-                            handleCheckboxChange={handleCheckboxChange}
-                            selectedRows={selectedRows}
-                        />
-                    ))
+                    <TransitionGroup style={{
+                        width: "100%"
+                    }}>
+                        {employeesDebts.map((employeeDebts, index) => (
+                            <WorklogDebtsItem
+                                key={employeeDebts.employeeDetails.id}
+                                employeeDetails={employeeDebts.employeeDetails}
+                                worklogDebts={employeeDebts.worklogDebts}
+                                rowNumber={index + 1}
+                                handleCheckboxChange={handleCheckboxChange}
+                                selectedRows={selectedRows}
+                            />
+                        ))}
+                    </TransitionGroup>
                     :
                     <div className="worklog-debts-list__empty">
                         <div className="worklog-debts-list__empty__text">
                             No debts found
                         </div>
                         <div className="worklog-debts-list__empty__image"
-                            style={{backgroundImage: "url(/images/happy-cat-sticker.png)"}}/>
+                             style={{backgroundImage: "url(/images/happy-cat-sticker.png)"}}/>
                     </div>
                 }
             </div>

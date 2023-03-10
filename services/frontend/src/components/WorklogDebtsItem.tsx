@@ -5,6 +5,7 @@ import {DayWorklogDebt} from "../models/DayWorklogDebt";
 import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
 import RoundCheckbox from "./checkbox/RoundCheckbox";
+import {CSSTransition} from 'react-transition-group';
 
 type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
@@ -59,7 +60,9 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                 </div>
             </div>
             {isExpanded &&
-                <WorklogDebtsExpanded worklogDebts={worklogDebts}/>
+                <CSSTransition in={isExpanded} timeout={500} classNames="worklog-debts-list__body-row__expanded">
+                    <WorklogDebtsExpanded worklogDebts={worklogDebts}/>
+                </CSSTransition>
             }
         </div>
     );
