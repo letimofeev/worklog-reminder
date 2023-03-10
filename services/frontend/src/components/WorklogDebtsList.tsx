@@ -6,12 +6,25 @@ import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
 
-interface WorklogDebtsListProps {
+type WorklogDebtsListProps = {
     employeesDebts: EmployeeDetailsWorklogDebts[];
 }
 
+type SelectedRows = {
+    [key: number]: boolean;
+};
+
 const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => {
-    const [modal, setModal] = useState(false)
+    const [modal, setModal] = useState(false);
+    const [selectedRows, setSelectedRows] = useState<SelectedRows>([]);
+
+
+    const handleCheckboxChange = (index: number) => {
+        setSelectedRows((prevSelectedRows) => ({
+            ...prevSelectedRows,
+            [index]: !prevSelectedRows[index],
+        }));
+    };
 
     return (
         <div className="worklog-debts-list">
@@ -40,7 +53,9 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => 
                             key={index}
                             employeeDetails={employeeDebts.employeeDetails}
                             worklogDebts={employeeDebts.worklogDebts}
-                            index={index + 1}
+                            rowNumber={index + 1}
+                            handleCheckboxChange={handleCheckboxChange}
+                            selectedRows={selectedRows}
                         />
                     ))
                     :

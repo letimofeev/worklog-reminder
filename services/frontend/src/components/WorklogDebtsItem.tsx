@@ -4,28 +4,41 @@ import {EmployeeDetails} from "../models/EmployeeDetails";
 import {DayWorklogDebt} from "../models/DayWorklogDebt";
 import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
+import Checkbox from "./checkbox/Checkbox";
 
-interface WorklogDebtsListProps {
+type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
     worklogDebts: DayWorklogDebt[];
-    index: number;
+    rowNumber: number;
+    handleCheckboxChange: (index: number) => void;
+    selectedRows: any;
 }
 
-const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = ({employeeDetails, worklogDebts, index}) => {
+const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
+    {
+        employeeDetails,
+        worklogDebts,
+        rowNumber,
+        handleCheckboxChange,
+        selectedRows
+    }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleExpanded = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target instanceof Element
-            && (!event.target.closest("#debts-expanded") || event.target.closest("#debts-expanded-hider"))) {
+            && (!event.target.closest("#debts-expanded") || event.target.closest("#debts-expanded-hider"))
+            && !event.target.closest("#debts-row-actions")) {
             setIsExpanded(!isExpanded);
         }
     }
 
     return (
         <div className="worklog-debts-list__body-row" onClick={toggleExpanded}>
-            <div className="worklog-debts-list__body-row__hidden">
+            <div className="worklog-debts-list__body-row__hidden"
+                 style={{backgroundColor: selectedRows[rowNumber - 1] ? "#f4f6fa" : ""}}
+            >
                 <div className="worklog-debts-list__no__body-cell">
-                    {index}
+                    {rowNumber}
                 </div>
                 <div className="worklog-debts-list__employee__body-cell">
                     {employeeDetails.firstName + ' ' + employeeDetails.lastName}
@@ -39,8 +52,10 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = ({employeeDetails, wor
                         botConnected={employeeDetails.botConnected}
                     />
                 </div>
-                <div className="worklog-debts-list__actions__body-cell">
-                    Actions
+                <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
+                    <Checkbox handleCheckboxChange={handleCheckboxChange}
+                              rowNumber={rowNumber}
+                    />
                 </div>
             </div>
             {isExpanded &&
