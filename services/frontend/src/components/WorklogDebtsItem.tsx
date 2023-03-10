@@ -60,7 +60,9 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                 </div>
             </div>
             {isExpanded &&
-                <CSSTransition in={isExpanded} timeout={500} classNames="worklog-debts-list__body-row__expanded">
+                <CSSTransition in={isExpanded}
+                               timeout={500}
+                               classNames="worklog-debts-list__body-row__expanded">
                     <WorklogDebtsExpanded worklogDebts={worklogDebts}/>
                 </CSSTransition>
             }

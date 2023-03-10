@@ -1,0 +1,58 @@
+.button-46 {
+  align-items: center;
+  background-color: rgba(240, 240, 240, 0.26);
+  border: 1px solid #DFDFDF;
+  border-radius: 16px;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  line-height: 10px;
+  max-width: 100%;
+  padding: 8px 8px;
+  text-decoration: none;
+  transition: all .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  min-width: 70px;
+  width: 60%;
+  margin: 0 20%;
+}
+
+.button-46__inactive {
+  opacity: 0.4;
+  align-items: center;
+  border: 1px solid #DFDFDF;
+  border-radius: 16px;
+  box-sizing: border-box;
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  line-height: 10px;
+  max-width: 100%;
+  padding: 8px 8px;
+  text-decoration: none;
+  user-select: none;
+  width: 60%;
+  min-width: 70px;
+  margin: 0 20%;
+}
+
+.button-46:active,
+.button-46:hover {
+  outline: 0;
+}
+
+.button-46:hover {
+  background-color: #f8f8f8;
+  border-color: rgba(0, 0, 0, 0.19);
+}
+
+@media (min-width: 300px) {
+  .button-46,
+  .button-46__inactive {
+    font-size: 12px;
+  }
+}
