@@ -24,6 +24,8 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => 
             ...prevSelectedRows,
             [index]: !prevSelectedRows[index],
         }));
+        console.log(index)
+        console.log(selectedRows)
     };
 
     return (

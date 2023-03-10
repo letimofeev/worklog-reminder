@@ -4,7 +4,7 @@ import {EmployeeDetails} from "../models/EmployeeDetails";
 import {DayWorklogDebt} from "../models/DayWorklogDebt";
 import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
-import Checkbox from "./checkbox/Checkbox";
+import RoundCheckbox from "./checkbox/RoundCheckbox";
 
 type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
@@ -53,8 +53,8 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                     />
                 </div>
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
-                    <Checkbox handleCheckboxChange={handleCheckboxChange}
-                              rowNumber={rowNumber}
+                    <RoundCheckbox handleCheckboxChange={handleCheckboxChange}
+                                   rowNumber={rowNumber}
                     />
                 </div>
             </div>
