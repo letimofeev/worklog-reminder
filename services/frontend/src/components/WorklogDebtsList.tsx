@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import '../styles/worklogDebtsList.scss';
 import WorklogDebtsItem from "./WorklogDebtsItem";
 import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
@@ -9,24 +9,21 @@ import {TransitionGroup} from "react-transition-group";
 
 type WorklogDebtsListProps = {
     employeesDebts: EmployeeDetailsWorklogDebts[];
+    selectedRows: boolean[];
+    setSelectedRows: Dispatch<SetStateAction<boolean[]>>;
 }
 
-type SelectedRows = {
-    [key: number]: boolean;
-};
-
-const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => {
+const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
+    {
+        employeesDebts,
+        selectedRows,
+        setSelectedRows
+    }) => {
     const [modal, setModal] = useState(false);
-    const [selectedRows, setSelectedRows] = useState<SelectedRows>([]);
-
 
     const handleCheckboxChange = (index: number) => {
-        setSelectedRows((prevSelectedRows) => ({
-            ...prevSelectedRows,
-            [index]: !prevSelectedRows[index],
-        }));
-        console.log(index)
-        console.log(selectedRows)
+        selectedRows[index] = !selectedRows[index];
+        setSelectedRows([...selectedRows]);
     };
 
     return (
@@ -61,7 +58,7 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => 
                                 worklogDebts={employeeDebts.worklogDebts}
                                 rowNumber={index + 1}
                                 handleCheckboxChange={handleCheckboxChange}
-                                selectedRows={selectedRows}
+                                isSelected={selectedRows[index]}
                             />
                         ))}
                     </TransitionGroup>

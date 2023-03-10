@@ -12,7 +12,7 @@ type WorklogDebtsListProps = {
     worklogDebts: DayWorklogDebt[];
     rowNumber: number;
     handleCheckboxChange: (index: number) => void;
-    selectedRows: any;
+    isSelected: any;
 }
 
 const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
@@ -21,7 +21,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
         worklogDebts,
         rowNumber,
         handleCheckboxChange,
-        selectedRows
+        isSelected
     }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -36,7 +36,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
     return (
         <div className="worklog-debts-list__body-row" onClick={toggleExpanded}>
             <div className="worklog-debts-list__body-row__hidden"
-                 style={{backgroundColor: selectedRows[rowNumber - 1] ? "#f4f6fa" : ""}}
+                 style={{backgroundColor: isSelected ? "#f4f6fa" : ""}}
             >
                 <div className="worklog-debts-list__no__body-cell">
                     {rowNumber}
@@ -56,6 +56,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
                     <RoundCheckbox handleCheckboxChange={handleCheckboxChange}
                                    rowNumber={rowNumber}
+                                   checked={isSelected}
                     />
                 </div>
             </div>
