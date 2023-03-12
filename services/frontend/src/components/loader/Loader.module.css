@@ -1,4 +1,6 @@
 .loader {
+  position: relative;
+  display: inline-block;
   border: 10px solid #f4f6fa;
   border-top: 10px solid #3498db;
   border-radius: 50%;
