@@ -8,6 +8,8 @@ import RoundCheckbox from "./checkbox/RoundCheckbox";
 import {CSSTransition} from 'react-transition-group';
 import {NotificationLoadingStatus} from "./WorklogDebts";
 import Loader from "./loader/Loader";
+import SuccessIcon from "./success/SuccessIcon";
+import FailIcon from "./fail/FailIcon";
 
 type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
@@ -75,10 +77,10 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                         }/>
                     }
                     {(notificationLoadingStatus === NotificationLoadingStatus.Pass) &&
-                        <div>Pass</div>
+                        <SuccessIcon/>
                     }
                     {(notificationLoadingStatus === NotificationLoadingStatus.Failed) &&
-                        <div>Failed</div>
+                        <FailIcon/>
                     }
                 </div>
             </div>
