@@ -6,6 +6,7 @@ import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
 import RoundCheckbox from "./checkbox/RoundCheckbox";
 import {CSSTransition} from 'react-transition-group';
+import {NotificationLoadingStatus} from "./WorklogDebts";
 
 type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
@@ -13,6 +14,7 @@ type WorklogDebtsListProps = {
     rowNumber: number;
     handleCheckboxChange: (index: number) => void;
     isSelected: any;
+    notificationLoadingStatus: NotificationLoadingStatus;
 }
 
 const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
@@ -21,7 +23,8 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
         worklogDebts,
         rowNumber,
         handleCheckboxChange,
-        isSelected
+        isSelected,
+        notificationLoadingStatus,
     }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -56,8 +59,17 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
                     <RoundCheckbox handleCheckboxChange={handleCheckboxChange}
                                    rowNumber={rowNumber}
-                                   checked={isSelected}
-                    />
+                                   checked={isSelected
+                                   }/>
+                    {(notificationLoadingStatus === NotificationLoadingStatus.Loading) &&
+                        <div>Loading</div>
+                    }
+                    {(notificationLoadingStatus === NotificationLoadingStatus.Pass) &&
+                        <div>Pass</div>
+                    }
+                    {(notificationLoadingStatus === NotificationLoadingStatus.Failed) &&
+                        <div>Failed</div>
+                    }
                 </div>
             </div>
             {isExpanded &&
