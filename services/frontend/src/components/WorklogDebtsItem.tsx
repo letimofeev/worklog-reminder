@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles/worklogDebtsList.scss'
 import {EmployeeDetails} from "../models/employee/EmployeeDetails";
 import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
@@ -10,6 +10,7 @@ import {NotificationLoadingStatus} from "./WorklogDebts";
 import Loader from "./loader/Loader";
 import SuccessIcon from "./success/SuccessIcon";
 import FailIcon from "./fail/FailIcon";
+import {NotificationResponse} from "../models/notification/NotificationResponse";
 
 type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
@@ -18,6 +19,7 @@ type WorklogDebtsListProps = {
     handleCheckboxChange: (index: number) => void;
     isSelected: any;
     notificationLoadingStatus: NotificationLoadingStatus;
+    notificationResponse: NotificationResponse;
 }
 
 const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
@@ -28,12 +30,19 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
         handleCheckboxChange,
         isSelected,
         notificationLoadingStatus,
+        notificationResponse
     }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
+    useEffect(() => {
+        if (notificationLoadingStatus === NotificationLoadingStatus.Failed) {
+            setIsExpanded(true);
+        }
+    }, [notificationLoadingStatus]);
+
     const toggleExpanded = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target instanceof Element
-            && (!event.target.closest("#debts-expanded") || event.target.closest("#debts-expanded-hider"))
+            && !event.target.closest("#debts-expanded")
             && !event.target.closest("#debts-row-actions")) {
             setIsExpanded(!isExpanded);
         }
@@ -88,7 +97,10 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                 <CSSTransition in={isExpanded}
                                timeout={500}
                                classNames="worklog-debts-list__body-row__expanded">
-                    <WorklogDebtsExpanded worklogDebts={worklogDebts}/>
+                    <WorklogDebtsExpanded
+                        worklogDebts={worklogDebts}
+                        notificationResponse={notificationResponse}
+                    />
                 </CSSTransition>
             }
         </div>

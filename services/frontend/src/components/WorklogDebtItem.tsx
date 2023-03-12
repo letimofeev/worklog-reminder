@@ -6,7 +6,12 @@ interface WorklogDebtItemProps {
     index: number;
 }
 
-const WorklogDebtItem: React.FC<WorklogDebtItemProps> = ({date, requiredSeconds, index}) => {
+const WorklogDebtItem: React.FC<WorklogDebtItemProps> = (
+    {
+        date,
+        requiredSeconds,
+        index
+    }) => {
     const formatTime = (seconds: number): string => {
         const hours = seconds / 3600;
         const minutes = (seconds % 3600) / 60;

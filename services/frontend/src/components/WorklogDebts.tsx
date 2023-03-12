@@ -21,17 +21,24 @@ export type NotificationLoadingRows = {
     [login: string]: NotificationLoadingStatus;
 }
 
+export type NotificationResponses = {
+    [login: string]: NotificationResponse;
+}
+
 const WorklogDebts = () => {
     const [worklogDebts, setWorklogDebts] = useState<EmployeeDetailsWorklogDebts[]>([]);
     const [isButtonsActive, setIsButtonsActive] = useState(false);
     const [selectedRows, setSelectedRows] = useState<boolean[]>([]);
     const [notificationLoadingRows, setNotificationLoadingRows] = useState<NotificationLoadingRows>({});
+    const [notificationResponses, setNotificationResponses] = useState<NotificationResponses>({});
 
     const [fetchDebts, isDebtsLoading, error] = useFetching(async () => {
         const response = await WorklogDebtsService.getAllDetails()
         setWorklogDebts([...worklogDebts, ...response.data])
+
         if (response.data.length) {
             const rowsNum = response.data.length;
+
             setSelectedRows(new Array<boolean>(rowsNum).fill(false));
             setIsButtonsActive(true);
 
@@ -51,14 +58,16 @@ const WorklogDebts = () => {
     const sendNotifications = () => {
         const selectedDebts = [] as EmployeeDetailsWorklogDebts[];
         const loadingStatuses = {...notificationLoadingRows};
+
         selectedRows.forEach((row, index) => {
-            if (row) {
-                const empDebts = worklogDebts.at(index);
-                if (empDebts) {
-                    const login = empDebts.employeeDetails.skypeLogin;
-                    loadingStatuses[login] = NotificationLoadingStatus.Loading;
-                    selectedDebts.push(empDebts);
-                }
+            if (!row) {
+                return;
+            }
+            const empDebts = worklogDebts.at(index);
+            if (empDebts) {
+                const login = empDebts.employeeDetails.skypeLogin;
+                loadingStatuses[login] = NotificationLoadingStatus.Loading;
+                selectedDebts.push(empDebts);
             }
         })
         if (!selectedDebts.length) {
@@ -69,9 +78,11 @@ const WorklogDebts = () => {
         DebtsNotificationService.sendNotifications(selectedDebts,
             (event) => {
                 console.log('Received event', event);
+
                 const notificationResponse = JSON.parse(event.data) as NotificationResponse;
                 const empLogin = notificationResponse.login;
                 const status = notificationResponse.status;
+
                 let loadingStatus: NotificationLoadingStatus;
                 if (status === NotificationStatus.Pass) {
                     loadingStatus = NotificationLoadingStatus.Pass;
@@ -82,6 +93,10 @@ const WorklogDebts = () => {
                     ...prevState,
                     [empLogin]: loadingStatus
                 }));
+                setNotificationResponses(prevState => ({
+                    ...prevState,
+                    [empLogin]: notificationResponse
+                }))
             }, (error) => {
                 console.error('There was an error from server', error);
             }, () => {
@@ -137,6 +152,7 @@ const WorklogDebts = () => {
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         notificationLoadingRows={notificationLoadingRows}
+                        notificationResponses={notificationResponses}
                     />
                 }
             </div>

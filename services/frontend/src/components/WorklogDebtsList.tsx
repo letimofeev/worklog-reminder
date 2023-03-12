@@ -6,13 +6,14 @@ import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
 import {TransitionGroup} from "react-transition-group";
-import {NotificationLoadingRows} from "./WorklogDebts";
+import {NotificationLoadingRows, NotificationResponses} from "./WorklogDebts";
 
 type WorklogDebtsListProps = {
     employeesDebts: EmployeeDetailsWorklogDebts[];
     selectedRows: boolean[];
     setSelectedRows: Dispatch<SetStateAction<boolean[]>>;
     notificationLoadingRows: NotificationLoadingRows;
+    notificationResponses: NotificationResponses;
 }
 
 const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
@@ -21,6 +22,7 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
         selectedRows,
         setSelectedRows,
         notificationLoadingRows,
+        notificationResponses
     }) => {
     const [modal, setModal] = useState(false);
 
@@ -63,6 +65,7 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
                                 handleCheckboxChange={handleCheckboxChange}
                                 isSelected={selectedRows[index]}
                                 notificationLoadingStatus={notificationLoadingRows[employeeDebts.employeeDetails.skypeLogin]}
+                                notificationResponse={notificationResponses[employeeDebts.employeeDetails.skypeLogin]}
                             />
                         ))}
                     </TransitionGroup>

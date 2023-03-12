@@ -13,8 +13,8 @@ const FailIcon: React.FC<FailIconProps> = ({style}) => {
                      display: 'flex',
                      marginTop: '8px',
                      ...style
-                 }}
-        >
+                 }
+             }>
             <span
                 className="swal2-x-mark"><span className="swal2-x-mark-line-left"></span>
                 <span className="swal2-x-mark-line-right"></span>
