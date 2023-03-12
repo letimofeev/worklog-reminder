@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import '../styles/worklogDebtsList.scss';
 import WorklogDebtsItem from "./WorklogDebtsItem";
-import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
+import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
 import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";

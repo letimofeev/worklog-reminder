@@ -1,13 +1,20 @@
-import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
+import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
 import {EventSourceMessage, fetchEventSource} from "@microsoft/fetch-event-source";
+import {EmployeeDetailsMapper} from "../mappers/EmployeeDetailsMapper";
 
 export default class DebtsNotificationService {
-    static async sendNotifications(debts: EmployeeDetailsWorklogDebts[],
+    static async sendNotifications(detailsWorklogDebts: EmployeeDetailsWorklogDebts[],
                                    onMessage: (event: EventSourceMessage) => void,
                                    onError: (error: any) => void,
                                    onClose: () => void) {
-        const logins = debts.map(employeeDebts => employeeDebts.employeeDetails.skypeLogin).join(',');
-        await fetchEventSource('http://localhost:8080/stream-sse?logins=' + logins, {
+        const debts = EmployeeDetailsMapper.mapToEmployeeDebts(detailsWorklogDebts);
+        await fetchEventSource('http://localhost:8080/stream-sse', {
+            method: 'POST',
+            body: JSON.stringify(debts),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
             async onopen(res) {
                 if (res.ok && res.status === 200) {
                     console.log("Connection established ", res);

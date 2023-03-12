@@ -20,7 +20,7 @@ import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 @Validated
 @RestController
-@RequestMapping("/notifications/worklog-debts")
+@RequestMapping("/worklog-debts/notifications")
 @RequiredArgsConstructor
 public class WorklogDebtsNotificationController {
     private final WorklogDebtsNotificationService notificationService;

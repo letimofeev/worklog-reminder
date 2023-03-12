@@ -3,12 +3,12 @@ import '../styles/worklogDebts.scss';
 import WorklogDebtsList from "./WorklogDebtsList";
 import {useFetching} from "../hooks/useFetching";
 import WorklogDebtsService from "../services/WorklogDebtsService";
-import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
+import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
 import Loader from "./loader/Loader";
 import CustomButton from "./button/CustomButton";
 import DebtsNotificationService from "../services/DebtsNotificationService";
-import {NotificationResponse} from "../models/NotificationResponse";
-import {NotificationStatus} from "../models/NotificationStatus";
+import {NotificationResponse} from "../models/notification/NotificationResponse";
+import {NotificationStatus} from "../models/notification/NotificationStatus";
 
 export enum NotificationLoadingStatus {
     Inactive,

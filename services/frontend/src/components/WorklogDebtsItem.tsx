@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import '../styles/worklogDebtsList.scss'
-import {EmployeeDetails} from "../models/EmployeeDetails";
-import {DayWorklogDebt} from "../models/DayWorklogDebt";
+import {EmployeeDetails} from "../models/employee/EmployeeDetails";
+import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
 import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
 import RoundCheckbox from "./checkbox/RoundCheckbox";

@@ -1,6 +1,6 @@
 import React from 'react';
 import WorklogDebtItem from "./WorklogDebtItem";
-import {DayWorklogDebt} from "../models/DayWorklogDebt";
+import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
 
 interface WorklogDebtsExpandedProps {
     worklogDebts: DayWorklogDebt[];
