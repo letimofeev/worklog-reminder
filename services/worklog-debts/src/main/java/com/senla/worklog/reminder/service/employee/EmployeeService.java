@@ -12,6 +12,8 @@ public interface EmployeeService {
 
     Optional<EmployeeDto> getEmployeeByJiraKey(String jiraKey);
 
+    List<EmployeeDto> getAllEmployeeByJiraKeys(List<String> jiraKeys);
+
     List<EmployeeDto> getAllEmployees();
 
     EmployeeDto updateEmployee(EmployeeDto employeeDto);
