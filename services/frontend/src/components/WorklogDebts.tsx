@@ -36,7 +36,7 @@ const WorklogDebts = () => {
         const response = await WorklogDebtsService.getAllDetails()
         setWorklogDebts([...worklogDebts, ...response.data])
 
-        if (response.data.length) {
+        if (response.data && response.data.length) {
             const rowsNum = response.data.length;
 
             setSelectedRows(new Array<boolean>(rowsNum).fill(false));

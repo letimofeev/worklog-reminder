@@ -16,8 +16,8 @@ type WorklogDebtsListProps = {
     employeeDetails: EmployeeDetails;
     worklogDebts: DayWorklogDebt[];
     rowNumber: number;
-    handleCheckboxChange: (index: number) => void;
-    isSelected: any;
+    toggleSelected: (index: number) => void;
+    isSelected: boolean;
     notificationLoadingStatus: NotificationLoadingStatus;
     notificationResponse: NotificationResponse;
 }
@@ -27,7 +27,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
         employeeDetails,
         worklogDebts,
         rowNumber,
-        handleCheckboxChange,
+        toggleSelected,
         isSelected,
         notificationLoadingStatus,
         notificationResponse
@@ -35,6 +35,10 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
     const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
+        if (notificationLoadingStatus === NotificationLoadingStatus.Pass
+            || notificationLoadingStatus === NotificationLoadingStatus.Failed) {
+            toggleSelected(rowNumber - 1);
+        }
         if (notificationLoadingStatus === NotificationLoadingStatus.Failed) {
             setIsExpanded(true);
         }
@@ -70,7 +74,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
                 </div>
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
                     {notificationLoadingStatus === NotificationLoadingStatus.Inactive &&
-                        <RoundCheckbox handleCheckboxChange={handleCheckboxChange}
+                        <RoundCheckbox handleCheckboxChange={toggleSelected}
                                        rowNumber={rowNumber}
                                        checked={isSelected}
                         />

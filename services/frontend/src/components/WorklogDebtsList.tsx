@@ -26,7 +26,7 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
     }) => {
     const [modal, setModal] = useState(false);
 
-    const handleCheckboxChange = (index: number) => {
+    const toggleSelected = (index: number) => {
         selectedRows[index] = !selectedRows[index];
         setSelectedRows([...selectedRows]);
     };
@@ -62,7 +62,7 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
                                 employeeDetails={employeeDebts.employeeDetails}
                                 worklogDebts={employeeDebts.worklogDebts}
                                 rowNumber={index + 1}
-                                handleCheckboxChange={handleCheckboxChange}
+                                toggleSelected={toggleSelected}
                                 isSelected={selectedRows[index]}
                                 notificationLoadingStatus={notificationLoadingRows[employeeDebts.employeeDetails.skypeLogin]}
                                 notificationResponse={notificationResponses[employeeDebts.employeeDetails.skypeLogin]}
