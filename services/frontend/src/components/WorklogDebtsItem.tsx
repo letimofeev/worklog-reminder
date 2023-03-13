@@ -145,7 +145,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                 borderTop: '5px solid #3498db',
                                 display: 'inline-block',
                                 marginLeft: 'auto',
-                                marginRight: '20%'
+                                marginRight: '30%'
                             }
                         }/>
                         :
