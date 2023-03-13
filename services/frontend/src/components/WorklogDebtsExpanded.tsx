@@ -3,6 +3,7 @@ import WorklogDebtItem from "./WorklogDebtItem";
 import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 import {NotificationStatus} from "../models/notification/NotificationStatus";
+import ErrorBlock from "./error/ErrorBlock";
 
 interface WorklogDebtsExpandedProps {
     worklogDebts: DayWorklogDebt[];
@@ -17,7 +18,10 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
                     {(notificationResponse !== undefined) &&
                         (notificationResponse.status === NotificationStatus.Failed) &&
                         <div className="worklog-debts-list__body-row__expanded__notification-failed">
-                            Notification failed. Response message: {notificationResponse.message}
+                            <ErrorBlock
+                                header={'Notification failed'}
+                                body={'Response message from server: ' + notificationResponse.message}
+                            />
                         </div>
                     }
                     <div className="worklog-debts-list__body-row__expanded__header">
