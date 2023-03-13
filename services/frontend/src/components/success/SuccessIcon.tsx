@@ -7,9 +7,10 @@ type SuccessIconProps = {
 
 const SuccessIcon: React.FC<SuccessIconProps> = ({style}) => {
     return (
-        <div className="success-icon" style={style}>
-            <div className="success-icon__tip"></div>
-            <div className="success-icon__long"></div>
+        <div className="swal2-icon swal2-success swal2-animate-success-icon" style={{display: 'flex', ...style}}>
+            <span className="swal2-success-line-tip"></span>
+            <span className="swal2-success-line-long"></span>
+            <div className="swal2-success-ring"></div>
         </div>
     );
 };
