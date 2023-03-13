@@ -12,7 +12,7 @@ import SuccessIcon from "./success/SuccessIcon";
 import FailIcon from "./fail/FailIcon";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 
-type WorklogDebtsListProps = {
+type WorklogDebtsItemProps = {
     employeeDetails: EmployeeDetails;
     worklogDebts: DayWorklogDebt[];
     rowNumber: number;
@@ -22,7 +22,7 @@ type WorklogDebtsListProps = {
     notificationResponse: NotificationResponse;
 }
 
-const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
+const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
     {
         employeeDetails,
         worklogDebts,
@@ -39,9 +39,6 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
             || notificationLoadingStatus === NotificationLoadingStatus.Failed) {
             toggleSelected(rowNumber - 1);
         }
-        if (notificationLoadingStatus === NotificationLoadingStatus.Failed) {
-            setIsExpanded(true);
-        }
     }, [notificationLoadingStatus]);
 
     const toggleExpanded = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -52,10 +49,20 @@ const WorklogDebtsItem: React.FC<WorklogDebtsListProps> = (
         }
     }
 
+    const getBackgroundColor = () => {
+        const isFailed = notificationLoadingStatus === NotificationLoadingStatus.Failed;
+        if (isFailed && isSelected) {
+            return "#f5e3e3";
+        } else if (isFailed) {
+            return "#fff4f4";
+        }
+        return isSelected ? "#f4f6fa" : ""
+    }
+
     return (
         <div className="worklog-debts-list__body-row" onClick={toggleExpanded}>
             <div className="worklog-debts-list__body-row__hidden"
-                 style={{backgroundColor: isSelected ? "#f4f6fa" : ""}}
+                 style={{backgroundColor: getBackgroundColor()}}
             >
                 <div className="worklog-debts-list__no__body-cell">
                     {rowNumber}
