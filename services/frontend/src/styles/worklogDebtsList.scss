@@ -240,10 +240,18 @@
     }
 
     &__body-cell {
+      display: flex;
+      align-items: center;
+
       &__status-icon {
-        display: inline-flex;
+        display: inline-block;
         align-items: center;
-        margin-right: 10%;
+
+        &__failed,
+        &__pass {
+          display: inline-flex;
+          align-items: center;
+        }
       }
     }
   }

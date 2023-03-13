@@ -11,6 +11,7 @@ import Loader from "./loader/Loader";
 import SuccessIcon from "./status/SuccessIcon";
 import FailIcon from "./status/FailIcon";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
+import {BsFillQuestionCircleFill} from "react-icons/bs";
 
 type WorklogDebtsItemProps = {
     employeeDetails: EmployeeDetails;
@@ -70,7 +71,8 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
     const toggleExpanded = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target instanceof Element
             && !event.target.closest("#debts-expanded")
-            && !event.target.closest("#debts-row-actions")) {
+            && (!event.target.closest("#debts-row-actions")
+                || event.target.closest("#notification-failed-status-icon"))) {
             if (!isExpanded && notificationLoadingStatus === NotificationLoadingStatus.Failed) {
                 setWasExpandedAfterNotificationFail(true);
             }
@@ -101,10 +103,37 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
                     <div className="worklog-debts-list__actions__body-cell__status-icon">
                         {(notificationLoadingStatus === NotificationLoadingStatus.Pass) &&
-                            <SuccessIcon/>
+                            <div className="worklog-debts-list__actions__body-cell__status-icon__pass">
+                                <SuccessIcon style={
+                                    {
+                                        marginTop: '7px',
+                                        marginLeft: '30px'
+                                    }
+                                }/>
+                            </div>
                         }
                         {(notificationLoadingStatus === NotificationLoadingStatus.Failed) &&
-                            <FailIcon/>
+                            <div id="notification-failed-status-icon"
+                                 className="worklog-debts-list__actions__body-cell__status-icon__failed">
+                                {!wasExpandedAfterNotificationFail &&
+                                    <BsFillQuestionCircleFill style={
+                                    {
+                                        marginRight: '10px',
+                                        width: '20px',
+                                        height: '20px',
+                                        color: '#a4bade'
+                                    }
+                                }/>
+                                }
+                                {<FailIcon style={
+                                    {
+                                        marginRight: !wasExpandedAfterNotificationFail ? 'auto' : undefined,
+                                        cursor: !wasExpandedAfterNotificationFail ? 'pointer' : undefined,
+                                        marginTop: '7px',
+                                        marginLeft: wasExpandedAfterNotificationFail ? '30px' : undefined,
+                                    }
+                                }/>}
+                            </div>
                         }
                     </div>
                     {(notificationLoadingStatus === NotificationLoadingStatus.Loading) ?
@@ -115,15 +144,20 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                 border: '5px solid #f4f6fa',
                                 borderTop: '5px solid #3498db',
                                 display: 'inline-block',
-                                margin: 'auto'
+                                marginLeft: 'auto',
+                                marginRight: '20%'
                             }
                         }/>
                         :
                         <RoundCheckbox handleCheckboxChange={toggleSelected}
                                        rowNumber={rowNumber}
                                        checked={isSelected}
-                                       style={{display: 'inline-block'}}
-                        />
+                                       style={
+                                           {
+                                               marginLeft: 'auto',
+                                               marginRight: '30%'
+                                           }
+                                       }/>
                     }
                 </div>
             </div>
