@@ -33,36 +33,55 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
         notificationResponse
     }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [wasExpandedAfterNotificationFail, setWasExpandedAfterNotificationFail] = useState(false);
+    const [backgroundColor, setBackgroundColor] = useState("");
 
     useEffect(() => {
-        if (notificationLoadingStatus === NotificationLoadingStatus.Pass
-            || notificationLoadingStatus === NotificationLoadingStatus.Failed) {
+        const isPass = notificationLoadingStatus === NotificationLoadingStatus.Pass;
+        const isFailed = notificationLoadingStatus === NotificationLoadingStatus.Failed;
+        if (isPass || isFailed) {
             toggleSelected(rowNumber - 1);
         }
+        setWasExpandedAfterNotificationFail(false);
     }, [notificationLoadingStatus]);
+
+    useEffect(() => {
+        const isFailed = notificationLoadingStatus === NotificationLoadingStatus.Failed;
+        const color = getBackgroundColor(wasExpandedAfterNotificationFail, isFailed, isSelected);
+        setBackgroundColor(color);
+    }, [isExpanded, isSelected, notificationLoadingStatus]);
+
+    const getBackgroundColor = (
+        wasExpandedAfterNotificationFail: boolean,
+        isFailed: boolean,
+        isSelected: boolean
+    ): string => {
+        if (!wasExpandedAfterNotificationFail) {
+            if (isFailed && isSelected) {
+                return "#f5e3e3";
+            } else if (isFailed) {
+                return "#fff4f4";
+            }
+            return isSelected ? "#f4f6fa" : ""
+        }
+        return isSelected ? "#f4f6fa" : ""
+    }
 
     const toggleExpanded = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target instanceof Element
             && !event.target.closest("#debts-expanded")
             && !event.target.closest("#debts-row-actions")) {
+            if (!isExpanded && notificationLoadingStatus === NotificationLoadingStatus.Failed) {
+                setWasExpandedAfterNotificationFail(true);
+            }
             setIsExpanded(!isExpanded);
         }
-    }
-
-    const getBackgroundColor = () => {
-        const isFailed = notificationLoadingStatus === NotificationLoadingStatus.Failed;
-        if (isFailed && isSelected) {
-            return "#f5e3e3";
-        } else if (isFailed) {
-            return "#fff4f4";
-        }
-        return isSelected ? "#f4f6fa" : ""
     }
 
     return (
         <div className="worklog-debts-list__body-row" onClick={toggleExpanded}>
             <div className="worklog-debts-list__body-row__hidden"
-                 style={{backgroundColor: getBackgroundColor()}}
+                 style={{backgroundColor: backgroundColor}}
             >
                 <div className="worklog-debts-list__no__body-cell">
                     {rowNumber}
