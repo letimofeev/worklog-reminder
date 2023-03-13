@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import './RoundCheckbox.css';
 
 type CheckboxProps = {
     rowNumber: number
     handleCheckboxChange: (index: number) => void;
     checked: boolean;
+    style?: CSSProperties;
 }
 
-const RoundCheckbox: React.FC<CheckboxProps> = ({rowNumber, handleCheckboxChange, checked}) => {
+const RoundCheckbox: React.FC<CheckboxProps> = (
+    {
+        rowNumber,
+        handleCheckboxChange,
+        checked,
+        style
+    }) => {
     return (
-        <div className="checkbox-wrapper-31">
+        <div className="checkbox-wrapper-31" style={style}>
             <input type="checkbox"
                    onChange={() => handleCheckboxChange(rowNumber - 1)}
                    checked={checked}

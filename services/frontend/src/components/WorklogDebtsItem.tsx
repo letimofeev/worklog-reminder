@@ -8,8 +8,8 @@ import RoundCheckbox from "./checkbox/RoundCheckbox";
 import {CSSTransition} from 'react-transition-group';
 import {NotificationLoadingStatus} from "./WorklogDebts";
 import Loader from "./loader/Loader";
-import SuccessIcon from "./success/SuccessIcon";
-import FailIcon from "./fail/FailIcon";
+import SuccessIcon from "./status/SuccessIcon";
+import FailIcon from "./status/FailIcon";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 
 type WorklogDebtsItemProps = {
@@ -99,27 +99,31 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                     />
                 </div>
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
-                    {notificationLoadingStatus === NotificationLoadingStatus.Inactive &&
-                        <RoundCheckbox handleCheckboxChange={toggleSelected}
-                                       rowNumber={rowNumber}
-                                       checked={isSelected}
-                        />
-                    }
-                    {(notificationLoadingStatus === NotificationLoadingStatus.Loading) &&
+                    <div className="worklog-debts-list__actions__body-cell__status-icon">
+                        {(notificationLoadingStatus === NotificationLoadingStatus.Pass) &&
+                            <SuccessIcon/>
+                        }
+                        {(notificationLoadingStatus === NotificationLoadingStatus.Failed) &&
+                            <FailIcon/>
+                        }
+                    </div>
+                    {(notificationLoadingStatus === NotificationLoadingStatus.Loading) ?
                         <Loader style={
                             {
                                 height: '20px',
                                 width: '20px',
                                 border: '5px solid #f4f6fa',
-                                borderTop: '5px solid #3498db'
+                                borderTop: '5px solid #3498db',
+                                display: 'inline-block',
+                                margin: 'auto'
                             }
                         }/>
-                    }
-                    {(notificationLoadingStatus === NotificationLoadingStatus.Pass) &&
-                        <SuccessIcon/>
-                    }
-                    {(notificationLoadingStatus === NotificationLoadingStatus.Failed) &&
-                        <FailIcon/>
+                        :
+                        <RoundCheckbox handleCheckboxChange={toggleSelected}
+                                       rowNumber={rowNumber}
+                                       checked={isSelected}
+                                       style={{display: 'inline-block'}}
+                        />
                     }
                 </div>
             </div>

@@ -238,5 +238,13 @@
       flex-basis: 15%;
       text-align: center;
     }
+
+    &__body-cell {
+      &__status-icon {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 10%;
+      }
+    }
   }
 }

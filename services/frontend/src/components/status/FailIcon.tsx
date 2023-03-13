@@ -1,5 +1,5 @@
 import React, {CSSProperties} from 'react';
-import './FailIcon.scss';
+import './StatusIcon.scss';
 
 type FailIconProps = {
     style?: CSSProperties;
