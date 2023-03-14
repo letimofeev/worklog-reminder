@@ -43,7 +43,7 @@ const WorklogDebts = () => {
             setIsButtonsActive(true);
 
             const newNotificationLoadingRows = {} as NotificationLoadingRows;
-            response.data.forEach(empDebts => {
+            response.data.forEach((empDebts: EmployeeDetailsWorklogDebts) => {
                 const login = empDebts.employeeDetails.skypeLogin;
                 newNotificationLoadingRows[login] = NotificationLoadingStatus.Inactive;
             });
