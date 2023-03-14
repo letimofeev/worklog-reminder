@@ -104,33 +104,32 @@ const WorklogDebts = () => {
                 }
             }
         })
-        if (!selectedDebts.length) {
-            return;
+
+        if (selectedDebts.length) {
+            DebtsNotificationService.sendNotifications(selectedDebts,
+                (event) => {
+                    console.log('Received event', event);
+
+                    const notificationResponse = JSON.parse(event.data) as NotificationResponse;
+                    const empLogin = notificationResponse.login;
+                    const status = notificationResponse.status;
+
+                    if (status === NotificationStatus.Pass) {
+                        loadingStatuses[empLogin] = NotificationLoadingStatus.Pass;
+                    } else {
+                        loadingStatuses[empLogin] = NotificationLoadingStatus.Failed;
+                    }
+                    setNotificationResponses(prevState => ({
+                        ...prevState,
+                        [empLogin]: notificationResponse
+                    }))
+                }, (error) => {
+                    console.error('There was an error from server', error);
+                }, () => {
+                    console.log('Connection closed by the server');
+                });
         }
-        setNotificationLoadingRows(loadingStatuses);
 
-        DebtsNotificationService.sendNotifications(selectedDebts,
-            (event) => {
-                console.log('Received event', event);
-
-                const notificationResponse = JSON.parse(event.data) as NotificationResponse;
-                const empLogin = notificationResponse.login;
-                const status = notificationResponse.status;
-
-                if (status === NotificationStatus.Pass) {
-                    loadingStatuses[empLogin] = NotificationLoadingStatus.Pass;
-                } else {
-                    loadingStatuses[empLogin] = NotificationLoadingStatus.Failed;
-                }
-                setNotificationResponses(prevState => ({
-                    ...prevState,
-                    [empLogin]: notificationResponse
-                }))
-            }, (error) => {
-                console.error('There was an error from server', error);
-            }, () => {
-                console.log('Connection closed by the server');
-            });
         setNotificationLoadingRows(loadingStatuses);
     }
 
