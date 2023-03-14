@@ -59,7 +59,19 @@ const WorklogDebts = () => {
         const selectedDebts = [] as EmployeeDetailsWorklogDebts[];
         const loadingStatuses = {...notificationLoadingRows};
 
+        const handleDisconnected = (index: number, login: string) => {
+            interruptWithFailure(index, login, 'Employee is not connected to notification service');
+        }
+
+        const handleDisabled = (index: number, login: string) => {
+            interruptWithFailure(index, login, 'Employee notifications disabled');
+        }
+
         const handleNullLogin = (index: number, login: string) => {
+            interruptWithFailure(index, login, 'Employee login is not specified');
+        }
+
+        const interruptWithFailure = (index: number, login: string, message: string) => {
             selectedRows[index] = false;
             setSelectedRows([...selectedRows]);
             loadingStatuses[login] = NotificationLoadingStatus.Failed;
@@ -68,9 +80,9 @@ const WorklogDebts = () => {
                 [login]: {
                     login: login,
                     status: NotificationStatus.Failed,
-                    message: 'Login is not specified'
+                    message: message
                 }
-            }))
+            }));
         }
 
         selectedRows.forEach((row, index) => {
@@ -80,11 +92,15 @@ const WorklogDebts = () => {
             const empDebts = worklogDebts.at(index);
             if (empDebts) {
                 const login = empDebts.employeeDetails.skypeLogin;
-                if (login !== null) {
+                if (!empDebts.employeeDetails.botConnected) {
+                    handleDisconnected(index, login)
+                } else if (!empDebts.employeeDetails.notificationEnabled) {
+                    handleDisabled(index, login);
+                } else if (login === null) {
+                    handleNullLogin(index, login);
+                } else {
                     loadingStatuses[login] = NotificationLoadingStatus.Loading;
                     selectedDebts.push(empDebts);
-                } else {
-                    handleNullLogin(index, login);
                 }
             }
         })
