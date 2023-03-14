@@ -1,0 +1,33 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  workflow_dispatch:
+
+jobs:
+  build:
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies
+        run: |-
+          cd services/frontend
+          npm install
+
+      - name: Build and push Docker Image
+        run: |-
+          cd services/frontend
+          npm run docker:build
+          npm run docker:login
+          npm run docker:push

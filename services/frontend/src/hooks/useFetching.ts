@@ -15,6 +15,7 @@ export const useFetching = (callback: CallbackFunctionType): [CallbackFunctionTy
             if (e instanceof Error) {
                 message = e.message
             }
+            console.error('Error during fetching: ', message)
             setError(message)
         } finally {
             setIsLoading(false)
