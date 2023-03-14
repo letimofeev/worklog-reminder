@@ -48,6 +48,8 @@ const WorklogDebts = () => {
                 newNotificationLoadingRows[login] = NotificationLoadingStatus.Inactive;
             });
             setNotificationLoadingRows(newNotificationLoadingRows);
+            console.log(response.data)
+
         }
     })
 
@@ -67,7 +69,7 @@ const WorklogDebts = () => {
             interruptWithFailure(index, login, 'Employee notifications disabled');
         }
 
-        const handleNullLogin = (index: number, login: string) => {
+        const handleNotPresentLogin = (index: number, login: string) => {
             interruptWithFailure(index, login, 'Employee login is not specified');
         }
 
@@ -96,8 +98,8 @@ const WorklogDebts = () => {
                     handleDisconnected(index, login)
                 } else if (!empDebts.employeeDetails.notificationEnabled) {
                     handleDisabled(index, login);
-                } else if (login === null) {
-                    handleNullLogin(index, login);
+                } else if (!WorklogDebtsService.isLoginPresent(login)) {
+                    handleNotPresentLogin(index, login);
                 } else {
                     loadingStatuses[login] = NotificationLoadingStatus.Loading;
                     selectedDebts.push(empDebts);
