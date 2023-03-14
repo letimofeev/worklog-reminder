@@ -1,0 +1,61 @@
+.worklog-debts {
+  position: relative;
+  background-color: #cad0d9;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+
+  &__container {
+    background-color: white;
+    border-radius: 10px;
+    width: 60%;
+    margin: 40px;
+    padding: 20px;
+    box-shadow: 0 0 10px #cad0d9;
+    min-height: 250px;
+  }
+
+  &__header {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-left: 20px;
+  }
+
+  &__subheader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 20px;
+
+    &__text {
+      flex-basis: 85%;
+      font-size: 16px;
+      font-weight: bold;
+      color: #888888;
+    }
+
+    &__notification {
+
+    }
+
+    &__selection {
+      flex-basis: 15%;
+      text-align: center;
+
+      &__toggle-all {
+        justify-content: right;
+      }
+    }
+  }
+
+  &__loader {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+  }
+}

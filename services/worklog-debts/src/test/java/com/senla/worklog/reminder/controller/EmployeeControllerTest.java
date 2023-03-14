@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senla.worklog.reminder.dto.EmployeeDto;
-import com.senla.worklog.reminder.service.EmployeeService;
+import com.senla.worklog.reminder.service.employee.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

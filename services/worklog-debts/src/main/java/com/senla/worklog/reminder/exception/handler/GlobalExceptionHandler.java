@@ -76,8 +76,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAll(Exception e) {
-        log.warn("Resolved {}: {}", e.getClass().getSimpleName(), e.getMessage());
-        e.printStackTrace();
+        log.warn("Resolved {}: {}\n{}", e.getClass().getSimpleName(), e.getMessage(), e);
         var message = "Internal server error";
         var apiError = new ApiError(message, INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);

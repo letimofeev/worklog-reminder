@@ -39,17 +39,18 @@ async function bootstrap() {
             sequelize: sequelize
         }
     });
-    await runMigrations(umzug)
+    await runMigrations(umzug);
 
     const httpAdapter = app.get(HttpAdapterHost);
 
-    app.useGlobalPipes(new ValidationPipe())
+    app.enableCors();
+    app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(
         new UnhandledExceptionFilter(httpAdapter),
         new HttpExceptionFilter(),
         new ValidationExceptionFilter(),
         new UniqueConstraintErrorFilter()
-    )
+    );
 
     await app.listen(PORT, () => console.log(`Server stated on port = ${PORT}`));
 }
