@@ -27,11 +27,30 @@
   }
 
   &__subheader {
-    font-size: 16px;
-    font-weight: bold;
-    color: #888888;
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
-    padding-left: 20px;
+    padding: 0 20px;
+
+    &__text {
+      flex-basis: 85%;
+      font-size: 16px;
+      font-weight: bold;
+      color: #888888;
+    }
+
+    &__notification {
+
+    }
+
+    &__selection {
+      flex-basis: 15%;
+      text-align: center;
+
+      &__toggle-all {
+        justify-content: right;
+      }
+    }
   }
 
   &__loader {

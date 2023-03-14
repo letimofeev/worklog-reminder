@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 @RequiredArgsConstructor
@@ -36,10 +37,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDto> getAllEmployeeByJiraKeys(List<String> jiraKeys) {
+        return repository.findAllByJiraKeyIn(jiraKeys).stream()
+                .map(mapper::mapToDto)
+                .collect(toList());
+    }
+
+    @Override
     public List<EmployeeDto> getAllEmployees() {
         return repository.findAll().stream()
                 .map(mapper::mapToDto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override

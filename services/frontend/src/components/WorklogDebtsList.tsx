@@ -1,17 +1,40 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import '../styles/worklogDebtsList.scss';
 import WorklogDebtsItem from "./WorklogDebtsItem";
-import {EmployeeDetailsWorklogDebts} from "../models/EmployeeDetailsWorklogDebts";
+import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
 import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
+import {TransitionGroup} from "react-transition-group";
+import {NotificationLoadingRows, NotificationResponses} from "./WorklogDebts";
 
-interface WorklogDebtsListProps {
+type WorklogDebtsListProps = {
     employeesDebts: EmployeeDetailsWorklogDebts[];
+    selectedRows: boolean[];
+    setSelectedRows: Dispatch<SetStateAction<boolean[]>>;
+    notificationLoadingRows: NotificationLoadingRows;
+    notificationResponses: NotificationResponses;
 }
 
-const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => {
-    const [modal, setModal] = useState(false)
+const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
+    {
+        employeesDebts,
+        selectedRows,
+        setSelectedRows,
+        notificationLoadingRows,
+        notificationResponses
+    }) => {
+    const [modal, setModal] = useState(false);
+
+    const toggleSelected = (index: number) => {
+        selectedRows[index] = !selectedRows[index];
+        setSelectedRows([...selectedRows]);
+    };
+
+    const setIsSelected = (index: number, value: boolean) => {
+        selectedRows[index] = value;
+        setSelectedRows([...selectedRows]);
+    };
 
     return (
         <div className="worklog-debts-list">
@@ -35,21 +58,30 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = ({employeesDebts}) => 
             <div className="worklog-debts-list__body">
                 {employeesDebts.length
                     ?
-                    employeesDebts.map((employeeDebts, index) => (
-                        <WorklogDebtsItem
-                            key={index}
-                            employeeDetails={employeeDebts.employeeDetails}
-                            worklogDebts={employeeDebts.worklogDebts}
-                            index={index + 1}
-                        />
-                    ))
+                    <TransitionGroup style={{
+                        width: "100%"
+                    }}>
+                        {employeesDebts.map((employeeDebts, index) => (
+                            <WorklogDebtsItem
+                                key={employeeDebts.employeeDetails.id}
+                                employeeDetails={employeeDebts.employeeDetails}
+                                worklogDebts={employeeDebts.worklogDebts}
+                                rowNumber={index + 1}
+                                toggleSelected={toggleSelected}
+                                setIsSelected={setIsSelected}
+                                isSelected={selectedRows[index]}
+                                notificationLoadingStatus={notificationLoadingRows[employeeDebts.employeeDetails.skypeLogin]}
+                                notificationResponse={notificationResponses[employeeDebts.employeeDetails.skypeLogin]}
+                            />
+                        ))}
+                    </TransitionGroup>
                     :
                     <div className="worklog-debts-list__empty">
                         <div className="worklog-debts-list__empty__text">
                             No debts found
                         </div>
                         <div className="worklog-debts-list__empty__image"
-                            style={{backgroundImage: "url(/images/happy-cat-sticker.png)"}}/>
+                             style={{backgroundImage: "url(/images/happy-cat-sticker.png)"}}/>
                     </div>
                 }
             </div>
