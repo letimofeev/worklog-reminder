@@ -8,7 +8,7 @@ export default class DebtsNotificationService {
                                    onError: (error: any) => void,
                                    onClose: () => void) {
         const debts = EmployeeDetailsMapper.mapToEmployeeDebts(detailsWorklogDebts);
-        await fetchEventSource('http://localhost:8080/stream-sse', {
+        await fetchEventSource('http://localhost:8100/stream-sse', {
             method: 'POST',
             body: JSON.stringify(debts),
             headers: {

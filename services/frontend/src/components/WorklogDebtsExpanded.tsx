@@ -40,7 +40,7 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
                             <WorklogDebtItem
                                 key={index}
                                 date={worklogDebt.date}
-                                requiredSeconds={worklogDebt.requiredSeconds}
+                                timeDeptSeconds={worklogDebt.timeDeptSeconds}
                                 index={index + 1}
                             />
                         ))}
