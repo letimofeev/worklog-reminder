@@ -81,9 +81,6 @@ services:
       - "3000:3000"
     networks:
       - worklog-reminder-network
-    environment:
-      NOTIFICATION_HOST: notification
-      WORKLOG_DEBT_HOST: worklog-debts
 
 networks:
   worklog-reminder-network:

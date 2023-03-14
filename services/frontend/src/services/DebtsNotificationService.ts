@@ -8,8 +8,7 @@ export default class DebtsNotificationService {
                                    onError: (error: any) => void,
                                    onClose: () => void) {
         const debts = EmployeeDetailsMapper.mapToEmployeeDebts(detailsWorklogDebts);
-        const host = process.env.WORKLOG_DEBT_HOST || 'http://localhost:8080';
-        await fetchEventSource(host + '/worklog-debts/notifications/custom', {
+        await fetchEventSource('http://localhost:8200/worklog-debts/notifications/custom', {
             method: 'POST',
             body: JSON.stringify(debts),
             headers: {
