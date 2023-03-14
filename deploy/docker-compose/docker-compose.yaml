@@ -31,10 +31,10 @@ services:
     networks:
       - worklog-reminder-network
     environment:
-      - POSTGRES_DB=${WORKLOG_DEBTS_DB:-worklog-debts}
-      - POSTGRES_USER=${WORKLOG_DEBTS_DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${WORKLOG_DEBTS_DB_PASS:-postgres}
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${WORKLOG_DEBTS_DB:-worklog-debts}
+      POSTGRES_USER: ${WORKLOG_DEBTS_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${WORKLOG_DEBTS_DB_PASS:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./worklog-debts-db:/var/lib/postgresql/data
   notification:
@@ -65,13 +65,25 @@ services:
     networks:
       - worklog-reminder-network
     environment:
-      - POSTGRES_DB=${NOTIFICATION_DB:-notification}
-      - POSTGRES_USER=${NOTIFICATION_DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${NOTIFICATION_DB_PASS:-postgres}
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${NOTIFICATION_DB:-notification}
+      POSTGRES_USER: ${NOTIFICATION_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${NOTIFICATION_DB_PASS:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./notification-db:/var/lib/postgresql/data
     command: -p 5433
+
+  frontend:
+    image: letimof/frontend:0.0.1
+    container_name: frontend
+    pull_policy: always
+    ports:
+      - "3000:3000"
+    networks:
+      - worklog-reminder-network
+    environment:
+      NOTIFICATION_HOST: notification
+      WORKLOG_DEBT_HOST: worklog-debts
 
 networks:
   worklog-reminder-network:
