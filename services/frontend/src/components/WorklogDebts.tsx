@@ -59,6 +59,20 @@ const WorklogDebts = () => {
         const selectedDebts = [] as EmployeeDetailsWorklogDebts[];
         const loadingStatuses = {...notificationLoadingRows};
 
+        const handleNullLogin = (index: number, login: string) => {
+            selectedRows[index] = false;
+            setSelectedRows([...selectedRows]);
+            loadingStatuses[login] = NotificationLoadingStatus.Failed;
+            setNotificationResponses(prevState => ({
+                ...prevState,
+                [login]: {
+                    login: login,
+                    status: NotificationStatus.Failed,
+                    message: 'Login is not specified'
+                }
+            }))
+        }
+
         selectedRows.forEach((row, index) => {
             if (!row) {
                 return;
@@ -66,8 +80,12 @@ const WorklogDebts = () => {
             const empDebts = worklogDebts.at(index);
             if (empDebts) {
                 const login = empDebts.employeeDetails.skypeLogin;
-                loadingStatuses[login] = NotificationLoadingStatus.Loading;
-                selectedDebts.push(empDebts);
+                if (login !== null) {
+                    loadingStatuses[login] = NotificationLoadingStatus.Loading;
+                    selectedDebts.push(empDebts);
+                } else {
+                    handleNullLogin(index, login);
+                }
             }
         })
         if (!selectedDebts.length) {
@@ -83,16 +101,11 @@ const WorklogDebts = () => {
                 const empLogin = notificationResponse.login;
                 const status = notificationResponse.status;
 
-                let loadingStatus: NotificationLoadingStatus;
                 if (status === NotificationStatus.Pass) {
-                    loadingStatus = NotificationLoadingStatus.Pass;
+                    loadingStatuses[empLogin] = NotificationLoadingStatus.Pass;
                 } else {
-                    loadingStatus = NotificationLoadingStatus.Failed;
+                    loadingStatuses[empLogin] = NotificationLoadingStatus.Failed;
                 }
-                setNotificationLoadingRows(prevState => ({
-                    ...prevState,
-                    [empLogin]: loadingStatus
-                }));
                 setNotificationResponses(prevState => ({
                     ...prevState,
                     [empLogin]: notificationResponse
@@ -102,6 +115,7 @@ const WorklogDebts = () => {
             }, () => {
                 console.log('Connection closed by the server');
             });
+        setNotificationLoadingRows(loadingStatuses);
     }
 
     const selectAllOrToggle = () => {

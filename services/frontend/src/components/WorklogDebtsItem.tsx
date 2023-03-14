@@ -18,6 +18,7 @@ type WorklogDebtsItemProps = {
     worklogDebts: DayWorklogDebt[];
     rowNumber: number;
     toggleSelected: (index: number) => void;
+    setIsSelected: (index: number, value: boolean) => void;
     isSelected: boolean;
     notificationLoadingStatus: NotificationLoadingStatus;
     notificationResponse: NotificationResponse;
@@ -29,6 +30,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
         worklogDebts,
         rowNumber,
         toggleSelected,
+        setIsSelected,
         isSelected,
         notificationLoadingStatus,
         notificationResponse
@@ -41,7 +43,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
         const isPass = notificationLoadingStatus === NotificationLoadingStatus.Pass;
         const isFailed = notificationLoadingStatus === NotificationLoadingStatus.Failed;
         if (isPass || isFailed) {
-            toggleSelected(rowNumber - 1);
+            setIsSelected(rowNumber - 1, false);
         }
         setWasExpandedAfterNotificationFail(false);
     }, [notificationLoadingStatus]);
@@ -102,6 +104,19 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                 </div>
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
                     <div className="worklog-debts-list__actions__body-cell__status-icon">
+                        {(notificationLoadingStatus === NotificationLoadingStatus.Loading) &&
+                            <Loader style={
+                                {
+                                    height: '20px',
+                                    width: '20px',
+                                    border: '5px solid #f4f6fa',
+                                    borderTop: '5px solid #3498db',
+                                    display: 'inline-block',
+                                    marginTop: '7px',
+                                    marginLeft: '30px'
+                                }
+                            }/>
+                        }
                         {(notificationLoadingStatus === NotificationLoadingStatus.Pass) &&
                             <div className="worklog-debts-list__actions__body-cell__status-icon__pass">
                                 <SuccessIcon style={
@@ -117,13 +132,13 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                  className="worklog-debts-list__actions__body-cell__status-icon__failed">
                                 {!wasExpandedAfterNotificationFail &&
                                     <BsFillQuestionCircleFill style={
-                                    {
-                                        marginRight: '10px',
-                                        width: '20px',
-                                        height: '20px',
-                                        color: '#a4bade'
-                                    }
-                                }/>
+                                        {
+                                            marginRight: '10px',
+                                            width: '20px',
+                                            height: '20px',
+                                            color: '#a4bade'
+                                        }
+                                    }/>
                                 }
                                 {<FailIcon style={
                                     {
@@ -132,33 +147,21 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                         marginTop: '7px',
                                         marginLeft: wasExpandedAfterNotificationFail ? '30px' : undefined,
                                     }
-                                }/>}
+                                }/>
+                                }
                             </div>
                         }
                     </div>
-                    {(notificationLoadingStatus === NotificationLoadingStatus.Loading) ?
-                        <Loader style={
-                            {
-                                height: '20px',
-                                width: '20px',
-                                border: '5px solid #f4f6fa',
-                                borderTop: '5px solid #3498db',
-                                display: 'inline-block',
-                                marginLeft: 'auto',
-                                marginRight: '30%'
-                            }
-                        }/>
-                        :
-                        <RoundCheckbox handleCheckboxChange={toggleSelected}
-                                       rowNumber={rowNumber}
-                                       checked={isSelected}
-                                       style={
-                                           {
-                                               marginLeft: 'auto',
-                                               marginRight: '30%'
-                                           }
-                                       }/>
-                    }
+                    <RoundCheckbox handleCheckboxChange={toggleSelected}
+                                   rowNumber={rowNumber}
+                                   checked={isSelected}
+                                   style={
+                                       {
+                                           marginLeft: 'auto',
+                                           marginRight: '30%'
+                                       }
+                                   }
+                    />
                 </div>
             </div>
             {isExpanded &&

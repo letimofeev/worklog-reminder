@@ -31,6 +31,11 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
         setSelectedRows([...selectedRows]);
     };
 
+    const setIsSelected = (index: number, value: boolean) => {
+        selectedRows[index] = value;
+        setSelectedRows([...selectedRows]);
+    };
+
     return (
         <div className="worklog-debts-list">
             <div className="worklog-debts-list__header">
@@ -63,6 +68,7 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
                                 worklogDebts={employeeDebts.worklogDebts}
                                 rowNumber={index + 1}
                                 toggleSelected={toggleSelected}
+                                setIsSelected={setIsSelected}
                                 isSelected={selectedRows[index]}
                                 notificationLoadingStatus={notificationLoadingRows[employeeDebts.employeeDetails.skypeLogin]}
                                 notificationResponse={notificationResponses[employeeDebts.employeeDetails.skypeLogin]}

@@ -20,7 +20,7 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
                         <div className="worklog-debts-list__body-row__expanded__notification-failed">
                             <ErrorBlock
                                 header={'Notification failed'}
-                                body={'Response message from server: ' + notificationResponse.message}
+                                body={notificationResponse.message}
                             />
                         </div>
                     }
