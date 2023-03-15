@@ -1,5 +1,6 @@
-package com.senla.worklog.reminder.employee.adapter.out.persistence;
+package com.senla.worklog.reminder.employee.adapter.out.jpa.repository;
 
+import com.senla.worklog.reminder.employee.adapter.out.jpa.entity.EmployeeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

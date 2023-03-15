@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.adapter.out.persistence;
+package com.senla.worklog.reminder.employee.adapter.out.jpa.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

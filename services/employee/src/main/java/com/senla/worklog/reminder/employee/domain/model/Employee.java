@@ -1,11 +1,10 @@
-package com.senla.worklog.reminder.employee.domain;
+package com.senla.worklog.reminder.employee.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.lang.Nullable;
 
 import java.util.Objects;
 
@@ -20,9 +19,7 @@ public class Employee {
     private String lastName;
     private String jiraKey;
     private String skypeLogin;
-    @Nullable
     private Boolean notificationEnabled;
-    @Nullable
     private Boolean botConnected;
 
     @Override

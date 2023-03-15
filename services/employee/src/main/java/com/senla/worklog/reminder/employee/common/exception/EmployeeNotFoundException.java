@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.infrastructure.exception;
+package com.senla.worklog.reminder.employee.common.exception;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 

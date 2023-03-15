@@ -1,25 +1,28 @@
-package com.senla.worklog.reminder.employee.adapter.out.persistence;
+package com.senla.worklog.reminder.employee.adapter.out.jpa;
 
-import com.senla.worklog.reminder.employee.application.port.out.EmployeePersistencePort;
-import com.senla.worklog.reminder.employee.infrastructure.annotation.PersistenceAdapter;
-import com.senla.worklog.reminder.employee.infrastructure.exception.EmployeeNotFoundException;
-import com.senla.worklog.reminder.employee.domain.Employee;
+import com.senla.worklog.reminder.employee.adapter.out.jpa.mapper.EmployeeEntityMapper;
+import com.senla.worklog.reminder.employee.adapter.out.jpa.repository.EmployeeJpaRepository;
+import com.senla.worklog.reminder.employee.domain.port.out.EmployeeJpaPort;
+import com.senla.worklog.reminder.employee.common.annotation.JpaAdapter;
+import com.senla.worklog.reminder.employee.common.exception.EmployeeNotFoundException;
+import com.senla.worklog.reminder.employee.domain.model.Employee;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@PersistenceAdapter
+@JpaAdapter
 @RequiredArgsConstructor
-public class EmployeeJpaAdapter implements EmployeePersistencePort {
+public class EmployeeJpaAdapter implements EmployeeJpaPort {
     private final EmployeeJpaRepository employeeRepository;
     private final EmployeeEntityMapper entityMapper;
 
     @Override
-    public void addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) {
         var employeeEntity = entityMapper.mapToJpaEntity(employee);
         employeeRepository.save(employeeEntity);
+        return entityMapper.mapToDomain(employeeEntity);
     }
 
     @Override
@@ -44,11 +47,12 @@ public class EmployeeJpaAdapter implements EmployeePersistencePort {
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public Employee updateEmployee(Employee employee) {
         var id = employee.getId();
         if (employeeRepository.existsById(id)) {
             var employeeEntity = entityMapper.mapToJpaEntity(employee);
             employeeRepository.save(employeeEntity);
+            return entityMapper.mapToDomain(employeeEntity);
         }
         throw new EmployeeNotFoundException("Employee with id = '" + id + "' not found");
     }

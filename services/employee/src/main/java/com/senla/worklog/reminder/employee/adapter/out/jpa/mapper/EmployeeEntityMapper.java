@@ -1,6 +1,7 @@
-package com.senla.worklog.reminder.employee.adapter.out.persistence;
+package com.senla.worklog.reminder.employee.adapter.out.jpa.mapper;
 
-import com.senla.worklog.reminder.employee.domain.Employee;
+import com.senla.worklog.reminder.employee.adapter.out.jpa.entity.EmployeeEntity;
+import com.senla.worklog.reminder.employee.domain.model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
