@@ -24,11 +24,11 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<EmployeeDto> addEmployee(@RequestBody EmployeeDto employeeDto) {
         var employee = employeeMapper.mapToDomain(employeeDto);
-        employeeServicePort.addEmployee(employee);
+        var createdEmployee = employeeServicePort.addEmployee(employee);
         var location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
-                .buildAndExpand(employee.getId())
+                .buildAndExpand(createdEmployee.getId())
                 .toUri();
         var employeeResponse = employeeMapper.mapToDto(employee);
         return created(location).body(employeeResponse);
@@ -56,8 +56,8 @@ public class EmployeeController {
     @PutMapping
     public EmployeeDto updateEmployee(@RequestBody EmployeeDto employeeDto) {
         var employee = employeeMapper.mapToDomain(employeeDto);
-        employeeServicePort.updateEmployee(employee);
-        return employeeMapper.mapToDto(employee);
+        var updatedEmployee = employeeServicePort.updateEmployee(employee);
+        return employeeMapper.mapToDto(updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
