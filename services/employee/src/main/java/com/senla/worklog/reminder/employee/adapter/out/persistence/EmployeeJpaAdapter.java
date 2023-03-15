@@ -14,11 +14,11 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class EmployeeJpaAdapter implements EmployeePersistencePort {
     private final EmployeeJpaRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
+    private final EmployeeEntityMapper entityMapper;
 
     @Override
     public void addEmployee(Employee employee) {
-        var employeeEntity = employeeMapper.mapToJpaEntity(employee);
+        var employeeEntity = entityMapper.mapToJpaEntity(employee);
         employeeRepository.save(employeeEntity);
     }
 
@@ -26,20 +26,20 @@ public class EmployeeJpaAdapter implements EmployeePersistencePort {
     public Employee getEmployeeById(Long id) {
         var employeeEntity = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee with id = '" + id + "' not found"));
-        return employeeMapper.mapToDomain(employeeEntity);
+        return entityMapper.mapToDomain(employeeEntity);
     }
 
     @Override
     public Employee getEmployeeByJiraKey(String jiraKey) {
         var employeeEntity = employeeRepository.findByJiraKey(jiraKey)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee with jiraKey = '" + jiraKey + "' not found"));
-        return employeeMapper.mapToDomain(employeeEntity);
+        return entityMapper.mapToDomain(employeeEntity);
     }
 
     @Override
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll().stream()
-                .map(employeeMapper::mapToDomain)
+                .map(entityMapper::mapToDomain)
                 .collect(toList());
     }
 
@@ -47,7 +47,7 @@ public class EmployeeJpaAdapter implements EmployeePersistencePort {
     public void updateEmployee(Employee employee) {
         var id = employee.getId();
         if (employeeRepository.existsById(id)) {
-            var employeeEntity = employeeMapper.mapToJpaEntity(employee);
+            var employeeEntity = entityMapper.mapToJpaEntity(employee);
             employeeRepository.save(employeeEntity);
         }
         throw new EmployeeNotFoundException("Employee with id = '" + id + "' not found");

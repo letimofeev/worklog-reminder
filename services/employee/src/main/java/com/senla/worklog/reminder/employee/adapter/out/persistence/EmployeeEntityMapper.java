@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeMapper {
+public class EmployeeEntityMapper {
     private final ModelMapper mapper;
 
     public EmployeeEntity mapToJpaEntity(Employee employee) {
