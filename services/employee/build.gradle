@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.senla.worklog.reminder'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
 
 repositories {
@@ -29,3 +29,22 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task buildDockerImage(type: Exec) {
+	workingDir "$projectDir"
+	commandLine "docker", "build", ".",
+			"-t", "letimof/${project.name}:${project.version}",
+			"--build-arg", "PROJECT_NAME=${project.name}",
+			"--build-arg", "PROJECT_VERSION=${project.version}"
+}
+
+task loginDocker(type: Exec) {
+	commandLine "docker", "login", "-u", "$System.env.DOCKER_USERNAME", "-p", "$System.env.DOCKER_PASSWORD"
+}
+
+task pushDockerImage(type: Exec) {
+	commandLine "docker", "push", "letimof/${project.name}:${project.version}"
+}
+
+pushDockerImage.dependsOn loginDocker
+pushDockerImage.dependsOn buildDockerImage

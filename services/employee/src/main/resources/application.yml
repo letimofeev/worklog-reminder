@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/worklog-debts}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5434/employee}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
   jpa:
