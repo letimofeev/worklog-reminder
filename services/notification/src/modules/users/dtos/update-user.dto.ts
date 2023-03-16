@@ -7,12 +7,11 @@ export class UpdateUserDto {
     id: number;
 
     @IsNotEmpty({message: 'skypeId is required'})
-    @Length(1, 64, {message: 'skypeId must be less or equal than 64 symbols'})
+    @Length(1, 128, {message: 'skypeId must be less or equal than 64 symbols'})
     skypeId: string;
 
     login: string;
 
-    @IsNotEmpty({message: 'displayName is required'})
     @Length(1, 64, {message: 'displayName must be less or equal than 64 symbols'})
     displayName: string;
 

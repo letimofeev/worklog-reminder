@@ -36,7 +36,7 @@ export class UserController {
                 if (user != null) {
                     return user;
                 }
-                const apiError = ApiError.notFound(`User with id = ${id} not found`);
+                const apiError = ApiError.notFound(`User with id = '${id}' not found`);
                 throw new UserNotFoundException(apiError);
             });
     }
