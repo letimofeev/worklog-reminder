@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.employee.application.service;
 
+import com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException;
 import com.senla.worklog.reminder.employee.application.service.mapper.EmployeeServiceMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
@@ -14,6 +15,7 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
+@WrappedInApplicationException
 public class EmployeeServiceImpl implements EmployeeServicePort {
     private final EmployeeJpaPort employeeJpaPort;
     private final NotificationRestPort notificationRestPort;

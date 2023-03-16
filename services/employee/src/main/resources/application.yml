@@ -16,3 +16,7 @@ notification:
       delete-user-by-login-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users/{id}
 server:
   port: ${SERVER_PORT:8300}
+
+logging:
+  level:
+    com.senla.worklog.reminder.employee: debug

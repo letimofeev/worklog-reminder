@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.common.annotation;
+package com.senla.worklog.reminder.employee.adapter.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Component
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RestAdapter {
+public @interface DrivingAdapter {
 
     /**
      * The value may indicate a suggestion for a logical component name,
