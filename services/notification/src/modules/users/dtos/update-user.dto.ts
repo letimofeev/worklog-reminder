@@ -1,4 +1,4 @@
-import {IsInt, IsNotEmpty, Length, Min} from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, Length, Min } from "class-validator";
 
 export class UpdateUserDto {
     @IsNotEmpty({message: 'id is required'})
@@ -12,6 +12,7 @@ export class UpdateUserDto {
 
     login: string;
 
+    @IsOptional()
     @Length(1, 64, {message: 'displayName must be less or equal than 64 symbols'})
     displayName: string;
 

@@ -21,7 +21,7 @@ export class UserController {
     }
 
     @Get()
-    findAll(@Query('login') logins: string): Promise<User[]> {
+    findAll(@Query('logins') logins: string): Promise<User[]> {
         if (logins) {
             const loginList = logins.split(',');
             return this.userService.findAllByLogins(loginList);
