@@ -6,8 +6,8 @@ export class UpdateUserDto {
     @Min(1, {message: 'id value must be a positive'})
     id: number;
 
-    @IsNotEmpty({message: 'skypeId is required'})
-    @Length(1, 128, {message: 'skypeId must be less or equal than 64 symbols'})
+    @IsOptional()
+    @Length(1, 128, {message: 'skypeId must be less or equal than 128 symbols'})
     skypeId: string;
 
     login: string;

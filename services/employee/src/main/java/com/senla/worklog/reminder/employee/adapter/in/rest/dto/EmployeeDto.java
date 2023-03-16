@@ -20,8 +20,8 @@ public class EmployeeDto implements Serializable {
     private String lastName;
     private String jiraKey;
     private String skypeLogin;
-    private Boolean notificationEnabled;
-    private Boolean botConnected;
+    private boolean notificationEnabled;
+    private boolean botConnected;
 
     @Override
     public String toString() {
@@ -43,14 +43,13 @@ public class EmployeeDto implements Serializable {
 
         EmployeeDto that = (EmployeeDto) o;
 
+        if (notificationEnabled != that.notificationEnabled) return false;
+        if (botConnected != that.botConnected) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(firstName, that.firstName)) return false;
         if (!Objects.equals(lastName, that.lastName)) return false;
         if (!Objects.equals(jiraKey, that.jiraKey)) return false;
-        if (!Objects.equals(skypeLogin, that.skypeLogin)) return false;
-        if (!Objects.equals(notificationEnabled, that.notificationEnabled))
-            return false;
-        return Objects.equals(botConnected, that.botConnected);
+        return Objects.equals(skypeLogin, that.skypeLogin);
     }
 
     @Override
@@ -60,8 +59,8 @@ public class EmployeeDto implements Serializable {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (jiraKey != null ? jiraKey.hashCode() : 0);
         result = 31 * result + (skypeLogin != null ? skypeLogin.hashCode() : 0);
-        result = 31 * result + (notificationEnabled != null ? notificationEnabled.hashCode() : 0);
-        result = 31 * result + (botConnected != null ? botConnected.hashCode() : 0);
+        result = 31 * result + (notificationEnabled ? 1 : 0);
+        result = 31 * result + (botConnected ? 1 : 0);
         return result;
     }
 }

@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.created;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/api/employees")
 @RequiredArgsConstructor
 public class EmployeeController {
     private final EmployeeServicePort employeeServicePort;
