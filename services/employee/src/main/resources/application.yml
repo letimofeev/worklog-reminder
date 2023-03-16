@@ -14,3 +14,5 @@ notification:
       get-users-by-logins-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users?logins={login}
       update-user-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users
       delete-user-by-login-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users/{id}
+server:
+  port: ${SERVER_PORT:8300}

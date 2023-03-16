@@ -37,6 +37,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./worklog-debts-db:/var/lib/postgresql/data
+
   employee:
     image: letimof/employee:0.0.1
     container_name: employee
@@ -49,6 +50,7 @@ services:
     depends_on:
       - employee-db
     environment:
+      SERVER_PORT: 8300
       NOTIFICATION_BASE_URL: http://notification:8200
       SPRING_DATASOURCE_URL: jdbc:postgresql://employee-db:5434/${EMPLOYEE_DB:-employee}
       SPRING_DATASOURCE_USERNAME: ${EMPLOYEE_DB_USER:-postgres}
@@ -67,6 +69,8 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./employee-db:/var/lib/postgresql/data
+    command: -p 5434
+
   notification:
     image: letimof/notification:0.0.1
     container_name: notification
