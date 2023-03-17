@@ -1,7 +1,7 @@
 package com.senla.worklog.reminder.employee.adapter.out.rest;
 
 import com.senla.worklog.reminder.employee.adapter.out.rest.mapper.NotificationRestMapper;
-import com.senla.worklog.reminder.employee.adapter.out.rest.model.NotificationUser;
+import com.senla.worklog.reminder.employee.adapter.out.rest.dto.NotificationUserDto;
 import com.senla.worklog.reminder.employee.adapter.annotation.DrivingAdapter;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.out.NotificationRestPort;
@@ -26,7 +26,7 @@ public class NotificationRestAdapter implements NotificationRestPort {
     public Employee getNotificationEmployee(Employee employee) {
         var login = employee.getSkypeLogin();
         var user = getUserByLogin(login)
-                .orElse(new NotificationUser());
+                .orElse(new NotificationUserDto());
 
         return restMapper.mapToDomain(user);
     }
@@ -55,11 +55,11 @@ public class NotificationRestAdapter implements NotificationRestPort {
                 });
     }
 
-    private Optional<NotificationUser> getUserByLogin(String login) {
+    private Optional<NotificationUserDto> getUserByLogin(String login) {
         var uri = fromUriString(restProperties.getGetUsersByLoginsUri())
                 .buildAndExpand(login)
                 .toUri();
-        var users = restTemplate.getForEntity(uri, NotificationUser[].class).getBody();
+        var users = restTemplate.getForEntity(uri, NotificationUserDto[].class).getBody();
 
         if (users != null && users.length > 0) {
             return Optional.of(users[0]);
@@ -67,7 +67,7 @@ public class NotificationRestAdapter implements NotificationRestPort {
         return Optional.empty();
     }
 
-    private NotificationUser updateNotificationUser(NotificationUser user) {
+    private NotificationUserDto updateNotificationUser(NotificationUserDto user) {
         var uri = restProperties.getUpdateUserUri();
         var headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
