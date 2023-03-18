@@ -5,22 +5,22 @@ jira:
   form-auth:
     username: ${JIRA_FORM_USER}
     password: ${JIRA_FORM_PASS}
-  login-url: ${JIRA_HOST:http://localhost:8080}/login.jsp
   debug:
     password-enabled: ${JIRA_DEBUG_PASSWORD_ENABLED:false}
-  host: ${JIRA_HOST:http://localhost:8080}
-notification:
-  host: ${NOTIFICATION_HOST:http://localhost:8200}
-spring:
-  datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/worklog-debts}
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:postgres}
-  jpa:
-    hibernate:
-      ddl-auto: none
+  base-url: ${JIRA_BASE_URL}
+  login-url: ${JIRA_BASE_URL}/login.jsp
+  rest:
+    api:
+      v4:
+        get-worklogs-uri: ${JIRA_BASE_URL}/rest/tempo-timesheets/4/worklogs/search
 server:
   port: 8100
+
+employee:
+  rest:
+    api:
+      base-url: ${EMPLOYEE_BASE_URL:http://localhost:8300}
+      get-employee-by-jira-key-uri: ${EMPLOYEE_BASE_URL:http://localhost:8300}/api/employees?jiraKey={jiraKey}
 
 logging:
   level:
