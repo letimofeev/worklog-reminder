@@ -1,4 +1,4 @@
-name: Employee Build CI
+name: WorklogDebt Build CI
 
 on:
   pull_request:
@@ -29,10 +29,10 @@ jobs:
 
       - name: Run build with Gradle Wrapper
         run: |-
-          cd services/employee
+          cd services/worklog-debt
           ./gradlew build
 
       - name: Build and push Docker Image
         run: |-
-          cd services/employee
+          cd services/worklog-debt
           ./gradlew pushDockerImage

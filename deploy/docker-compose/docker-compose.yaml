@@ -1,17 +1,15 @@
 version: '3.8'
 
 services:
-  worklog-debts:
-    image: letimof/worklog-debts:0.0.3-SNAPSHOT
-    container_name: worklog-debts
+  worklog-debt:
+    image: letimof/worklog-debt:0.0.1
+    container_name: worklog-debt
     mem_reservation: 700m
     pull_policy: always
     ports:
       - "8100:8100"
     networks:
       - worklog-reminder-network
-    depends_on:
-      - worklog-debts-db
     environment:
       JIRA_HOST: ${JIRA_HOST}
       JIRA_BASIC_USER: ${JIRA_BASIC_USER}
@@ -19,24 +17,19 @@ services:
       JIRA_FORM_USER: ${JIRA_FORM_USER}
       JIRA_FORM_PASS: ${JIRA_FORM_PASS}
       JIRA_DEBUG_PASSWORD_ENABLED: ${JIRA_DEBUG_PASSWORD_ENABLED:-false}
-      NOTIFICATION_HOST: http://notification:8200
-      SPRING_DATASOURCE_URL: jdbc:postgresql://worklog-debts-db:5432/${WORKLOG_DEBTS_DB:-worklog-debts}
-      SPRING_DATASOURCE_USERNAME: ${WORKLOG_DEBTS_DB_USER:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${WORKLOG_DEBTS_DB_PASS:-postgres}
-  worklog-debts-db:
-    image: 'postgres:14.4'
-    container_name: worklog-debts-db
+      EMPLOYEE_BASE_URL: http://employee:8300
+
+  worklog-debt-notification:
+    image: letimof/worklog-debt-notification:0.0.1
+    container_name: worklog-debt-notification
+    pull_policy: always
     ports:
-      - "5432:5432"
+      - "8400:8400"
     networks:
       - worklog-reminder-network
     environment:
-      POSTGRES_DB: ${WORKLOG_DEBTS_DB:-worklog-debts}
-      POSTGRES_USER: ${WORKLOG_DEBTS_DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${WORKLOG_DEBTS_DB_PASS:-postgres}
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - ./worklog-debts-db:/var/lib/postgresql/data
+      NOTIFICATION_BASE_URL: http://notification:8200
+      WORKLOGDEBT_BASE_URL: http://worklog-debt:8100
 
   employee:
     image: letimof/employee:0.0.1
