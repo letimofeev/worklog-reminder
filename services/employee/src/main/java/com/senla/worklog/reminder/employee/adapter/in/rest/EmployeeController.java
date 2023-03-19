@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.created;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/employees")
 @RequiredArgsConstructor

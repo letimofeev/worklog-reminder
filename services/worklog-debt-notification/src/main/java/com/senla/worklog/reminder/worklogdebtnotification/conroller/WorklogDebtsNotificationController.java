@@ -23,6 +23,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 @Validated
+@CrossOrigin
 @RestController
 @RequestMapping("/api/worklog-debts-notifications")
 @RequiredArgsConstructor
