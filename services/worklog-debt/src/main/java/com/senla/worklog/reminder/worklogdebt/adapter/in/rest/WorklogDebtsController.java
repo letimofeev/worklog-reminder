@@ -9,10 +9,7 @@ import com.senla.worklog.reminder.worklogdebt.domain.port.in.WorklogDebtsService
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
@@ -27,6 +24,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 @Validated
 @DrivenAdapter
+@CrossOrigin
 @RestController
 @RequestMapping("/api/worklog-debts")
 @RequiredArgsConstructor
