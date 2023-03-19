@@ -54,7 +54,7 @@ public class WorklogDebtsController {
                 .collect(toList());
     }
 
-    @GetMapping(path = "/details", params = {"dateFrom", "dateTo"})
+    @GetMapping(params = {"dateFrom", "dateTo"})
     public List<EmployeeWorklogDebtsDto> getEmployeesDetailsDebts(@Validated(ValidationSequence.class) DateRangeRequestParameters parameters) {
         var dateFrom = parameters.getDateFrom();
         var dateTo = parameters.getDateTo();

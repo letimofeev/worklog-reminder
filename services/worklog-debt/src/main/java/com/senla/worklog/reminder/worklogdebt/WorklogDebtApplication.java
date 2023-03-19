@@ -1,11 +1,11 @@
-package com.senla.worklog.reminder;
+package com.senla.worklog.reminder.worklogdebt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WorklogReminderApplication {
+public class WorklogDebtApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(WorklogReminderApplication.class, args);
+		SpringApplication.run(WorklogDebtApplication.class, args);
 	}
 }
