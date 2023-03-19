@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/worklogDebtsList.scss'
-import {EmployeeDetails} from "../models/employee/EmployeeDetails";
-import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
 import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
 import RoundCheckbox from "./checkbox/RoundCheckbox";
@@ -12,10 +10,10 @@ import SuccessIcon from "./status/SuccessIcon";
 import FailIcon from "./status/FailIcon";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 import {BsFillQuestionCircleFill} from "react-icons/bs";
+import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 
 type WorklogDebtsItemProps = {
-    employeeDetails: EmployeeDetails;
-    worklogDebts: DayWorklogDebt[];
+    employeeDebts: EmployeeWorklogDebts;
     rowNumber: number;
     toggleSelected: (index: number) => void;
     setIsSelected: (index: number, value: boolean) => void;
@@ -26,8 +24,7 @@ type WorklogDebtsItemProps = {
 
 const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
     {
-        employeeDetails,
-        worklogDebts,
+        employeeDebts,
         rowNumber,
         toggleSelected,
         setIsSelected,
@@ -91,15 +88,15 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                     {rowNumber}
                 </div>
                 <div className="worklog-debts-list__employee__body-cell">
-                    {employeeDetails.firstName + ' ' + employeeDetails.lastName}
+                    {employeeDebts.firstName + ' ' + employeeDebts.lastName}
                 </div>
                 <div className="worklog-debts-list__debts-number__body-cell">
-                    {worklogDebts.length}
+                    {employeeDebts.worklogDebts.length}
                 </div>
                 <div className="worklog-debts-list__status__body-cell">
                     <EmpNotificationStatus
-                        notificationEnabled={employeeDetails.notificationEnabled}
-                        botConnected={employeeDetails.botConnected}
+                        notificationEnabled={employeeDebts.notificationEnabled}
+                        botConnected={employeeDebts.botConnected}
                     />
                 </div>
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">
@@ -169,7 +166,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                timeout={500}
                                classNames="worklog-debts-list__body-row__expanded">
                     <WorklogDebtsExpanded
-                        worklogDebts={worklogDebts}
+                        worklogDebts={employeeDebts.worklogDebts}
                         notificationResponse={notificationResponse}
                     />
                 </CSSTransition>

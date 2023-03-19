@@ -3,7 +3,7 @@ import '../styles/worklogDebts.scss';
 import WorklogDebtsList from "./WorklogDebtsList";
 import {useFetching} from "../hooks/useFetching";
 import WorklogDebtsService from "../services/WorklogDebtsService";
-import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
+import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 import Loader from "./loader/Loader";
 import CustomButton from "./button/CustomButton";
 import DebtsNotificationService from "../services/DebtsNotificationService";
@@ -26,14 +26,14 @@ export type NotificationResponses = {
 }
 
 const WorklogDebts = () => {
-    const [worklogDebts, setWorklogDebts] = useState<EmployeeDetailsWorklogDebts[]>([]);
+    const [worklogDebts, setWorklogDebts] = useState<EmployeeWorklogDebts[]>([]);
     const [isButtonsActive, setIsButtonsActive] = useState(false);
     const [selectedRows, setSelectedRows] = useState<boolean[]>([]);
     const [notificationLoadingRows, setNotificationLoadingRows] = useState<NotificationLoadingRows>({});
     const [notificationResponses, setNotificationResponses] = useState<NotificationResponses>({});
 
     const [fetchDebts, isDebtsLoading, error] = useFetching(async () => {
-        const response = await WorklogDebtsService.getAllDetails()
+        const response = await WorklogDebtsService.getAllEmployeesDebts()
         setWorklogDebts([...worklogDebts, ...response.data])
 
         if (response.data && response.data.length) {
@@ -43,8 +43,8 @@ const WorklogDebts = () => {
             setIsButtonsActive(true);
 
             const newNotificationLoadingRows = {} as NotificationLoadingRows;
-            response.data.forEach((empDebts: EmployeeDetailsWorklogDebts) => {
-                const login = empDebts.employeeDetails.skypeLogin;
+            response.data.forEach((empDebts: EmployeeWorklogDebts) => {
+                const login = empDebts.skypeLogin;
                 newNotificationLoadingRows[login] = NotificationLoadingStatus.Inactive;
             });
             setNotificationLoadingRows(newNotificationLoadingRows);
@@ -58,7 +58,7 @@ const WorklogDebts = () => {
     }, [])
 
     const sendNotifications = () => {
-        const selectedDebts = [] as EmployeeDetailsWorklogDebts[];
+        const selectedDebts = [] as EmployeeWorklogDebts[];
         const loadingStatuses = {...notificationLoadingRows};
 
         const handleDisconnected = (index: number, login: string) => {
@@ -93,10 +93,10 @@ const WorklogDebts = () => {
             }
             const empDebts = worklogDebts.at(index);
             if (empDebts) {
-                const login = empDebts.employeeDetails.skypeLogin;
-                if (!empDebts.employeeDetails.botConnected) {
+                const login = empDebts.skypeLogin;
+                if (!empDebts.botConnected) {
                     handleDisconnected(index, login)
-                } else if (!empDebts.employeeDetails.notificationEnabled) {
+                } else if (!empDebts.notificationEnabled) {
                     handleDisabled(index, login);
                 } else if (!WorklogDebtsService.isLoginPresent(login)) {
                     handleNotPresentLogin(index, login);

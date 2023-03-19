@@ -1,16 +1,16 @@
 import axios from "axios";
-import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
+import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 
 export default class WorklogDebtsService {
-    static async getAllDetails() {
+    static async getAllEmployeesDebts() {
         console.log('Fetching worklog-debts/details')
-        const response = await axios.get('http://localhost:8200/worklog-debts/details');
-        console.log(`Received worklog-debts/details response, debts count: ${response.data.length}`);
-        const debts = response.data as EmployeeDetailsWorklogDebts[];
+        const response = await axios.get('http://localhost:8100/api/worklog-debts');
+        console.log(`Received api/worklog-debts response, debts count: ${response.data.length}`);
+        const debts = response.data as EmployeeWorklogDebts[];
         debts.forEach(elem => {
-            const login = elem.employeeDetails.skypeLogin;
+            const login = elem.skypeLogin;
             if (!login) {
-                elem.employeeDetails.skypeLogin = `anonymous-${elem.employeeDetails.id}`;
+                elem.skypeLogin = `anonymous-${elem.id}`;
             }
         });
         return response;

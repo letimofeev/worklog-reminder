@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import '../styles/worklogDebtsList.scss';
 import WorklogDebtsItem from "./WorklogDebtsItem";
-import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
+import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
@@ -9,7 +9,7 @@ import {TransitionGroup} from "react-transition-group";
 import {NotificationLoadingRows, NotificationResponses} from "./WorklogDebts";
 
 type WorklogDebtsListProps = {
-    employeesDebts: EmployeeDetailsWorklogDebts[];
+    employeesDebts: EmployeeWorklogDebts[];
     selectedRows: boolean[];
     setSelectedRows: Dispatch<SetStateAction<boolean[]>>;
     notificationLoadingRows: NotificationLoadingRows;
@@ -63,15 +63,14 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
                     }}>
                         {employeesDebts.map((employeeDebts, index) => (
                             <WorklogDebtsItem
-                                key={employeeDebts.employeeDetails.id}
-                                employeeDetails={employeeDebts.employeeDetails}
-                                worklogDebts={employeeDebts.worklogDebts}
+                                key={employeeDebts.id}
+                                employeeDebts={employeeDebts}
                                 rowNumber={index + 1}
                                 toggleSelected={toggleSelected}
                                 setIsSelected={setIsSelected}
                                 isSelected={selectedRows[index]}
-                                notificationLoadingStatus={notificationLoadingRows[employeeDebts.employeeDetails.skypeLogin]}
-                                notificationResponse={notificationResponses[employeeDebts.employeeDetails.skypeLogin]}
+                                notificationLoadingStatus={notificationLoadingRows[employeeDebts.skypeLogin]}
+                                notificationResponse={notificationResponses[employeeDebts.skypeLogin]}
                             />
                         ))}
                     </TransitionGroup>
