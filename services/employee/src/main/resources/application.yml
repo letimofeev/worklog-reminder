@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5434/employee}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+notification:
+  rest:
+    api:
+      base-url: ${NOTIFICATION_BASE_URL:http://localhost:8200}
+      get-users-by-logins-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users?logins={login}
+      update-user-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users
+      delete-user-by-login-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users/{id}
+server:
+  port: ${SERVER_PORT:8300}
+
+logging:
+  level:
+    com.senla.worklog.reminder.employee: debug

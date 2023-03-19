@@ -21,7 +21,7 @@ export class UserController {
     }
 
     @Get()
-    findAll(@Query('login') logins: string): Promise<User[]> {
+    findAll(@Query('logins') logins: string): Promise<User[]> {
         if (logins) {
             const loginList = logins.split(',');
             return this.userService.findAllByLogins(loginList);
@@ -36,7 +36,7 @@ export class UserController {
                 if (user != null) {
                     return user;
                 }
-                const apiError = ApiError.notFound(`User with id = ${id} not found`);
+                const apiError = ApiError.notFound(`User with id = '${id}' not found`);
                 throw new UserNotFoundException(apiError);
             });
     }

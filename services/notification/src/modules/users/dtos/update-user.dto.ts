@@ -1,4 +1,4 @@
-import {IsInt, IsNotEmpty, Length, Min} from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, Length, Min } from "class-validator";
 
 export class UpdateUserDto {
     @IsNotEmpty({message: 'id is required'})
@@ -6,13 +6,13 @@ export class UpdateUserDto {
     @Min(1, {message: 'id value must be a positive'})
     id: number;
 
-    @IsNotEmpty({message: 'skypeId is required'})
-    @Length(1, 64, {message: 'skypeId must be less or equal than 64 symbols'})
+    @IsOptional()
+    @Length(1, 128, {message: 'skypeId must be less or equal than 128 symbols'})
     skypeId: string;
 
     login: string;
 
-    @IsNotEmpty({message: 'displayName is required'})
+    @IsOptional()
     @Length(1, 64, {message: 'displayName must be less or equal than 64 symbols'})
     displayName: string;
 

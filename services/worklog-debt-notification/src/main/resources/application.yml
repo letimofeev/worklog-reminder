@@ -1,0 +1,10 @@
+notification:
+  rest:
+    api:
+      send-notifications-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/notifications
+worklog-debt:
+  rest:
+    api:
+      get-worklog-debts-uri: ${WORKLOGDEBT_BASE_URL:http://localhost:8100}/api/worklog-debts?dateFrom={dateFrom}&dateTo={dateTo}
+server:
+  port: 8400
