@@ -2,14 +2,13 @@ package com.senla.worklog.reminder.employee.application.exception.mapper;
 
 import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
-import com.senla.worklog.reminder.employee.domain.exception.DomainException;
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeNotFoundExceptionMapper implements DomainExceptionMapper {
+public class EmployeeNotFoundExceptionMapper implements ApplicationExceptionWrapper {
     @Override
-    public ApplicationException mapToApplicationException(DomainException ex) {
+    public ApplicationException wrapInApplicationException(Exception ex) {
         if (ex instanceof EmployeeNotFoundException) {
             var message = "Resource not found";
             var attributeName = ((EmployeeNotFoundException) ex).getAttributeName();
@@ -21,7 +20,7 @@ public class EmployeeNotFoundExceptionMapper implements DomainExceptionMapper {
     }
 
     @Override
-    public Class<? extends DomainException> getExceptionType() {
+    public Class<? extends Exception> getExceptionType() {
         return EmployeeNotFoundException.class;
     }
 }

@@ -14,9 +14,12 @@ notification:
       get-users-by-logins-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users?logins={login}
       update-user-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users
       delete-user-by-login-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users/{id}
+rest-template:
+  read-timeout-seconds: 5
+  connection-timeout-seconds: 5
 server:
   port: ${SERVER_PORT:8300}
 
 logging:
   level:
-    com.senla.worklog.reminder.employee: debug
+    com.senla.worklog.reminder.employee: trace
