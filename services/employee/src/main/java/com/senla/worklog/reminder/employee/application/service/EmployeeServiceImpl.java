@@ -6,23 +6,28 @@ import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
 import com.senla.worklog.reminder.employee.domain.port.out.EmployeeJpaPort;
 import com.senla.worklog.reminder.employee.domain.port.out.NotificationRestPort;
+import com.senla.worklog.reminder.employee.domain.service.EmployeeDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 @WrappedInApplicationException
 public class EmployeeServiceImpl implements EmployeeServicePort {
     private final EmployeeJpaPort employeeJpaPort;
     private final NotificationRestPort notificationRestPort;
     private final EmployeeServiceMapper mapper;
+    private final EmployeeDomainService domainService;
 
     @Override
     public Employee addEmployee(Employee employee) {
+        domainService.checkUniqueContraints(employee);
         return employeeJpaPort.addEmployee(employee);
     }
 

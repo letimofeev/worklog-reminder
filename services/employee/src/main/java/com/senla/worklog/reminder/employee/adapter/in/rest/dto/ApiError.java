@@ -8,8 +8,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @Setter
@@ -32,6 +31,10 @@ public class ApiError {
 
     public static ApiError badRequest(String message, List<ApiSubError> subErrors) {
         return new ApiError(message, BAD_REQUEST.value(), subErrors);
+    }
+
+    public static ApiError notFound(String message, List<ApiSubError> subErrors) {
+        return new ApiError(message, NOT_FOUND.value(), subErrors);
     }
 
     @Override

@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
     @Override
-    public ApplicationException wrapInApplicationException(Exception ex) {
-        if (ex instanceof EmployeeNotFoundException) {
+    public ApplicationException wrapInApplicationException(Exception e) {
+        if (e instanceof EmployeeNotFoundException) {
             var message = "Resource not found";
-            var attributeName = ((EmployeeNotFoundException) ex).getAttributeName();
-            var attributeValue = ((EmployeeNotFoundException) ex).getAttributeValue();
-            return new ResourceNotFoundException(message, ex, attributeName, attributeValue);
+            var attributeName = ((EmployeeNotFoundException) e).attributeName();
+            var attributeValue = ((EmployeeNotFoundException) e).attributeValue();
+            return new ResourceNotFoundException(message, e, attributeName, attributeValue);
         }
         throw new UnsupportedOperationException("Unsupported exception was passed to " +
-                "EmployeeNotFoundExceptionMapper: " + ex.getClass().getSimpleName(), ex);
+                "EmployeeNotFoundExceptionMapper: " + e.getClass().getSimpleName(), e);
     }
 
     @Override

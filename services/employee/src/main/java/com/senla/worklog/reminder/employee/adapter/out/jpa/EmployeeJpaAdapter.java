@@ -62,4 +62,14 @@ public class EmployeeJpaAdapter implements EmployeeJpaPort {
     public void deleteEmployeeById(Long id) {
         employeeRepository.deleteById(id);
     }
+
+    @Override
+    public boolean existsByJiraKey(String jiraKey) {
+        return employeeRepository.existsByJiraKey(jiraKey);
+    }
+
+    @Override
+    public boolean existsBySkypeLogin(String skypeLogin) {
+        return employeeRepository.existsBySkypeLogin(skypeLogin);
+    }
 }

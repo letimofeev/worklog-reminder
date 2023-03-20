@@ -16,4 +16,8 @@ public interface EmployeeJpaPort {
     Employee updateEmployee(Employee employee);
 
     void deleteEmployeeById(Long id);
+
+    boolean existsByJiraKey(String jiraKey);
+
+    boolean existsBySkypeLogin(String skypeLogin);
 }

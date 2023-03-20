@@ -7,4 +7,8 @@ import java.util.Optional;
 
 public interface EmployeeJpaRepository extends JpaRepository<EmployeeEntity, Long> {
     Optional<EmployeeEntity> findByJiraKey(String jiraKey);
+
+    boolean existsBySkypeLogin(String skypeLogin);
+
+    boolean existsByJiraKey(String skypeLogin);
 }
