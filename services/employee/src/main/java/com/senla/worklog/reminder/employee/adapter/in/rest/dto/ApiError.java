@@ -8,6 +8,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,6 +23,10 @@ public class ApiError {
         this.message = message;
         this.status = status;
         this.errors = new ArrayList<>();
+    }
+
+    public static ApiError internalServerError() {
+        return new ApiError("Internal server error", INTERNAL_SERVER_ERROR.value());
     }
 
     @Override

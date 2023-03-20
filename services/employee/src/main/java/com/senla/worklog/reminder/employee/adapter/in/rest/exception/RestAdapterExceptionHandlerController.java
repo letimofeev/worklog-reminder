@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler;
+package com.senla.worklog.reminder.employee.adapter.in.rest.exception;
 
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError;
 import lombok.RequiredArgsConstructor;
@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import static com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError.internalServerError;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @ControllerAdvice
@@ -17,7 +18,6 @@ public class RestAdapterExceptionHandlerController {
     public ResponseEntity<ApiError> handleApplicationException(Exception ex) {
         return handlerRegistry.getHandler(ex.getClass())
                 .map(handler -> handler.handleException(ex))
-                .orElse(new ResponseEntity<>(new ApiError("Internal server error", INTERNAL_SERVER_ERROR.value()),
-                        INTERNAL_SERVER_ERROR));
+                .orElse(new ResponseEntity<>(internalServerError(), INTERNAL_SERVER_ERROR));
     }
 }

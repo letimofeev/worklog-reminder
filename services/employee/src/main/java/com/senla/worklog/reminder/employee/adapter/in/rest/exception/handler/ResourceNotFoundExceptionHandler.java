@@ -13,7 +13,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j
 @Component
-public class ResourceNotFoundExceptionHandler implements RestAdapterExceptionHandler {
+public class ResourceNotFoundExceptionHandler extends AbstractRestAdapterExceptionHandler {
     @Override
     public ResponseEntity<ApiError> handleException(Exception ex) {
         if (ex instanceof ResourceNotFoundException) {
@@ -27,8 +27,7 @@ public class ResourceNotFoundExceptionHandler implements RestAdapterExceptionHan
             var apiError = new ApiError(castedEx.getMessage(), NOT_FOUND.value(), subErrors);
             return new ResponseEntity<>(apiError, NOT_FOUND);
         }
-        throw new UnsupportedOperationException("Unsupported exception was passed to " +
-                "ResourceNotFoundExceptionHandler: " + ex.getClass().getSimpleName(), ex);
+        return handleUnsupportedExceptionType(ex);
     }
 
     @Override
