@@ -1,5 +1,6 @@
-package com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler;
+package com.senla.worklog.reminder.employee.adapter.in.rest.exception;
 
+import com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler.RestAdapterExceptionHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
