@@ -6,6 +6,7 @@ import com.senla.worklog.reminder.employee.adapter.annotation.DrivingAdapter;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.out.NotificationRestPort;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
+@Slf4j
 @DrivingAdapter
 @RequiredArgsConstructor
 public class NotificationRestAdapter implements NotificationRestPort {
