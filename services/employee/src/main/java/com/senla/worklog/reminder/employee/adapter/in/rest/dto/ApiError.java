@@ -33,6 +33,10 @@ public class ApiError {
         return new ApiError(message, BAD_REQUEST.value(), subErrors);
     }
 
+    public static ApiError badRequest(String message) {
+        return new ApiError(message, BAD_REQUEST.value());
+    }
+
     public static ApiError notFound(String message, List<ApiSubError> subErrors) {
         return new ApiError(message, NOT_FOUND.value(), subErrors);
     }

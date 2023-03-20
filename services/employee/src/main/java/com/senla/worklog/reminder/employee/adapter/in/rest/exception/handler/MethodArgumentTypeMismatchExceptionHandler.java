@@ -19,7 +19,7 @@ public class MethodArgumentTypeMismatchExceptionHandler extends AbstractRestAdap
     public ResponseEntity<ApiError> handleException(Exception e) {
         if (e instanceof MethodArgumentTypeMismatchException) {
             var castedEx = (MethodArgumentTypeMismatchException) e;
-            log.warn("Resolved MethodArgumentTypeMismatchException: {}", castedEx.getMessage());
+            log.debug("Resolved MethodArgumentTypeMismatchException: {}", castedEx.getMessage());
             var message = "Failed to parse request parameter with name " + castedEx.getName() +
                     " and value " + castedEx.getValue();
             var apiSubError = new ApiSubError(castedEx.getMostSpecificCause().getMessage());
