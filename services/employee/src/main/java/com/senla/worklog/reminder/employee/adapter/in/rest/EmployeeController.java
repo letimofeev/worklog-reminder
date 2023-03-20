@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,7 +24,7 @@ public class EmployeeController {
     private final EmployeeRestMapper employeeMapper;
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> addEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
         var employee = employeeMapper.mapToDomain(employeeDto);
         var createdEmployee = employeeServicePort.addEmployee(employee);
         var location = ServletUriComponentsBuilder
@@ -55,7 +56,7 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public EmployeeDto updateEmployee(@RequestBody EmployeeDto employeeDto) {
+    public EmployeeDto updateEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
         var employee = employeeMapper.mapToDomain(employeeDto);
         var updatedEmployee = employeeServicePort.updateEmployee(employee);
         return employeeMapper.mapToDto(updatedEmployee);

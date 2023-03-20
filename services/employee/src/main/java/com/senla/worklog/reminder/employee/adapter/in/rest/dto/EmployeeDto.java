@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,10 +17,19 @@ import java.util.Objects;
 @Accessors(chain = true)
 public class EmployeeDto implements Serializable {
     private Long id;
+
+    @NotEmpty(message = "firstName must not specified")
     private String firstName;
+
+    @NotEmpty(message = "lastName must be specified")
     private String lastName;
+
+    @NotEmpty(message = "jiraKey must be specified")
     private String jiraKey;
+
+    @NotEmpty(message = "skypeLogin must be specified")
     private String skypeLogin;
+
     private boolean notificationEnabled;
     private boolean botConnected;
 
