@@ -1,7 +1,7 @@
 package com.senla.worklog.reminder.employee.application.aspect;
 
 import com.senla.worklog.reminder.employee.application.exception.UnexpectedApplicationException;
-import com.senla.worklog.reminder.employee.application.exception.mapper.ApplicationExceptionWrapperRegistry;
+import com.senla.worklog.reminder.employee.application.exception.wrapper.ExceptionWrapperRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,21 +13,20 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class ApplicationExceptionWrapperAspect {
-    private final ApplicationExceptionWrapperRegistry wrapperRegistry;
+public class ExceptionWrapperAspect {
+    private final ExceptionWrapperRegistry wrapperRegistry;
 
     @Around("@within(com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException)")
     public Object wrapMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();
         } catch (Exception e) {
-            log.debug("Caught exception in application method: {}", e.getClass());
+            log.debug("Caught exception in application service: {}", e.getClass());
             log.trace("Trying to find application exception wrapper for exception: {}", e.getClass());
             throw wrapperRegistry.getMapper(e.getClass())
                     .map(wrapper -> {
                         log.trace("Found wrapper '{}' for exception '{}'",
-                                wrapper.getClass().getSimpleName(),
-                                e.getClass().getSimpleName());
+                                wrapper.getClass().getSimpleName(), e.getClass().getSimpleName());
                         return wrapper.wrapInApplicationException(e);
                     })
                     .orElseGet(() -> {

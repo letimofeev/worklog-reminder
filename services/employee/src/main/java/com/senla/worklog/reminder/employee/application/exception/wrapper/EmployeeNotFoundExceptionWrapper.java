@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.application.exception.mapper;
+package com.senla.worklog.reminder.employee.application.exception.wrapper;
 
 import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
@@ -6,7 +6,7 @@ import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundExce
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeNotFoundExceptionMapper implements ApplicationExceptionWrapper {
+public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
     @Override
     public ApplicationException wrapInApplicationException(Exception ex) {
         if (ex instanceof EmployeeNotFoundException) {
