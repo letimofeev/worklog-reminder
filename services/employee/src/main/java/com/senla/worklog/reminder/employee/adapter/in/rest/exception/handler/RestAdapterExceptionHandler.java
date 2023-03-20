@@ -4,7 +4,7 @@ import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError;
 import org.springframework.http.ResponseEntity;
 
 public interface RestAdapterExceptionHandler {
-    ResponseEntity<ApiError> handleException(Exception ex);
+    ResponseEntity<ApiError> handleException(Exception e);
 
     Class<? extends Throwable> getExceptionType();
 }

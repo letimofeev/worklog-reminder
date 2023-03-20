@@ -30,7 +30,7 @@ public class ExceptionWrapperAspect {
                         return wrapper.wrapInApplicationException(e);
                     })
                     .orElseGet(() -> {
-                        log.warn("ApplicationExceptionWrapper not found for exception: {}", e.getClass());
+                        log.warn("ExceptionWrapper not found for exception: {}", e.getClass());
                         return new UnexpectedApplicationException(e.getMessage(), e);
                     });
         }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Getter
@@ -27,6 +28,10 @@ public class ApiError {
 
     public static ApiError internalServerError() {
         return new ApiError("Internal server error", INTERNAL_SERVER_ERROR.value());
+    }
+
+    public static ApiError badRequest(String message, List<ApiSubError> subErrors) {
+        return new ApiError(message, BAD_REQUEST.value(), subErrors);
     }
 
     @Override
