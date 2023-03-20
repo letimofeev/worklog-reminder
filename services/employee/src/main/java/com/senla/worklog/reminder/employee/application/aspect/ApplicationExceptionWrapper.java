@@ -32,7 +32,7 @@ public class ApplicationExceptionWrapper {
                     })
                     .orElseGet(() -> {
                         log.warn("Mapper to ApplicationException not found for domain exception: {}", e.getClass());
-                        return new UnmappedApplicationException(e.mainMessage(), e, e.detailMessages());
+                        return new UnmappedApplicationException(e.getMessage(), e, e.detailMessages());
                     });
         } catch (Exception e) {
             throw new UnexpectedApplicationException(e);

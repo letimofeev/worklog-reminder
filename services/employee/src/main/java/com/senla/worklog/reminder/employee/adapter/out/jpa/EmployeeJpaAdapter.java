@@ -35,7 +35,8 @@ public class EmployeeJpaAdapter implements EmployeeJpaPort {
     @Override
     public Employee getEmployeeByJiraKey(String jiraKey) {
         var employeeEntity = employeeRepository.findByJiraKey(jiraKey)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with jiraKey = '" + jiraKey + "' not found"));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with jiraKey = '" + jiraKey + "' not found",
+                        "jirakey", jiraKey));
         return entityMapper.mapToDomain(employeeEntity);
     }
 

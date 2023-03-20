@@ -10,8 +10,14 @@ import org.springframework.stereotype.Component;
 public class EmployeeNotFoundExceptionMapper implements DomainExceptionMapper {
     @Override
     public ApplicationException mapToApplicationException(DomainException ex) {
-        var message = ex.mainMessage();
-        return new ResourceNotFoundException(message, ex);
+        if (ex instanceof EmployeeNotFoundException) {
+            var message = "Resource not found";
+            var attributeName = ((EmployeeNotFoundException) ex).getAttributeName();
+            var attributeValue = ((EmployeeNotFoundException) ex).getAttributeValue();
+            return new ResourceNotFoundException(message, ex, attributeName, attributeValue);
+        }
+        throw new UnsupportedOperationException("Unsupported exception was passed to " +
+                "EmployeeNotFoundExceptionMapper: " + ex.getClass().getSimpleName(), ex);
     }
 
     @Override
