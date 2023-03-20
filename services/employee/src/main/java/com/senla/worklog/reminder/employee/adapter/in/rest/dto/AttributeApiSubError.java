@@ -11,6 +11,12 @@ public class AttributeApiSubError extends ApiSubError {
     private String attributeName;
     private String attributeValue;
 
+    public AttributeApiSubError(String message, String attributeName, String attributeValue) {
+        super(message);
+        this.attributeName = attributeName;
+        this.attributeValue = attributeValue;
+    }
+
     public AttributeApiSubError setAttributeName(String attributeName) {
         this.attributeName = attributeName;
         return this;

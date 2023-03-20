@@ -2,7 +2,7 @@ package com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler;
 
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiSubError;
-import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ValidationApiSubError;
+import com.senla.worklog.reminder.employee.adapter.in.rest.dto.AttributeApiSubError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -24,8 +24,8 @@ public class MethodArgumentNotValidExceptionHandler extends AbstractRestAdapterE
             log.debug("Resolved BindException: {}", ex.getMessage());
             var message = "Validation failed";
             List<ApiSubError> subErrors = ex.getFieldErrors().stream()
-                    .map(error -> new ValidationApiSubError(error.getDefaultMessage(),
-                            error.getRejectedValue()))
+                    .map(error -> new AttributeApiSubError(error.getDefaultMessage(),
+                            error.getField(), String.valueOf(error.getRejectedValue())))
                     .collect(toList());
             var apiError = badRequest(message, subErrors);
             return new ResponseEntity<>(apiError, BAD_REQUEST);
