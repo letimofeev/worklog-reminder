@@ -35,6 +35,7 @@ public class ApplicationExceptionWrapper {
                         return new UnmappedApplicationException(e.getMessage(), e, e.detailMessages());
                     });
         } catch (Exception e) {
+            log.warn("Caught not domain exception in the application layer: {}", e.getClass().getSimpleName());
             throw new UnexpectedApplicationException(e);
         }
     }

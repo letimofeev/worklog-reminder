@@ -25,6 +25,7 @@ public class ResourceNotFoundExceptionHandler extends AbstractRestAdapterExcepti
                     .setAttributeValue(castedEx.attributeValue())
                     .setMessage(castedEx.causeMessage()));
             var apiError = new ApiError(castedEx.getMessage(), NOT_FOUND.value(), subErrors);
+
             return new ResponseEntity<>(apiError, NOT_FOUND);
         }
         return handleUnsupportedExceptionType(ex);
