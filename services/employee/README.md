@@ -9,6 +9,14 @@ Implemented in Java 11 with Spring Boot.
 
 [<img src="https://img.shields.io/badge/springboot-2.7.8-green.svg?logo=springboot">](https://spring.io/projects/spring-boot#overview)
 
+# Table of Contents
+1. [Architecture](#architecture)
+2. [Employee API Endpoints](#employee-api-endpoints)
+3. [Error Responses](#error-responses)
+4. [Integrations](#integrations)
+5. [Frameworks](#frameworks)
+6. [Environment Variables](#environment-variables)
+
 ## Architecture
 
 This Employee service is implemented using hexagonal architecture, with a clear separation between the business logic in
