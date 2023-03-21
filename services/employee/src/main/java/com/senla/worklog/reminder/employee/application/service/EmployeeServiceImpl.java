@@ -31,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeServicePort {
 
     @Override
     public Employee addEmployee(Employee employee) {
-        domainService.checkUniqueContraints(employee);
+        domainService.checkUniqueConstraints(employee);
 
         var createdEmployee = employeeJpaPort.addEmployee(employee);
         log.debug("Created employee with id = '{}'", createdEmployee.getId());

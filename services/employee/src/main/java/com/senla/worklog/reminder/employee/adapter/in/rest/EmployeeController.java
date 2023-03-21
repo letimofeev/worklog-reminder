@@ -34,7 +34,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.senla.worklog.reminder.employee.adapter.in.rest.SwaggerExamples.API_ERROR_400_1;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.SwaggerExamples.API_ERROR_400_2;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.SwaggerExamples.API_ERROR_404;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.SwaggerExamples.API_ERROR_500;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 
@@ -56,25 +61,11 @@ public class EmployeeController {
                     content = @Content(schema = @Schema(implementation = EmployeeDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Bad request",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "    \"message\": \"Validation failed\",\n" +
-                            "    \"status\": 400,\n" +
-                            "    \"errors\": [\n" +
-                            "        {\n" +
-                            "            \"message\": \"lastName must be specified\",\n" +
-                            "            \"attributeName\": \"lastName\",\n" +
-                            "            \"attributeValue\": \"null\"\n" +
-                            "        }\n" +
-                            "    ]\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_400_2),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "  \"message\": \"Internal server error\",\n" +
-                            "  \"status\": 500,\n" +
-                            "  \"errors\": []\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_500),
                             schema = @Schema(implementation = ApiError.class)))
     })
     @PostMapping
@@ -97,37 +88,15 @@ public class EmployeeController {
                     content = @Content(schema = @Schema(implementation = EmployeeDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Bad request",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "    \"message\": \"Failed to parse request parameter with name id and value abc\",\n" +
-                            "    \"status\": 400,\n" +
-                            "    \"errors\": [\n" +
-                            "        {\n" +
-                            "            \"message\": \"For input string: \\\"abc\\\"\"\n" +
-                            "        }\n" +
-                            "    ]\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_400_1),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404",
                     description = "Employee not found",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "    \"message\": \"Resource not found\",\n" +
-                            "    \"status\": 404,\n" +
-                            "    \"errors\": [\n" +
-                            "        {\n" +
-                            "            \"message\": \"Employee with id = '10' not found\",\n" +
-                            "            \"attributeName\": \"id\",\n" +
-                            "            \"attributeValue\": \"10\"\n" +
-                            "        }\n" +
-                            "    ]\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_404),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "  \"message\": \"Internal server error\",\n" +
-                            "  \"status\": 500,\n" +
-                            "  \"errors\": []\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_500),
                             schema = @Schema(implementation = ApiError.class)))
     })
     @GetMapping("/{id}")
@@ -143,11 +112,7 @@ public class EmployeeController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = EmployeeDto.class)))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "  \"message\": \"Internal server error\",\n" +
-                            "  \"status\": 500,\n" +
-                            "  \"errors\": []\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_500),
                             schema = @Schema(implementation = ApiError.class)))
     })
     @GetMapping
@@ -173,39 +138,15 @@ public class EmployeeController {
                     content = @Content(schema = @Schema(implementation = EmployeeDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Bad request",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "    \"message\": \"Validation failed\",\n" +
-                            "    \"status\": 400,\n" +
-                            "    \"errors\": [\n" +
-                            "        {\n" +
-                            "            \"message\": \"id must be specified\",\n" +
-                            "            \"attributeName\": \"id\",\n" +
-                            "            \"attributeValue\": \"null\"\n" +
-                            "        }\n" +
-                            "    ]\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_400_2),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404",
                     description = "Employee with specified id not found",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "    \"message\": \"Resource not found\",\n" +
-                            "    \"status\": 404,\n" +
-                            "    \"errors\": [\n" +
-                            "        {\n" +
-                            "            \"message\": \"Employee with id = '100' not found\",\n" +
-                            "            \"attributeName\": \"id\",\n" +
-                            "            \"attributeValue\": \"100\"\n" +
-                            "        }\n" +
-                            "    ]\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_404),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "  \"message\": \"Internal server error\",\n" +
-                            "  \"status\": 500,\n" +
-                            "  \"errors\": []\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_500),
                             schema = @Schema(implementation = ApiError.class)))
     })
     @PutMapping
@@ -217,14 +158,12 @@ public class EmployeeController {
 
     @Operation(summary = "Deletes the employee with the specified ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Successfully deleted employee"),
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully deleted employee",
+                    content = @Content(mediaType = TEXT_PLAIN_VALUE)),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
-                    content = @Content(examples = @ExampleObject("{\n" +
-                            "  \"message\": \"Internal server error\",\n" +
-                            "  \"status\": 500,\n" +
-                            "  \"errors\": []\n" +
-                            "}"),
+                    content = @Content(examples = @ExampleObject(API_ERROR_500),
                             schema = @Schema(implementation = ApiError.class)))
     })
     @DeleteMapping("/{id}")

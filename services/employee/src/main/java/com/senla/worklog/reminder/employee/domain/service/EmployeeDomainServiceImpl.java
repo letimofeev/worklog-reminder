@@ -14,7 +14,7 @@ public class EmployeeDomainServiceImpl implements EmployeeDomainService {
     private final EmployeeJpaPort employeeJpaPort;
 
     @Override
-    public void checkUniqueContraints(Employee employee) {
+    public void checkUniqueConstraints(Employee employee) {
         log.trace("Checking employee attributes unique constraints");
 
         checkJiraKeyUniqueness(employee.getJiraKey());
