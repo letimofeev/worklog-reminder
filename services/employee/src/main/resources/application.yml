@@ -11,7 +11,7 @@ notification:
   rest:
     api:
       base-url: ${NOTIFICATION_BASE_URL:http://localhost:8200}
-      get-users-by-logins-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users?logins={login}
+      get-users-by-logins-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users?logins={logins}
       update-user-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users
       delete-user-by-login-uri: ${NOTIFICATION_BASE_URL:http://localhost:8200}/api/users/{id}
 rest-template:
