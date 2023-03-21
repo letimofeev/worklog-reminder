@@ -85,11 +85,11 @@ Response Body
 | `notificationEnabled` | boolean | Whether notifications are enabled for the employee        |
 | `botConnected`        | boolean | Whether employee is connected to the notification service |
 
-### Get Employee By JIRA Key
+### Get Employees By JIRA Key
 
 `GET /api/employees?jiraKey={jiraKey}`
 
-Retrieves the employees with the specified JIRA key.
+Retrieves a list of employees with the specified JIRA key.
 
 Parameters
 
