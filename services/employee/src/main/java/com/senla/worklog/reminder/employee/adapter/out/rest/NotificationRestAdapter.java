@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.employee.adapter.out.rest;
 
-import com.senla.worklog.reminder.employee.adapter.out.rest.mapper.NotificationRestMapper;
+import com.senla.worklog.reminder.employee.adapter.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.employee.adapter.out.rest.dto.NotificationUserDto;
-import com.senla.worklog.reminder.employee.adapter.annotation.DrivingAdapter;
+import com.senla.worklog.reminder.employee.adapter.out.rest.mapper.NotificationRestMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.out.NotificationRestPort;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 @Slf4j
-@DrivingAdapter
+@DrivenAdapter
 @RequiredArgsConstructor
 public class NotificationRestAdapter implements NotificationRestPort {
     private final NotificationRestMapper restMapper;

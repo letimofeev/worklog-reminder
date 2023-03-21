@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.employee.adapter.in.rest;
 
+import com.senla.worklog.reminder.employee.adapter.annotation.DrivingAdapter;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.CreateEmployeeRequestDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.EmployeeDto;
@@ -43,6 +44,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 
+@DrivingAdapter
 @CrossOrigin
 @Tag(name = "Employee API")
 @OpenAPIDefinition()
