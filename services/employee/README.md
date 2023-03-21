@@ -13,9 +13,10 @@ Implemented in Java 11 with Spring Boot.
 1. [Architecture](#architecture)
 2. [Employee API Endpoints](#employee-api-endpoints)
 3. [Error Responses](#error-responses)
-4. [Integrations](#integrations)
-5. [Frameworks](#frameworks)
-6. [Environment Variables](#environment-variables)
+4. [OpenAPI](#openapi)
+5. [Integrations](#integrations)
+6. [Frameworks](#frameworks)
+7. [Environment Variables](#environment-variables)
 
 ## Architecture
 
@@ -88,7 +89,7 @@ Response Body
 
 `GET /api/employees?jiraKey={jiraKey}`
 
-Retrieves the employee with the specified JIRA key.
+Retrieves the employees with the specified JIRA key.
 
 Parameters
 
@@ -96,7 +97,9 @@ Parameters
 |-----------|--------|----------|-------------------------------------------|
 | `jiraKey` | string | Yes      | The JIRA key associated with the employee |
 
-Response Body
+Response Body  
+An array of employee objects, where each employee object contains the following fields:
+
 
 | Name                  | Type    | Description                                               |
 |-----------------------|---------|-----------------------------------------------------------|
@@ -216,6 +219,22 @@ Example
   ]
 }
 ```
+
+## OpenAPI 
+
+### OpenAPI Specification
+
+`GET /api/docs`
+
+Retrieves OpenAPI v3 JSON specification
+
+
+### Swagger UI
+
+`GET /api/docs/swagger-ui`
+
+Opens Swagger OpenAPI v3 specification UI
+
 
 ## Integrations
 

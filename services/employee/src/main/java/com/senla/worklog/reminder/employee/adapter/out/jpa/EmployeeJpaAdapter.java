@@ -1,11 +1,11 @@
 package com.senla.worklog.reminder.employee.adapter.out.jpa;
 
+import com.senla.worklog.reminder.employee.adapter.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.employee.adapter.out.jpa.mapper.EmployeeEntityMapper;
 import com.senla.worklog.reminder.employee.adapter.out.jpa.repository.EmployeeJpaRepository;
-import com.senla.worklog.reminder.employee.domain.port.out.EmployeeJpaPort;
-import com.senla.worklog.reminder.employee.adapter.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
+import com.senla.worklog.reminder.employee.domain.port.out.EmployeeJpaPort;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -33,11 +33,13 @@ public class EmployeeJpaAdapter implements EmployeeJpaPort {
     }
 
     @Override
-    public Employee getEmployeeByJiraKey(String jiraKey) {
-        var employeeEntity = employeeRepository.findByJiraKey(jiraKey)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with jiraKey = '" + jiraKey + "' not found",
-                        "jirakey", jiraKey));
-        return entityMapper.mapToDomain(employeeEntity);
+    public List<Employee> getEmployeesByJiraKey(String jiraKey) {
+        var employeesEntities = employeeRepository.findByJiraKey(jiraKey)
+                .map(List::of)
+                .orElse(List.of());
+        return employeesEntities.stream()
+                .map(entityMapper::mapToDomain)
+                .collect(toList());
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface EmployeeServicePort {
 
     Employee getEmployeeById(Long id);
 
-    Employee getEmployeeByJiraKey(String jiraKey);
+    List<Employee> getEmployeesByJiraKey(String jiraKey);
 
     List<Employee> getAllEmployees();
 

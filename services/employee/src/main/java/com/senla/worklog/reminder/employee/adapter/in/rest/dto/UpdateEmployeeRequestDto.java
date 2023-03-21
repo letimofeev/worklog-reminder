@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,44 +19,43 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Schema(name = "Employee", description = "Representation of employee's domain object")
-public class EmployeeDto implements Serializable {
-    @Schema(description = "The unique identifier of the employee", example = "109")
+@Schema(name = "UpdateEmployeeRequest", description = "Representation of update employee request body")
+public class UpdateEmployeeRequestDto implements Serializable {
+    @Schema(description = "The unique identifier of the employee", example = "75")
     @Min(value = 1, message = "Employee id must be more than 0")
+    @NotNull(message = "id must be specified")
     private Long id;
 
-    @Schema(description = "The first name of the employee", example = "Tomas")
+    @Schema(description = "The first name of the employee", example = "Arthur")
+    @NotEmpty(message = "firstName must not specified")
     @Size(min = 1, max = 255, message = "firstName must not be more than 255 symbols or less that 1 symbol")
     private String firstName;
 
-    @Schema(description = "The last name of the employee", example = "Shelby")
+    @Schema(description = "The last name of the employee", example = "Morgan")
+    @NotEmpty(message = "lastName must be specified")
     @Size(min = 1, max = 255, message = "lastName must not be more than 255 symbols or less that 1 symbol")
     private String lastName;
 
-    @Schema(description = "The jira key of the employee", example = "tomas_shelby")
+    @Schema(description = "The jira key of the employee", example = "arthur_morgan")
+    @NotEmpty(message = "jiraKey must be specified")
     @Size(min = 1, max = 64, message = "jiraKey must not be more than 64 symbols or less that 1 symbol")
     private String jiraKey;
 
-    @Schema(description = "The skype login of the employee", example = "live:skype-login322")
+    @Schema(description = "The skype login of the employee", example = "skype-login123")
+    @NotEmpty(message = "skypeLogin must be specified")
     @Size(min = 1, max = 64, message = "skypeLogin must not be more than 64 symbols or less that 1 symbol")
     private String skypeLogin;
 
-    @Schema(description = "Whether notifications are enabled for the employee", example = "false")
+    @Schema(description = "Whether employee is connected to the notification service", example = "true", defaultValue = "false")
     private boolean notificationEnabled;
-
-    @Schema(description = "Whether employee is connected to the notification service", example = "true")
-    private boolean botConnected;
 
     @Override
     public String toString() {
-        return "EmployeeDto{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
+        return "CreateEmployeeDto{" +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", jiraKey='" + jiraKey + '\'' +
                 ", skypeLogin='" + skypeLogin + '\'' +
-                ", notificationEnabled=" + notificationEnabled +
-                ", botConnected=" + botConnected +
                 '}';
     }
 
@@ -63,11 +64,8 @@ public class EmployeeDto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EmployeeDto that = (EmployeeDto) o;
+        UpdateEmployeeRequestDto that = (UpdateEmployeeRequestDto) o;
 
-        if (notificationEnabled != that.notificationEnabled) return false;
-        if (botConnected != that.botConnected) return false;
-        if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(firstName, that.firstName)) return false;
         if (!Objects.equals(lastName, that.lastName)) return false;
         if (!Objects.equals(jiraKey, that.jiraKey)) return false;
@@ -76,13 +74,10 @@ public class EmployeeDto implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        int result = firstName != null ? firstName.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (jiraKey != null ? jiraKey.hashCode() : 0);
         result = 31 * result + (skypeLogin != null ? skypeLogin.hashCode() : 0);
-        result = 31 * result + (notificationEnabled ? 1 : 0);
-        result = 31 * result + (botConnected ? 1 : 0);
         return result;
     }
 }

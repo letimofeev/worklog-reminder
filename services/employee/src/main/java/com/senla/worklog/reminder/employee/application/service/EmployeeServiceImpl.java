@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
@@ -45,11 +47,14 @@ public class EmployeeServiceImpl implements EmployeeServicePort {
     }
 
     @Override
-    public Employee getEmployeeByJiraKey(String jiraKey) {
-        var jpaEmployee = employeeJpaPort.getEmployeeByJiraKey(jiraKey);
+    public List<Employee> getEmployeesByJiraKey(String jiraKey) {
+        var jpaEmployees = employeeJpaPort.getEmployeesByJiraKey(jiraKey);
+        if (jpaEmployees.isEmpty()) {
+            return emptyList();
+        }
+        var jpaEmployee = jpaEmployees.get(0);
         var restEmployee = notificationRestPort.getNotificationEmployee(jpaEmployee);
-
-        return mapper.mergeDomains(jpaEmployee, restEmployee);
+        return singletonList(mapper.mergeDomains(jpaEmployee, restEmployee));
     }
 
     @Override
