@@ -12,6 +12,10 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * This class implements the {@link EmployeeJpaPort} interface and provides the implementation for the CRUD operations
+ * on employee entities in the database using JPA.
+ */
 @DrivenAdapter
 @RequiredArgsConstructor
 public class EmployeeJpaAdapter implements EmployeeJpaPort {

@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.adapter.in.rest;
+package com.senla.worklog.reminder.employee.adapter.in.rest.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * The SwaggerConfiguration class is responsible for configuring and initializing the Swagger API documentation
+ * framework for the application. It is annotated with {@link Configuration} to indicate that it provides Spring
+ * configuration, and it contains various methods annotated with {@link Bean} that provide the necessary beans
+ * for Swagger to function
+ */
 @Configuration
 public class SwaggerConfiguration {
     @Bean

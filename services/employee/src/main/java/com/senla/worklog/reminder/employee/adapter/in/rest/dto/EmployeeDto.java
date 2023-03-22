@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * This class represents a data transfer object (DTO) for an employee domain model
+ */
 @Getter
 @Setter
 @AllArgsConstructor

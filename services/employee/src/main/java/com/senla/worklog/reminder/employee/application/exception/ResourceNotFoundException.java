@@ -1,7 +1,17 @@
 package com.senla.worklog.reminder.employee.application.exception;
 
+/**
+ * This class represents an exception that is thrown when a requested resource is not found.
+ */
 public class ResourceNotFoundException extends ApplicationException {
+    /**
+     * The name of the attribute for which the resource was not found
+     */
     private final String attributeName;
+
+    /**
+     * The value of the attribute for which the resource was not found
+     */
     private final String attributeValue;
 
     public ResourceNotFoundException(String message, Throwable cause, String attributeName, String attributeValue) {

@@ -11,6 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import static java.time.Duration.ofSeconds;
 
+/**
+ * This class represents the configuration for a RestTemplate instance, which is used to make HTTP requests
+ * to external services. The configuration includes the read and connection timeouts for the requests.
+ */
 @Getter
 @Setter
 @Configuration

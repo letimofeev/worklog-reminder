@@ -16,6 +16,10 @@ import java.util.Optional;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
+/**
+ * This class represents a REST adapter for the notification service, responsible for sending HTTP requests and
+ * invoking the corresponding API methods in the notification service.
+ */
 @Slf4j
 @DrivenAdapter
 @RequiredArgsConstructor

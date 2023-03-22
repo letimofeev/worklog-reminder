@@ -5,8 +5,20 @@ import com.senla.worklog.reminder.employee.application.exception.UniqueConstrain
 import com.senla.worklog.reminder.employee.domain.exception.DuplicateAttributeException;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class is an implementation of the {@link ExceptionWrapper} interface.
+ * It wraps a {@link DuplicateAttributeException} in an {@link UniqueConstraintViolationException} and returns it
+ */
 @Component
 public class DuplicateAttributeExceptionWrapper implements ExceptionWrapper {
+
+    /**
+     Wraps a {@link DuplicateAttributeException} in an {@link UniqueConstraintViolationException}
+
+     @param e The exception to wrap
+     @return The wrapped exception
+     @throws UnsupportedOperationException if an unsupported exception is passed to this method
+     */
     @Override
     public ApplicationException wrapInApplicationException(Exception e) {
         if (e instanceof DuplicateAttributeException) {
@@ -19,6 +31,11 @@ public class DuplicateAttributeExceptionWrapper implements ExceptionWrapper {
                 "DuplicateAttributeExceptionWrapper: " + e.getClass().getSimpleName(), e);
     }
 
+    /**
+     * Returns the type of exception that this wrapper can wrap, which is {@link DuplicateAttributeException}.
+     *
+     * @return the {@link DuplicateAttributeException} class
+     */
     @Override
     public Class<? extends Exception> getExceptionType() {
         return DuplicateAttributeException.class;

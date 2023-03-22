@@ -38,7 +38,7 @@ public class ExceptionWrapperAspect {
         } catch (Exception e) {
             log.debug("Caught exception in application service: {}", e.getClass());
             log.trace("Trying to find application exception wrapper for exception: {}", e.getClass());
-            throw wrapperRegistry.getMapper(e.getClass())
+            throw wrapperRegistry.getWrapper(e.getClass())
                     .map(wrapper -> {
                         log.trace("Found wrapper '{}' for exception '{}'",
                                 wrapper.getClass().getSimpleName(), e.getClass().getSimpleName());

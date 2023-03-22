@@ -5,6 +5,9 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class represents the configuration properties for the REST API of the notification service
+ */
 @Getter
 @Setter
 @Configuration

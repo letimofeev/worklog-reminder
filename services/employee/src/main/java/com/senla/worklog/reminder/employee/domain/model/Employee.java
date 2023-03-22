@@ -8,6 +8,9 @@ import lombok.experimental.Accessors;
 
 import java.util.Objects;
 
+/**
+ * This class represents an employee domain model.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

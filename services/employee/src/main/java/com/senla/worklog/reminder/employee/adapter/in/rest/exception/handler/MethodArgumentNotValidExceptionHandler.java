@@ -14,9 +14,26 @@ import static com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError.b
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
+/**
+ * An exception handler for handling {@link MethodArgumentNotValidException}, which is thrown when there is a validation error
+ * while binding the request body to a Java object. This handler returns a HTTP 400 Bad Request response with a user-friendly
+ * error message and a list of validation errors.
+ */
 @Slf4j
 @Component
 public class MethodArgumentNotValidExceptionHandler extends AbstractRestAdapterExceptionHandler {
+
+    /**
+     * Handles the {@link MethodArgumentNotValidException} and returns a HTTP 400 Bad Request response with a user-friendly error
+     * message and a list of validation errors
+     * <p>
+     * If the passed exception is not an instance of MethodArgumentNotValidException, it delegates
+     * the handling to the parent class method {@link #handleUnsupportedExceptionType(Exception)} handleUnsupportedExceptionType()}
+     *
+     * @param e the {@link MethodArgumentNotValidException} to handle
+     * @return a {@link ResponseEntity} containing an {@link ApiError} with a HTTP 400 status code, a user-friendly error message,
+     * and a list of validation errors
+     */
     @Override
     public ResponseEntity<ApiError> handleException(Exception e) {
         if (e instanceof MethodArgumentNotValidException) {
@@ -33,6 +50,11 @@ public class MethodArgumentNotValidExceptionHandler extends AbstractRestAdapterE
         return handleUnsupportedExceptionType(e);
     }
 
+    /**
+     * Returns the type of exception that this handler can handle, which is {@link MethodArgumentNotValidException}.
+     *
+     * @return the {@link MethodArgumentNotValidException} class
+     */
     @Override
     public Class<? extends Throwable> getExceptionType() {
         return MethodArgumentNotValidException.class;

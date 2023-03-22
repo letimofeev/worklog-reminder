@@ -36,7 +36,7 @@ public class ExceptionWrapperRegistry {
      * @return an {@link Optional} of the corresponding {@link ExceptionWrapper} instance,
      * or an empty optional if no wrapper is found
      */
-    public Optional<ExceptionWrapper> getMapper(Class<? extends Exception> exceptionType) {
+    public Optional<ExceptionWrapper> getWrapper(Class<? extends Exception> exceptionType) {
         return Optional.ofNullable(wrappersMap.get(exceptionType));
     }
 }

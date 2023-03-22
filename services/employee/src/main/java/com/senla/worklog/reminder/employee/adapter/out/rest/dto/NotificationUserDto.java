@@ -8,6 +8,9 @@ import lombok.experimental.Accessors;
 
 import java.util.Objects;
 
+/**
+ * This class represents a notification user data, which can be received from notification service.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

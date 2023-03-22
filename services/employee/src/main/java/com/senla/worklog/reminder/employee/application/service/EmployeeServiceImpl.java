@@ -1,6 +1,8 @@
 package com.senla.worklog.reminder.employee.application.service;
 
 import com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException;
+import com.senla.worklog.reminder.employee.application.aspect.ExceptionWrapperAspect;
+import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
 import com.senla.worklog.reminder.employee.application.service.mapper.EmployeeServiceMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
@@ -18,6 +20,12 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * This class implements the {@link EmployeeServicePort} interface and provides
+ * methods to interact with employee domain models. It is annotated with {@link WrappedInApplicationException}
+ * to indicate that all exceptions thrown by this service will be wrapped by {@link ExceptionWrapperAspect}
+ * in a corresponding {@link ApplicationException}.
+ */
 @Slf4j
 @Service
 @Transactional

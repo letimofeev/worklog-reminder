@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * This class represents an employee entity in the database
+ */
 @Getter
 @Setter
 @NoArgsConstructor

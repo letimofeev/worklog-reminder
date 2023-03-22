@@ -45,5 +45,4 @@ public @interface DrivenAdapter {
      */
     @AliasFor(annotation = Component.class)
     String value() default "";
-
 }
