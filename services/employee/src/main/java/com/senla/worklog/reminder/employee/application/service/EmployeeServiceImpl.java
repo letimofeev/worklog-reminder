@@ -1,6 +1,8 @@
 package com.senla.worklog.reminder.employee.application.service;
 
 import com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException;
+import com.senla.worklog.reminder.employee.application.aspect.ExceptionWrapperAspect;
+import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
 import com.senla.worklog.reminder.employee.application.service.mapper.EmployeeServiceMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
@@ -14,8 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * This class implements the {@link EmployeeServicePort} interface and provides
+ * methods to interact with employee domain models. It is annotated with {@link WrappedInApplicationException}
+ * to indicate that all exceptions thrown by this service will be wrapped by {@link ExceptionWrapperAspect}
+ * in a corresponding {@link ApplicationException}.
+ */
 @Slf4j
 @Service
 @Transactional
@@ -29,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeServicePort {
 
     @Override
     public Employee addEmployee(Employee employee) {
-        domainService.checkUniqueContraints(employee);
+        domainService.checkUniqueConstraints(employee);
 
         var createdEmployee = employeeJpaPort.addEmployee(employee);
         log.debug("Created employee with id = '{}'", createdEmployee.getId());
@@ -45,11 +55,14 @@ public class EmployeeServiceImpl implements EmployeeServicePort {
     }
 
     @Override
-    public Employee getEmployeeByJiraKey(String jiraKey) {
-        var jpaEmployee = employeeJpaPort.getEmployeeByJiraKey(jiraKey);
+    public List<Employee> getEmployeesByJiraKey(String jiraKey) {
+        var jpaEmployees = employeeJpaPort.getEmployeesByJiraKey(jiraKey);
+        if (jpaEmployees.isEmpty()) {
+            return emptyList();
+        }
+        var jpaEmployee = jpaEmployees.get(0);
         var restEmployee = notificationRestPort.getNotificationEmployee(jpaEmployee);
-
-        return mapper.mergeDomains(jpaEmployee, restEmployee);
+        return singletonList(mapper.mergeDomains(jpaEmployee, restEmployee));
     }
 
     @Override

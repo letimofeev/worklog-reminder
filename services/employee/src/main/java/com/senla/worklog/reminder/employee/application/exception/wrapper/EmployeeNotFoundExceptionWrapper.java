@@ -5,8 +5,20 @@ import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoun
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class is an implementation of the {@link ExceptionWrapper} interface.
+ * It wraps a {@link EmployeeNotFoundException} in an {@link ResourceNotFoundException} and returns it
+ */
 @Component
 public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
+
+    /**
+     Wraps a {@link EmployeeNotFoundException} in an {@link ResourceNotFoundException}
+
+     @param e The exception to wrap
+     @return The wrapped exception
+     @throws UnsupportedOperationException if an unsupported exception is passed to this method
+     */
     @Override
     public ApplicationException wrapInApplicationException(Exception e) {
         if (e instanceof EmployeeNotFoundException) {
@@ -19,6 +31,11 @@ public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
                 "EmployeeNotFoundExceptionMapper: " + e.getClass().getSimpleName(), e);
     }
 
+    /**
+     * Returns the type of exception that this wrapper can wrap, which is {@link EmployeeNotFoundException}.
+     *
+     * @return the {@link EmployeeNotFoundException} class
+     */
     @Override
     public Class<? extends Exception> getExceptionType() {
         return EmployeeNotFoundException.class;

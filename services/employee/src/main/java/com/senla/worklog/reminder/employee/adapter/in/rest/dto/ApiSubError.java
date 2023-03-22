@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * This class represents a sub-error that provides additional information about an error that occurred
+ * when processing an API request.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

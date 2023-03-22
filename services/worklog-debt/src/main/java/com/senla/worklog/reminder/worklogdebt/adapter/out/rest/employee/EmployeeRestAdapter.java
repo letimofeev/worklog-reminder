@@ -30,7 +30,10 @@ public class EmployeeRestAdapter implements EmployeeRestPort {
         var uri = fromUriString(restProperties.getGetEmployeeByJiraKeyUri())
                 .buildAndExpand(jiraKey)
                 .toUri();
-        var employee = restTemplate.getForEntity(uri, EmployeeDto.class).getBody();
-        return Optional.ofNullable(employee);
+        var employees = restTemplate.getForEntity(uri, EmployeeDto[].class).getBody();
+        if (employees != null && employees.length > 0) {
+            return Optional.of(employees[0]);
+        }
+        return Optional.empty();
     }
 }

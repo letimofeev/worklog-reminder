@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'jacoco'
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
@@ -15,6 +16,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.apache.httpcomponents:httpclient'
@@ -28,6 +31,25 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('javadoc') {
+	options.links("https://docs.oracle.com/en/java/javase/11/docs/api/")
+	options.links("https://docs.spring.io/spring-framework/docs/current/javadoc-api/")
+	options.linkSource true
+	options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+jacoco {
+	toolVersion = '0.8.8'
+}
+
+test {
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
 }
 
 task buildDockerImage(type: Exec) {

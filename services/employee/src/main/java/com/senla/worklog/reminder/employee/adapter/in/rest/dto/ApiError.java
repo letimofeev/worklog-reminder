@@ -10,6 +10,10 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
+/**
+ * This class represents an error response returned by the API. It contains a message, status code, and a list of
+ * sub-errors.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
