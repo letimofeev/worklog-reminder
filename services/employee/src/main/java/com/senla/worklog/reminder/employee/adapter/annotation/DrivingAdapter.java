@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.*;
 
 /**
- * Indicates that a class is a driving adapter.
+ * Indicates that a class is a driving adapter
  * <p>
  * A driving adapter is the one that initiate the interaction between an external system (such as a messaging system
  * or web service) and the internal domain of the application. This annotation can be used to mark a class as a driving
@@ -27,6 +27,8 @@ import java.lang.annotation.*;
  *       // ...
  *   }
  * }</pre>
+ *
+ * @since 0.0.1
  */
 @Documented
 @Component

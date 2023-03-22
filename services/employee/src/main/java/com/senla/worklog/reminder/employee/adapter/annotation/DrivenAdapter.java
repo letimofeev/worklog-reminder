@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.*;
 
 /**
- * Indicates that a class is a driven adapter.
+ * Indicates that a class is a driven adapter
  * <p>
  * A driven adapter is a component that provides a bridge between an external system (such as a database, messaging system,
  * or web service) and the internal domain of the application. Driven adapters are the ones that are “kicked into behavior”
@@ -28,6 +28,8 @@ import java.lang.annotation.*;
  *       // ...
  *   }
  * }</pre>
+ *
+ * @since 0.0.1
  */
 @Documented
 @Component
