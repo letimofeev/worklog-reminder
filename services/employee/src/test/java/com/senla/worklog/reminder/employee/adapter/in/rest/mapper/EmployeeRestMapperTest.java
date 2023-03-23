@@ -15,6 +15,7 @@ import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuild
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_NOTIFICATION_ENABLED;
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_SKYPE_LOGIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mapstruct.factory.Mappers.getMapper;
 
 
@@ -60,6 +61,15 @@ class EmployeeRestMapperTest {
     }
 
     @Test
+    void mapToDomain_shouldNull_whenInputIsNull() {
+        var create = employeeRestMapper.mapToDomain((CreateEmployeeRequestDto) null);
+        var update = employeeRestMapper.mapToDomain((UpdateEmployeeRequestDto) null);
+
+        assertNull(create);
+        assertNull(update);
+    }
+
+    @Test
     void mapToDto_shouldReturnDto_whenInputIsDomain() {
         var employee = new EmployeeTestBuilder().defaultEmployee().build();
 
@@ -74,5 +84,12 @@ class EmployeeRestMapperTest {
         var actual = employeeRestMapper.mapToDto(employee);
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void mapToDto_shouldReturnNull_whenInputIsNull() {
+        var dto = employeeRestMapper.mapToDto(null);
+
+        assertNull(dto);
     }
 }
