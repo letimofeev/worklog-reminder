@@ -18,7 +18,7 @@ public interface NotificationRestMapper {
      * @return the mapped domain object
      */
     @Mapping(target = "skypeLogin", source = "login")
-    @Mapping(target = "notificationEnabled", source = "enabled")
+    @Mapping(target = "notificationEnabled", expression = "java(user.isEnabled() && user.getId() != null)")
     @Mapping(target = "botConnected", expression = "java(user.getId() != null)")
     Employee mapToDomain(NotificationUserDto user);
 
