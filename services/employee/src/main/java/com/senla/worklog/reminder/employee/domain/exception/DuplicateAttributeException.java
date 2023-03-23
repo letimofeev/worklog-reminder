@@ -16,6 +16,12 @@ public class DuplicateAttributeException extends DomainException {
      */
     private final String attributeValue;
 
+    public DuplicateAttributeException(String message, String attributeName, String attributeValue) {
+        super(message);
+        this.attributeName = attributeName;
+        this.attributeValue = attributeValue;
+    }
+
     public DuplicateAttributeException(String attributeName, String attributeValue) {
         super("Employee with " + attributeName + " = '" + attributeValue + "' already exists");
         this.attributeName = attributeName;

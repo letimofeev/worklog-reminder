@@ -3,7 +3,7 @@ package com.senla.worklog.reminder.employee.application.service.mapper;
 import com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mapstruct.factory.Mappers.getMapper;
 
 class EmployeeServiceMapperTest {
