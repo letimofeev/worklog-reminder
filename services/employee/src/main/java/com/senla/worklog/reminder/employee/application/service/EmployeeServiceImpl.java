@@ -77,6 +77,8 @@ public class EmployeeServiceImpl implements EmployeeServicePort {
 
     @Override
     public Employee updateEmployee(Employee employee) {
+        domainService.checkUniqueConstraints(employee);
+
         var jpaEmployee = employeeJpaPort.updateEmployee(employee);
         var restEmployee = notificationRestPort.updateEmployee(employee);
 
