@@ -1,16 +1,14 @@
-import {EmployeeDetailsWorklogDebts} from "../models/worklogdebt/EmployeeDetailsWorklogDebts";
+import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 import {EventSourceMessage, fetchEventSource} from "@microsoft/fetch-event-source";
-import {EmployeeDetailsMapper} from "../mappers/EmployeeDetailsMapper";
 
 export default class DebtsNotificationService {
-    static async sendNotifications(detailsWorklogDebts: EmployeeDetailsWorklogDebts[],
+    static async sendNotifications(worklogDebts: EmployeeWorklogDebts[],
                                    onMessage: (event: EventSourceMessage) => void,
                                    onError: (error: any) => void,
                                    onClose: () => void) {
-        const debts = EmployeeDetailsMapper.mapToEmployeeDebts(detailsWorklogDebts);
-        await fetchEventSource('http://localhost:8100/stream-sse', {
+        await fetchEventSource('http://localhost:8400/api/worklog-debts-notifications/custom', {
             method: 'POST',
-            body: JSON.stringify(debts),
+            body: JSON.stringify(worklogDebts),
             headers: {
                 'Content-Type': 'application/json'
             },
