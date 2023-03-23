@@ -12,7 +12,7 @@ class EmployeeNotFoundExceptionWrapperTest {
     private final ExceptionWrapper wrapper = new EmployeeNotFoundExceptionWrapper();
 
     @Test
-    void testWrapInApplicationException() {
+    void wrapInApplicationException_shouldReturnResourceNotFoundException_whenInputIsEmployeeNotFoundException() {
         var attributeName = "id";
         var attributeValue = "123";
         var causeMessage = "Message";
@@ -27,12 +27,12 @@ class EmployeeNotFoundExceptionWrapperTest {
     }
 
     @Test
-    void testGetExceptionType() {
+    void getExceptionType_shouldReturnEmployeeNotFoundException() {
         assertEquals(EmployeeNotFoundException.class, wrapper.getExceptionType());
     }
 
     @Test
-    void testWrapInApplicationExceptionWithUnsupportedException() {
+    void wrapInApplicationException_shouldThrowException_whenInputIsUnsupportedException() {
         assertThrows(UnsupportedOperationException.class, () -> wrapper.wrapInApplicationException(new InstantiationException()));
     }
 }

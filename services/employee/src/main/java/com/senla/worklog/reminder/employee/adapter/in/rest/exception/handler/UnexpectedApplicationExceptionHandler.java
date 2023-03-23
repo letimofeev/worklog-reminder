@@ -28,18 +28,18 @@ public class UnexpectedApplicationExceptionHandler extends AbstractRestAdapterEx
      * If the passed exception is not an instance of UnexpectedApplicationException, it delegates
      * the handling to the parent class method {@link #handleUnsupportedExceptionType(Exception)} handleUnsupportedExceptionType()}
      *
-     * @param ex the exception to handle
+     * @param e the exception to handle
      * @return a {@link ResponseEntity} containing an {@link ApiError} with a HTTP 500 status code
      */
     @Override
-    public ResponseEntity<ApiError> handleException(Exception ex) {
-        if (ex instanceof UnexpectedApplicationException) {
+    public ResponseEntity<ApiError> handleException(Exception e) {
+        if (e instanceof UnexpectedApplicationException) {
             log.warn("Resolved UnexpectedApplicationException: {}. " +
                     "Consider exception hierarchy and exception handling in " +
-                    "domain and application layers to avoid this error", ex.getMessage(), ex);
+                    "domain and application layers to avoid this error", e.getMessage(), e);
             return new ResponseEntity<>(internalServerError(), INTERNAL_SERVER_ERROR);
         }
-        return handleUnsupportedExceptionType(ex);
+        return handleUnsupportedExceptionType(e);
     }
 
     /**

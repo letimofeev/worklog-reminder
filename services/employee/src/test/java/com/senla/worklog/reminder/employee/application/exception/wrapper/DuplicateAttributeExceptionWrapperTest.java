@@ -12,7 +12,7 @@ class DuplicateAttributeExceptionWrapperTest {
     private final DuplicateAttributeExceptionWrapper wrapper = new DuplicateAttributeExceptionWrapper();
 
     @Test
-    void wrapInApplicationException_givenDuplicateAttributeException_returnsUniqueConstraintViolationException() {
+    void wrapInApplicationException_shouldReturnDuplicateAttributeException_whenInputIsUniqueConstraintViolationException() {
         String message = "Uniqueness error";
         String attributeName = "email";
         String attributeValue = "jane.doe@example.com";
@@ -28,7 +28,7 @@ class DuplicateAttributeExceptionWrapperTest {
     }
 
     @Test
-    void getExceptionType_returnsDuplicateAttributeExceptionClass() {
+    void getExceptionType_shouldReturnDuplicateAttributeExceptionClass() {
         assertEquals(DuplicateAttributeException.class, wrapper.getExceptionType());
     }
 
