@@ -45,6 +45,10 @@ public class ApiError {
         return new ApiError(message, NOT_FOUND.value(), subErrors);
     }
 
+    public static ApiError methodNotAllowed(String message) {
+        return new ApiError(message, METHOD_NOT_ALLOWED.value());
+    }
+
     @Override
     public String toString() {
         return "ApiError{" +
