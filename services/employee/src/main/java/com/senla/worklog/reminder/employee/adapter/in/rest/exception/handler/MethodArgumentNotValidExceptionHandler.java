@@ -38,7 +38,7 @@ public class MethodArgumentNotValidExceptionHandler extends AbstractRestAdapterE
     public ResponseEntity<ApiError> handleException(Exception e) {
         if (e instanceof MethodArgumentNotValidException) {
             var ex = (MethodArgumentNotValidException) e;
-            log.debug("Resolved BindException: {}", ex.getMessage());
+            log.trace("Resolved MethodArgumentNotValidException: {}", ex.getMessage());
             var message = "Validation failed";
             List<ApiSubError> subErrors = ex.getFieldErrors().stream()
                     .map(error -> new AttributeApiSubError(error.getDefaultMessage(),

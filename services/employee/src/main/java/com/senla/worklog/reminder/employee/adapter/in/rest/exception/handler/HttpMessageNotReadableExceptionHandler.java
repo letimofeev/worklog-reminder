@@ -33,7 +33,7 @@ public class HttpMessageNotReadableExceptionHandler extends AbstractRestAdapterE
     public ResponseEntity<ApiError> handleException(Exception e) {
         if (e instanceof HttpMessageNotReadableException) {
             var castedEx = (HttpMessageNotReadableException) e;
-            log.debug("Resolved HttpMessageNotReadableExceptionHandler: {}", castedEx.getMessage());
+            log.trace("Resolved HttpMessageNotReadableExceptionHandler: {}", castedEx.getMessage());
             var message = "Failed to parse request body";
             var apiError = badRequest(message);
             return new ResponseEntity<>(apiError, BAD_REQUEST);

@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 /**
  * An exception handler for handling {@link HttpRequestMethodNotSupportedException}, which is thrown when a
  * request handler does not support a specific request method. This handler returns a HTTP 405 Method Not Allowed
- * response with a user-friendly error message.
+ * response with a user-friendly error message
  */
 @Slf4j
 @Component
@@ -22,7 +22,7 @@ public class HttpRequestMethodNotSupportedExceptionHandler extends AbstractRestA
      * Handles the {@link HttpRequestMethodNotSupportedException} and returns a HTTP 405 Method Not Allowed response
      * with a user-friendly error message
      * <p>
-     * If the passed exception is not an instance of HttpMessageNotReadableException, it delegates
+     * If the passed exception is not an instance of HttpRequestMethodNotSupportedException, it delegates
      * the handling to the parent class method {@link #handleUnsupportedExceptionType(Exception)} handleUnsupportedExceptionType()}
      *
      * @param e the {@link HttpRequestMethodNotSupportedException} to handle
@@ -32,7 +32,7 @@ public class HttpRequestMethodNotSupportedExceptionHandler extends AbstractRestA
     @Override
     public ResponseEntity<ApiError> handleException(Exception e) {
         if (e instanceof HttpRequestMethodNotSupportedException) {
-            log.debug("Resolved HttpRequestMethodNotSupportedException: {}", e.getMessage());
+            log.trace("Resolved HttpRequestMethodNotSupportedException: {}", e.getMessage());
             var message = e.getMessage();
             var apiError = methodNotAllowed(message);
             return new ResponseEntity<>(apiError, METHOD_NOT_ALLOWED);
