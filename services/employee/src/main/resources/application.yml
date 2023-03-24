@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT:8300}
+
 spring:
   datasource:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5434/employee}
@@ -6,6 +9,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
 
 notification:
   rest:
@@ -25,9 +33,6 @@ springdoc:
   swagger-ui:
     disable-swagger-default-url: true
     path: /api/docs/swagger-ui
-
-server:
-  port: ${SERVER_PORT:8300}
 
 logging:
   level:
