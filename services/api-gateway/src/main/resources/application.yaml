@@ -1,0 +1,3 @@
+logging:
+  level:
+    com.senla.worklog.reminder.apigateway: debug
