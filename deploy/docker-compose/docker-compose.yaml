@@ -6,11 +6,12 @@ services:
     container_name: worklog-debt
     mem_reservation: 700m
     pull_policy: always
-    ports:
-      - "8100:8100"
+    expose:
+      - '8100'
     networks:
       - worklog-reminder-network
     environment:
+      SERVER_PORT: 8100
       JIRA_BASE_URL: ${JIRA_BASE_URL}
       JIRA_BASIC_USER: ${JIRA_BASIC_USER}
       JIRA_BASIC_PASS: ${JIRA_BASIC_PASS}
@@ -23,11 +24,12 @@ services:
     image: letimof/worklog-debt-notification:0.0.1
     container_name: worklog-debt-notification
     pull_policy: always
-    ports:
-      - "8400:8400"
+    expose:
+      - '8400'
     networks:
       - worklog-reminder-network
     environment:
+      SERVER_PORT: 8400
       NOTIFICATION_BASE_URL: http://notification:8200
       WORKLOGDEBT_BASE_URL: http://worklog-debt:8100
 
@@ -36,8 +38,8 @@ services:
     container_name: employee
     mem_reservation: 700m
     pull_policy: always
-    ports:
-      - "8300:8300"
+    expose:
+      - '8300'
     networks:
       - worklog-reminder-network
     depends_on:
@@ -51,8 +53,8 @@ services:
   employee-db:
     image: 'postgres:14.4'
     container_name: employee-db
-    ports:
-      - "5434:5434"
+    expose:
+      - '5434'
     networks:
       - worklog-reminder-network
     environment:
@@ -69,8 +71,8 @@ services:
     container_name: notification
     mem_reservation: 700m
     pull_policy: always
-    ports:
-      - "8200:8200"
+    expose:
+      - '8200'
     networks:
       - worklog-reminder-network
     depends_on:
@@ -87,8 +89,8 @@ services:
   notification-db:
     image: 'postgres:14.4'
     container_name: notification-db
-    ports:
-      - "5433:5433"
+    expose:
+      - '5433'
     networks:
       - worklog-reminder-network
     environment:
@@ -105,9 +107,42 @@ services:
     container_name: frontend
     pull_policy: always
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - worklog-reminder-network
+
+  api-gateway:
+    image: letimof/api-gateway:0.0.1
+    container_name: api-gateway
+    ports:
+      - '8080:8080'
+    networks:
+      - worklog-reminder-network
+    environment:
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: worklog-debt-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://worklog-debt:8100
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/api/worklog-debts/**
+      SPRING_CLOUD_GATEWAY_ROUTES_0_FILTERS_0: AddRequestHeader=Host, worklog-debt
+
+      SPRING_CLOUD_GATEWAY_ROUTES_1_ID: worklog-debt-notification-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://worklog-debt-notification:8400
+      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES_0: Path=/api/worklog-debts-notifications/**
+      SPRING_CLOUD_GATEWAY_ROUTES_1_FILTERS_0: AddRequestHeader=Host, worklog-debt-notification
+
+      SPRING_CLOUD_GATEWAY_ROUTES_2_ID: employee-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://employee:8300
+      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**
+      SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_0: AddRequestHeader=Host, employee
+
+      SPRING_CLOUD_GATEWAY_ROUTES_3_ID: notification-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_3_URI: http://notification:8200
+      SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0: Path=/api/bot/**, /api/notifications/**, /api/users/**
+      SPRING_CLOUD_GATEWAY_ROUTES_3_FILTERS_0: AddRequestHeader=Host, notification
+    depends_on:
+      - worklog-debt
+      - worklog-debt-notification
+      - employee
+      - notification
 
 networks:
   worklog-reminder-network:
