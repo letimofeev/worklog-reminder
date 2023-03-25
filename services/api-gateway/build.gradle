@@ -18,8 +18,10 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	annotationProcessor 'org.projectlombok:lombok'
 }
 
 dependencyManagement {
@@ -31,3 +33,22 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task buildDockerImage(type: Exec) {
+	workingDir "$projectDir"
+	commandLine "docker", "build", ".",
+			"-t", "letimof/${project.name}:${project.version}",
+			"--build-arg", "PROJECT_NAME=${project.name}",
+			"--build-arg", "PROJECT_VERSION=${project.version}"
+}
+
+task loginDocker(type: Exec) {
+	commandLine "docker", "login", "-u", "$System.env.DOCKER_USERNAME", "-p", "$System.env.DOCKER_PASSWORD"
+}
+
+task pushDockerImage(type: Exec) {
+	commandLine "docker", "push", "letimof/${project.name}:${project.version}"
+}
+
+//pushDockerImage.dependsOn loginDocker
+//pushDockerImage.dependsOn buildDockerImage

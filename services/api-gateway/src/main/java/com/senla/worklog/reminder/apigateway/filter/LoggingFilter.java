@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 public class LoggingFilter implements GlobalFilter {
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         var request = exchange.getRequest();
