@@ -50,5 +50,5 @@ task pushDockerImage(type: Exec) {
 	commandLine "docker", "push", "letimof/${project.name}:${project.version}"
 }
 
-//pushDockerImage.dependsOn loginDocker
-//pushDockerImage.dependsOn buildDockerImage
+pushDockerImage.dependsOn loginDocker
+pushDockerImage.dependsOn buildDockerImage
