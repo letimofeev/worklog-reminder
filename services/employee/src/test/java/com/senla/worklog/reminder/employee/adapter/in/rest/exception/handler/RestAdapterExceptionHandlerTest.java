@@ -19,7 +19,7 @@ class RestAdapterExceptionHandlerTest {
     private final RestAdapterExceptionHandler exceptionHandler = new RestAdapterExceptionHandler();
 
     @Test
-    public void handleResourceNotFoundException_shouldReturn405_whenInputIsResourceNotFoundException() {
+    public void handleResourceNotFoundException_shouldReturn404_whenInputIsResourceNotFoundException() {
         var attributeName = "id";
         var attributeValue = "123";
         var cause = new EmployeeNotFoundException(123L);

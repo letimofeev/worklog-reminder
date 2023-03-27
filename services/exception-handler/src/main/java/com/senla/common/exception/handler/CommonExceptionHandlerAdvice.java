@@ -93,8 +93,8 @@ public class CommonExceptionHandlerAdvice extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(@NonNull MethodArgumentTypeMismatchException ex) {
         log.trace("Resolved MethodArgumentTypeMismatchException: {}", ex.getMessage());
 
-        var message = "Failed to parse request parameter with name '" + ex.getName() +
-                "' and value '" + ex.getValue() + "'";
+        var message = "Failed to parse request parameter with name = '" + ex.getName() +
+                "' and value = '" + ex.getValue() + "'";
         var apiError = badRequest(message);
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
