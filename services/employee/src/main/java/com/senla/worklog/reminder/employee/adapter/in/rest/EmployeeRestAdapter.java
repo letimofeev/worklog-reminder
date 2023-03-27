@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.employee.adapter.in.rest;
 
-import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError;
+import com.senla.common.exception.handler.model.ApiError;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.CreateEmployeeRequestDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.EmployeeDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.UpdateEmployeeRequestDto;
