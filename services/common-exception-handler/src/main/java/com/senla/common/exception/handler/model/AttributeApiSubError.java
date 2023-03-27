@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.adapter.in.rest.dto;
+package com.senla.common.exception.handler.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

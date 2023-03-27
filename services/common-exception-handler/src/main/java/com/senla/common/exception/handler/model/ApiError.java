@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.adapter.in.rest.dto;
+package com.senla.common.exception.handler.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * This class represents an error response returned by the API. It contains a message, status code, and a list of
