@@ -37,3 +37,5 @@ springdoc:
 logging:
   level:
     com.senla.worklog.reminder.employee: trace
+    com.senla.common: trace
+    org.springframework.web.servlet.PageNotFound: error
