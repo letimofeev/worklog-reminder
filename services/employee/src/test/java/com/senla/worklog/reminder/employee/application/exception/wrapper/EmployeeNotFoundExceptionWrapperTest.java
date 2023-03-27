@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.employee.application.exception.wrapper;
 
+import com.senla.common.exception.wrapper.ExceptionWrapper;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,4 @@
-package com.senla.worklog.reminder.employee.application.exception.wrapper;
-
-import org.springframework.stereotype.Component;
+package com.senla.common.exception.wrapper;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +11,6 @@ import static java.util.stream.Collectors.toMap;
  * A registry that holds a map of {@link ExceptionWrapper} instances mapped to their corresponding exception types.
  * Provides a method to get the wrapper instance for a given exception type
  */
-@Component
 public class ExceptionWrapperRegistry {
     private final Map<Class<? extends Exception>, ExceptionWrapper> wrappersMap;
 

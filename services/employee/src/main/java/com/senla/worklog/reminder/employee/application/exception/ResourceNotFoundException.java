@@ -1,5 +1,7 @@
 package com.senla.worklog.reminder.employee.application.exception;
 
+import com.senla.common.exception.ApplicationException;
+
 /**
  * This class represents an exception that is thrown when a requested resource is not found.
  */

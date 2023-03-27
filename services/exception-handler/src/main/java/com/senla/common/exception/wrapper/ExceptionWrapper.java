@@ -1,6 +1,6 @@
-package com.senla.worklog.reminder.employee.application.exception.wrapper;
+package com.senla.common.exception.wrapper;
 
-import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
+import com.senla.common.exception.ApplicationException;
 
 /**
  * An interface for classes that wrap exceptions in application-specific exceptions.

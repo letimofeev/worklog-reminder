@@ -1,6 +1,7 @@
-package com.senla.worklog.reminder.employee.application.exception;
+package com.senla.common.exception;
 
-import com.senla.worklog.reminder.employee.application.exception.wrapper.ExceptionWrapper;
+
+import com.senla.common.exception.wrapper.ExceptionWrapper;
 
 /**
  * This class represents an exception that is thrown when exception in

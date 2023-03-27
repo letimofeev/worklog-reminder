@@ -1,9 +1,9 @@
 package com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler;
 
+import com.senla.common.exception.UnexpectedApplicationException;
 import com.senla.common.exception.handler.model.ApiError;
 import com.senla.common.exception.handler.model.AttributeApiSubError;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
-import com.senla.worklog.reminder.employee.application.exception.UnexpectedApplicationException;
 import com.senla.worklog.reminder.employee.application.exception.UniqueConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

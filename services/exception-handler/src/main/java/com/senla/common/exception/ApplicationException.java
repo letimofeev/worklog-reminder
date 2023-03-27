@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.application.exception;
+package com.senla.common.exception;
 
 /**
  * The ApplicationException class is an abstract base class for custom application exceptions. It extends

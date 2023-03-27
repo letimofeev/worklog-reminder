@@ -1,15 +1,13 @@
-package com.senla.worklog.reminder.employee.application.aspect;
+package com.senla.common.exception.wrapper;
 
-import com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException;
-import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
-import com.senla.worklog.reminder.employee.application.exception.UnexpectedApplicationException;
-import com.senla.worklog.reminder.employee.application.exception.wrapper.ExceptionWrapperRegistry;
+import com.senla.common.exception.ApplicationException;
+import com.senla.common.exception.UnexpectedApplicationException;
+import com.senla.common.exception.wrapper.annotation.WrappedInApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
 
 /**
  * AOP aspect for wrapping exceptions thrown by methods annotated with {@link WrappedInApplicationException}
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Aspect
-@Component
 @RequiredArgsConstructor
 public class ExceptionWrapperAspect {
     private final ExceptionWrapperRegistry wrapperRegistry;
@@ -31,7 +28,7 @@ public class ExceptionWrapperAspect {
      * @return the result of the method execution, or a wrapped exception if an exception was thrown.
      * @throws Throwable if the method throws an exception that could not be wrapped.
      */
-    @Around("@within(com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException)")
+    @Around("@within(com.senla.common.exception.wrapper.annotation.WrappedInApplicationException)")
     public Object wrapMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();

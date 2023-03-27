@@ -1,6 +1,7 @@
-package com.senla.worklog.reminder.employee.application.annotation;
+package com.senla.common.exception.wrapper.annotation;
 
-import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
+
+import com.senla.common.exception.ApplicationException;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

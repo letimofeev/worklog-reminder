@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.domain.exception;
+package com.senla.common.exception;
 
 /**
  * This class is an abstract class that represents an exception that occurs within the domain layer of the application

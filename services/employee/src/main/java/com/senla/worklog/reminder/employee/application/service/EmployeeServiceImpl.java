@@ -1,8 +1,8 @@
 package com.senla.worklog.reminder.employee.application.service;
 
-import com.senla.worklog.reminder.employee.application.annotation.WrappedInApplicationException;
-import com.senla.worklog.reminder.employee.application.aspect.ExceptionWrapperAspect;
-import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
+import com.senla.common.exception.ApplicationException;
+import com.senla.common.exception.wrapper.ExceptionWrapperAspect;
+import com.senla.common.exception.wrapper.annotation.WrappedInApplicationException;
 import com.senla.worklog.reminder.employee.application.service.mapper.EmployeeServiceMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
