@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and Publish to Maven Local
         run: |
-          cd exception-handler
+          cd services/exception-handler
           ./gradlew build
           ./gradlew publishToMavenLocal
 
