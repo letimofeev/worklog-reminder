@@ -28,10 +28,14 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * Class for handling exceptions thrown by controllers
+ */
 @Slf4j
 @Configuration
 @ControllerAdvice
 public class CommonExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
+
     @NonNull
     @Override
     public ResponseEntity<Object> handleNoHandlerFoundException(@NonNull NoHandlerFoundException ex,
