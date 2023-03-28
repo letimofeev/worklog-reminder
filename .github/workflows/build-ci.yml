@@ -96,6 +96,7 @@ jobs:
           ./gradlew pushDockerImage
 
   build-worklog-debts:
+    needs: build-commons-spring-boot-starter
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
