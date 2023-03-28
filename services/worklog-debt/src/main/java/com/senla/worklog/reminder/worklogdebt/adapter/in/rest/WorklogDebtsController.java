@@ -24,14 +24,15 @@ import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @Validated
 @DrivingAdapter
 @CrossOrigin
 @RestController
-@RequestMapping("/api/worklog-debts")
 @RequiredArgsConstructor
+@RequestMapping(value = "/api/worklog-debts", produces = APPLICATION_JSON_VALUE)
 public class WorklogDebtsController {
     private final WorklogDebtsServicePort debtsServicePort;
     private final EmployeeWorklogDebtsRestMapper debtsRestMapper;

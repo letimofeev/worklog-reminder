@@ -126,7 +126,7 @@ public class CommonExceptionHandlerAdvice extends ResponseEntityExceptionHandler
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(@NonNull HttpMediaTypeNotAcceptableException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
         log.trace("Resolved HttpMediaTypeNotAcceptableException: {}", ex.getMessage());
         var supportedTypes = ex.getSupportedMediaTypes().stream()
-                .map(MimeType::getType)
+                .map(MimeType::toString)
                 .collect(joining());
         var message = "Not acceptable media type, supported types: " + supportedTypes;
         return new ResponseEntity<>(message, NOT_ACCEPTABLE);
