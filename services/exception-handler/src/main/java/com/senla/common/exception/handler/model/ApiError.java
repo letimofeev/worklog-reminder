@@ -11,7 +11,9 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
 /**
  * This class represents an error response returned by the API. It contains a message, status code, and a list of
@@ -54,6 +56,14 @@ public class ApiError {
 
     public static ApiError methodNotAllowed(String message) {
         return new ApiError(message, METHOD_NOT_ALLOWED.value());
+    }
+
+    public static ApiError unsupportedMediaType(String message) {
+        return new ApiError(message, UNSUPPORTED_MEDIA_TYPE.value());
+    }
+
+    public static ApiError notAcceptable(String message) {
+        return new ApiError(message, NOT_ACCEPTABLE.value());
     }
 
     @Override

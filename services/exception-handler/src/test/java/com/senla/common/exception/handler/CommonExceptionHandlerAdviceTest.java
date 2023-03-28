@@ -2,6 +2,11 @@ package com.senla.common.exception.handler;
 
 import com.senla.common.exception.handler.model.ApiError;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,14 +14,21 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@ExtendWith(MockitoExtension.class)
 class CommonExceptionHandlerAdviceTest {
-    private final CommonExceptionHandlerAdvice exceptionHandler = new CommonExceptionHandlerAdvice();
+    @Mock
+    private MessageSource messageSource;
+
+    @InjectMocks
+    private CommonExceptionHandlerAdvice exceptionHandler;
 
     @Test
     void handleNoHandlerFoundException_shouldReturn404_whenInputIsNoHandlerFoundException() {
