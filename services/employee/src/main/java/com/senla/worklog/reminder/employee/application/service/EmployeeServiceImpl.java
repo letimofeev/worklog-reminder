@@ -1,14 +1,14 @@
 package com.senla.worklog.reminder.employee.application.service;
 
-import com.senla.common.exception.ApplicationException;
-import com.senla.common.exception.wrapper.ExceptionWrapperAspect;
-import com.senla.common.exception.wrapper.annotation.WrappedInApplicationException;
 import com.senla.worklog.reminder.employee.application.service.mapper.EmployeeServiceMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
 import com.senla.worklog.reminder.employee.domain.port.out.EmployeeJpaPort;
 import com.senla.worklog.reminder.employee.domain.port.out.NotificationRestPort;
 import com.senla.worklog.reminder.employee.domain.service.EmployeeDomainService;
+import com.senla.worklog.reminder.exception.ApplicationException;
+import com.senla.worklog.reminder.exception.wrapper.ExceptionWrapperAspect;
+import com.senla.worklog.reminder.exception.wrapper.annotation.WrappedInApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
