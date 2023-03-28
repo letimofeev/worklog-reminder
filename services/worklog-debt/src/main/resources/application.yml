@@ -1,11 +1,3 @@
-spring:
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
 jira:
   basic-auth:
     username: ${JIRA_BASIC_USER}
@@ -33,4 +25,4 @@ employee:
 logging:
   level:
     com.senla.worklog.reminder.worklogdebt: trace
-    com.senla.common: trace
+    com.senla.worklog.reminder.exception: trace
