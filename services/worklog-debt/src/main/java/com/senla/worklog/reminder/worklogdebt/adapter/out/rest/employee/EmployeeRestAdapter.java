@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.out.rest.employee;
 
-import com.senla.worklog.reminder.worklogdebt.adapter.annotation.DrivingAdapter;
+import com.senla.worklog.reminder.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.worklogdebt.adapter.out.rest.employee.dto.EmployeeDto;
 import com.senla.worklog.reminder.worklogdebt.adapter.out.rest.employee.mapper.EmployeeRestMapper;
 import com.senla.worklog.reminder.worklogdebt.domain.model.EmployeeWorklogDebts;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
-@DrivingAdapter
+@DrivenAdapter
 @RequiredArgsConstructor
 public class EmployeeRestAdapter implements EmployeeRestPort {
     private final EmployeeRestMapper restMapper;

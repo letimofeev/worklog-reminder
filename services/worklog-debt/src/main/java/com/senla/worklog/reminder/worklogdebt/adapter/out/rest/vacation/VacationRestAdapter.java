@@ -1,12 +1,12 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.out.rest.vacation;
 
-import com.senla.worklog.reminder.worklogdebt.adapter.annotation.DrivingAdapter;
+import com.senla.worklog.reminder.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.worklogdebt.domain.model.EmployeeWorklogDebts;
 import com.senla.worklog.reminder.worklogdebt.domain.port.out.VacationRestPort;
 
 import java.time.LocalDate;
 
-@DrivingAdapter
+@DrivenAdapter
 public class VacationRestAdapter implements VacationRestPort {
 
     // TODO: Vacation service integration

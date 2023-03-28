@@ -16,6 +16,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@DateFromMoreRecentThanDateTo
 public class DateRangeRequestParameters {
     @NotNull
     @PastOrPresent(message = "{dateFrom.pastOrPresent}")

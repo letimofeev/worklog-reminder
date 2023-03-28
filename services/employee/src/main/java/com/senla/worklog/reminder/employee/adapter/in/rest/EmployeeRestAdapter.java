@@ -1,9 +1,9 @@
 package com.senla.worklog.reminder.employee.adapter.in.rest;
 
-import com.senla.worklog.reminder.employee.adapter.in.rest.dto.ApiError;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.CreateEmployeeRequestDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.EmployeeDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.UpdateEmployeeRequestDto;
+import com.senla.worklog.reminder.exception.handler.model.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -30,6 +30,7 @@ import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.Swagge
 import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_400_2;
 import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_404;
 import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_500;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 /**
@@ -37,7 +38,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
  * to define the base request mapping for the API and to tag it with a descriptive name.
  */
 @Tag(name = "Employee API")
-@RequestMapping("/api/employees")
+@RequestMapping(value = "/api/employees", produces = APPLICATION_JSON_VALUE)
 public interface EmployeeRestAdapter {
     @Operation(summary = "Add a new employee to the system with the provided employee data")
     @ApiResponses({

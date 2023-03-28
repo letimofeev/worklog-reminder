@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.in.rest;
 
-import com.senla.worklog.reminder.worklogdebt.adapter.annotation.DrivenAdapter;
+import com.senla.worklog.reminder.annotation.DrivingAdapter;
 import com.senla.worklog.reminder.worklogdebt.adapter.in.rest.dto.EmployeeWorklogDebtsDto;
 import com.senla.worklog.reminder.worklogdebt.adapter.in.rest.mapper.EmployeeWorklogDebtsRestMapper;
 import com.senla.worklog.reminder.worklogdebt.adapter.in.rest.validator.DateRangeRequestParameters;
@@ -9,7 +9,11 @@ import com.senla.worklog.reminder.worklogdebt.domain.port.in.WorklogDebtsService
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
@@ -20,14 +24,15 @@ import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @Validated
-@DrivenAdapter
+@DrivingAdapter
 @CrossOrigin
 @RestController
-@RequestMapping("/api/worklog-debts")
 @RequiredArgsConstructor
+@RequestMapping(value = "/api/worklog-debts", produces = APPLICATION_JSON_VALUE)
 public class WorklogDebtsController {
     private final WorklogDebtsServicePort debtsServicePort;
     private final EmployeeWorklogDebtsRestMapper debtsRestMapper;
