@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.senla.common.exception.handler.CommonExceptionHandlerAdvice,\
-  com.senla.common.exception.wrapper.ExceptionWrapperAutoConfiguration
