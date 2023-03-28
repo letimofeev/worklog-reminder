@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.application.service;
 
+import com.senla.worklog.reminder.exception.wrapper.annotation.WrappedInApplicationException;
 import com.senla.worklog.reminder.worklogdebt.application.service.mapper.WorklogDebtsServiceMapper;
 import com.senla.worklog.reminder.worklogdebt.domain.model.DayWorklogDebt;
 import com.senla.worklog.reminder.worklogdebt.domain.model.EmployeeWorklogDebts;
@@ -22,6 +23,7 @@ import static java.util.stream.Collectors.*;
 
 @Service
 @RequiredArgsConstructor
+@WrappedInApplicationException
 public class WorklogDebtsServiceImpl implements WorklogDebtsServicePort {
     private final JiraRestPort jiraRestPort;
     private final EmployeeRestPort employeeRestPort;
