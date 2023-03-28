@@ -21,14 +21,14 @@ jobs:
 
       - name: Build and Publish to Maven Local
         run: |
-          cd services/exception-handler
+          cd services/commons-spring-boot-starter
           ./gradlew build
           ./gradlew publishToMavenLocal
 
       - uses: actions/upload-artifact@master
         with:
-          name: exception-handler
-          path: ~/.m2/repository/com/senla/common/exception-handler
+          name: commons-spring-boot-starter
+          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
 
   build-api-gateway:
     env:
@@ -60,7 +60,7 @@ jobs:
           ./gradlew pushDockerImage
 
   build-employee:
-    needs: build-exception-handler
+    needs: build-commons-spring-boot-starter
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -81,8 +81,8 @@ jobs:
 
       - uses: actions/download-artifact@master
         with:
-          name: exception-handler
-          path: ~/.m2/repository/com/senla/common/exception-handler
+          name: commons-spring-boot-starter
+          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
 
       - name: Run build with Gradle Wrapper
         run: |-
