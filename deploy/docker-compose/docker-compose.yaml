@@ -114,6 +114,7 @@ services:
   api-gateway:
     image: letimof/api-gateway:0.0.1
     container_name: api-gateway
+    pull_policy: always
     ports:
       - '8080:8080'
     networks:
