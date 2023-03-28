@@ -4,7 +4,7 @@ package com.senla.worklog.reminder.employee.domain.exception;
  * This class represents an exception that is thrown when an attempt is made to create domain model
  * with uniqueness violation attribute
  */
-public class DuplicateAttributeException extends DomainException {
+public class DuplicateAttributeException extends RuntimeException {
 
     /**
      * The name of the attribute associated with the attribute uniqueness violation

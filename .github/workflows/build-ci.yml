@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-exception-handler:
+  build-commons-spring-boot-starter:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,14 +21,14 @@ jobs:
 
       - name: Build and Publish to Maven Local
         run: |
-          cd services/exception-handler
+          cd services/commons-spring-boot-starter
           ./gradlew build
           ./gradlew publishToMavenLocal
 
       - uses: actions/upload-artifact@master
         with:
-          name: exception-handler
-          path: ~/.m2/repository/com/senla/common/exception-handler
+          name: commons-spring-boot-starter
+          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
 
   build-api-gateway:
     env:
@@ -60,7 +60,7 @@ jobs:
           ./gradlew pushDockerImage
 
   build-employee:
-    needs: build-exception-handler
+    needs: build-commons-spring-boot-starter
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -79,10 +79,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - uses: actions/download-artifact@master
+      - name: Download commons-spring-boot-starter
+        uses: actions/download-artifact@master
         with:
-          name: exception-handler
-          path: ~/.m2/repository/com/senla/common/exception-handler
+          name: commons-spring-boot-starter
+          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
 
       - name: Run build with Gradle Wrapper
         run: |-
@@ -95,6 +96,7 @@ jobs:
           ./gradlew pushDockerImage
 
   build-worklog-debts:
+    needs: build-commons-spring-boot-starter
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -112,6 +114,12 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+
+      - name: Download commons-spring-boot-starter
+        uses: actions/download-artifact@master
+        with:
+          name: commons-spring-boot-starter
+          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
 
       - name: Run build with Gradle Wrapper
         run: |-

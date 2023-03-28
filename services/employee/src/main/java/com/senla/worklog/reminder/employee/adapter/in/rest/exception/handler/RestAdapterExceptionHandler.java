@@ -1,10 +1,9 @@
 package com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler;
 
-import com.senla.common.exception.handler.model.ApiError;
-import com.senla.common.exception.handler.model.AttributeApiSubError;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
-import com.senla.worklog.reminder.employee.application.exception.UnexpectedApplicationException;
 import com.senla.worklog.reminder.employee.application.exception.UniqueConstraintViolationException;
+import com.senla.worklog.reminder.exception.handler.model.ApiError;
+import com.senla.worklog.reminder.exception.handler.model.AttributeApiSubError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
-import static com.senla.common.exception.handler.model.ApiError.badRequest;
-import static com.senla.common.exception.handler.model.ApiError.internalServerError;
-import static com.senla.common.exception.handler.model.ApiError.notFound;
+import static com.senla.worklog.reminder.exception.handler.model.ApiError.badRequest;
+import static com.senla.worklog.reminder.exception.handler.model.ApiError.notFound;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
@@ -69,21 +66,5 @@ public class RestAdapterExceptionHandler {
         var apiError = badRequest(e.getMessage(), subErrors);
 
         return new ResponseEntity<>(apiError, BAD_REQUEST);
-    }
-
-    /**
-     * Handles the exception passed as parameter and returns a {@link ResponseEntity} containing an {@link ApiError}.
-     * If the passed exception is an instance of {@link UnexpectedApplicationException}, it logs a warning
-     * message and returns a {@link ResponseEntity} with HTTP status code 500 (Internal Server Error).
-     *
-     * @param e the exception to handle
-     * @return a {@link ResponseEntity} containing an {@link ApiError} with a HTTP 500 status code
-     */
-    @ExceptionHandler(UnexpectedApplicationException.class)
-    public ResponseEntity<ApiError> handleUnexpectedApplicationException(UnexpectedApplicationException e) {
-        log.warn("Resolved UnexpectedApplicationException: {}. " +
-                "Consider exception hierarchy and exception handling in " +
-                "domain and application layers to avoid this error", e.getMessage(), e);
-        return new ResponseEntity<>(internalServerError(), INTERNAL_SERVER_ERROR);
     }
 }

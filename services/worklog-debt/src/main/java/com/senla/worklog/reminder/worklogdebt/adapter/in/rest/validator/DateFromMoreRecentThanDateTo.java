@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = DateFromMoreRecentThanDateToValidator.class)
 public @interface DateFromMoreRecentThanDateTo {
-    String message() default "`dateFrom` should be more recent than `dateTo`";
+    String message() default "'dateFrom' should be more recent than 'dateTo'";
 
     Class<?>[] groups() default {};
 

@@ -1,5 +1,8 @@
 package com.senla.worklog.reminder.employee.application.exception;
 
+
+import com.senla.worklog.reminder.exception.ApplicationException;
+
 /**
  * This class represents an exception that is thrown when the application uniqueness rules violated
  */

@@ -3,7 +3,7 @@ package com.senla.worklog.reminder.employee.domain.exception;
 /**
  * This class represents an exception that is thrown when a requested employee is not found.
  */
-public class EmployeeNotFoundException extends DomainException {
+public class EmployeeNotFoundException extends RuntimeException {
 
     /**
      * The name of the attribute for which the employee was not found

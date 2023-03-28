@@ -1,8 +1,9 @@
 package com.senla.worklog.reminder.employee.application.exception.wrapper;
 
-import com.senla.worklog.reminder.employee.application.exception.ApplicationException;
 import com.senla.worklog.reminder.employee.application.exception.UniqueConstraintViolationException;
 import com.senla.worklog.reminder.employee.domain.exception.DuplicateAttributeException;
+import com.senla.worklog.reminder.exception.ApplicationException;
+import com.senla.worklog.reminder.exception.wrapper.ExceptionWrapper;
 import org.springframework.stereotype.Component;
 
 /**

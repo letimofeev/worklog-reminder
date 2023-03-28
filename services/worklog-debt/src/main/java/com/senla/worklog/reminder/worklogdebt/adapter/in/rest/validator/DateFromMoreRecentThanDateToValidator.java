@@ -10,7 +10,7 @@ public class DateFromMoreRecentThanDateToValidator implements ConstraintValidato
         var dateTo = value.getDateTo();
         if (dateFrom.isAfter(dateTo)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(String.format("dateFrom (%s) is after dateTo (%s), which is invalid",
+            context.buildConstraintViolationWithTemplate(String.format("'dateFrom' (%s) is after 'dateTo' (%s), which is invalid",
                             dateFrom, dateTo))
                     .addConstraintViolation();
             return false;
