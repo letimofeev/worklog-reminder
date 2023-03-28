@@ -1,9 +1,9 @@
 package com.senla.worklog.reminder.employee.adapter.in.rest.exception.handler;
 
-import com.senla.common.exception.handler.model.ApiError;
-import com.senla.common.exception.handler.model.AttributeApiSubError;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
 import com.senla.worklog.reminder.employee.application.exception.UniqueConstraintViolationException;
+import com.senla.worklog.reminder.exception.handler.model.ApiError;
+import com.senla.worklog.reminder.exception.handler.model.AttributeApiSubError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
-import static com.senla.common.exception.handler.model.ApiError.badRequest;
-import static com.senla.common.exception.handler.model.ApiError.notFound;
+import static com.senla.worklog.reminder.exception.handler.model.ApiError.badRequest;
+import static com.senla.worklog.reminder.exception.handler.model.ApiError.notFound;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 

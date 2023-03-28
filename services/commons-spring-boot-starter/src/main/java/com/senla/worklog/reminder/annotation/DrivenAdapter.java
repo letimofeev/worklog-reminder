@@ -1,9 +1,13 @@
-package com.senla.worklog.reminder.employee.adapter.annotation;
+package com.senla.worklog.reminder.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Indicates that a class is a driven adapter
@@ -29,7 +33,6 @@ import java.lang.annotation.*;
  *   }
  * }</pre>
  *
- * @since 0.0.1
  */
 @Documented
 @Component

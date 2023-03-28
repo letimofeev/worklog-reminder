@@ -35,7 +35,6 @@ import java.util.List;
 import static com.senla.worklog.reminder.exception.handler.model.ApiError.badRequest;
 import static com.senla.worklog.reminder.exception.handler.model.ApiError.internalServerError;
 import static com.senla.worklog.reminder.exception.handler.model.ApiError.methodNotAllowed;
-import static com.senla.worklog.reminder.exception.handler.model.ApiError.notAcceptable;
 import static com.senla.worklog.reminder.exception.handler.model.ApiError.notFound;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -130,8 +129,7 @@ public class CommonExceptionHandlerAdvice extends ResponseEntityExceptionHandler
                 .map(MimeType::getType)
                 .collect(joining());
         var message = "Not acceptable media type, supported types: " + supportedTypes;
-        var apiError = notAcceptable(message);
-        return new ResponseEntity<>(apiError, NOT_ACCEPTABLE);
+        return new ResponseEntity<>(message, NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

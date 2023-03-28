@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.employee.adapter.out.jpa;
 
-import com.senla.worklog.reminder.employee.adapter.annotation.DrivenAdapter;
+import com.senla.worklog.reminder.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.employee.adapter.out.jpa.mapper.EmployeeEntityMapper;
 import com.senla.worklog.reminder.employee.adapter.out.jpa.repository.EmployeeJpaRepository;
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;

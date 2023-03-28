@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.out.rest.jira;
 
-import com.senla.worklog.reminder.worklogdebt.adapter.annotation.DrivingAdapter;
+import com.senla.worklog.reminder.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.worklogdebt.adapter.out.rest.jira.auth.JiraAuthenticationService;
 import com.senla.worklog.reminder.worklogdebt.adapter.out.rest.jira.auth.RefreshableSession;
 import com.senla.worklog.reminder.worklogdebt.adapter.out.rest.jira.dto.WorklogDto;
@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
-@DrivingAdapter
+@DrivenAdapter
 @RequiredArgsConstructor
 public class JiraRestAdapter implements JiraRestPort {
     private final JiraAuthenticationService authenticationService;

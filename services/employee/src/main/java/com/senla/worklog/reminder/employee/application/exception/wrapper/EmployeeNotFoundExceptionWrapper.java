@@ -1,9 +1,9 @@
 package com.senla.worklog.reminder.employee.application.exception.wrapper;
 
-import com.senla.common.exception.ApplicationException;
-import com.senla.common.exception.wrapper.ExceptionWrapper;
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
+import com.senla.worklog.reminder.exception.ApplicationException;
+import com.senla.worklog.reminder.exception.wrapper.ExceptionWrapper;
 import org.springframework.stereotype.Component;
 
 /**

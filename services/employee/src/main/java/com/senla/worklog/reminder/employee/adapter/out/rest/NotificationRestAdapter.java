@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.employee.adapter.out.rest;
 
-import com.senla.worklog.reminder.employee.adapter.annotation.DrivenAdapter;
+import com.senla.worklog.reminder.annotation.DrivenAdapter;
 import com.senla.worklog.reminder.employee.adapter.out.rest.dto.NotificationUserDto;
 import com.senla.worklog.reminder.employee.adapter.out.rest.mapper.NotificationRestMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
