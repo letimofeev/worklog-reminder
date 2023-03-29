@@ -26,7 +26,7 @@ This architecture allows for flexibility and scalability in the system, making i
 over time. The use of hexagonal architecture also promotes the modularity and reusability of the code, making it easier
 to integrate with other systems or reuse components in different contexts.
 
-![WorklogDebt architecture](../../docs/images/worklog-debt-hexagon.png "Employee architecture")
+![WorklogDebt architecture](../../docs/images/worklog-debt-hexagon.png "WorklogDebt architecture")
 
 ## WorklogDebt API Endpoints
 
