@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ParameterObject
 @DateFromMoreRecentThanDateTo
 public class DateRangeRequestParameters {
     @NotNull

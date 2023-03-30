@@ -30,11 +30,11 @@ to integrate with other systems or reuse components in different contexts.
 
 ## WorklogDebt API Endpoints
 
-| Endpoint                                                 | Type    | Description                                                                                 |
-|----------------------------------------------------------|---------|---------------------------------------------------------------------------------------------|
-| `/api/worklog-debts`                                     | **GET** | Retrieve a list of employees' worklog debts for the current work week                       |
-| `/api/worklog-debts?dateFrom={dateFrom}`                 | **GET** | Retrieve a list of employees' worklog debts from `dateFrom` to the end of current work week |
-| `/api/worklog-debts?dateFrom={dateFrom}&dateTo={dateTo}` | **GET** | Retrieve a list of employees' worklog debts for period                                      |
+| Endpoint                                                 | Type    | Description                                                                                     |
+|----------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------|
+| `/api/worklog-debts`                                     | **GET** | Retrieve a list of employees' worklog debts for the current work week                           |
+| `/api/worklog-debts?dateFrom={dateFrom}`                 | **GET** | Retrieve a list of employees' worklog debts from `dateFrom` to the end of the current work week |
+| `/api/worklog-debts?dateFrom={dateFrom}&dateTo={dateTo}` | **GET** | Retrieve a list of employees' worklog debts for a period                                        |
 
 
 ## OpenAPI

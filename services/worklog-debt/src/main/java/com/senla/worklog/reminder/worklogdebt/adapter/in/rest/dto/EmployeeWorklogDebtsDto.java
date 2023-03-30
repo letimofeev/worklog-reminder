@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.in.rest.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,17 +17,40 @@ import java.util.Objects;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class EmployeeWorklogDebtsDto {
+    @Schema(description = "The unique identifier of the employee", example = "109")
     private Long id;
+
+    @Schema(description = "The first name of the employee", example = "Tomas")
     private String firstName;
+
+    @Schema(description = "The last name of the employee", example = "Shelby")
     private String lastName;
+
+    @Schema(description = "The jira key of the employee", example = "tomas_shelby")
     private String jiraKey;
+
+    @Schema(description = "The skype login of the employee", example = "live:skype-login322")
     private String skypeLogin;
+
+    @Schema(description = "Whether notifications are enabled for the employee", example = "false")
     private boolean notificationEnabled;
+
+    @Schema(description = "Whether employee is connected to the notification service", example = "true")
     private boolean botConnected;
+
+    @Schema(description = "Date from in ISO format", example = "2023-03-01")
     private LocalDate dateFrom;
+
+    @Schema(description = "Date to in ISO format", example = "2023-03-03")
     private LocalDate dateTo;
+
+    @Schema(description = "Count of employee's worklog debts", example = "1")
     private Integer worklogDebtsCount;
+
+    @Schema(description = "Employee worklog debts")
     private List<DayWorklogDebtDto> worklogDebts;
+
+    @Schema(description = "Excluded days from date range (for example employee's vacation days)")
     private List<ExcludedDayDto> excludedDays;
 
     @Override

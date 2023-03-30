@@ -224,14 +224,14 @@ Example
 
 ### OpenAPI Specification
 
-`GET /api/docs`
+`GET /api/docs/services/employee`
 
 Retrieves OpenAPI v3 JSON specification
 
 
 ### Swagger UI
 
-`GET /api/docs/swagger-ui`
+`GET /api/docs/services/employee/swagger-ui`
 
 Opens Swagger OpenAPI v3 specification UI
 
