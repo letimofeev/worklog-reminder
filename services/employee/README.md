@@ -16,7 +16,7 @@ Implemented in Java 11 with Spring Boot.
 4. [OpenAPI](#openapi)
 5. [Integrations](#integrations)
 6. [Frameworks](#frameworks)
-7. [Environment Variables](#environment-variables)
+7. [Environment variables](#environment-variables)
 
 ## Architecture
 
@@ -224,14 +224,14 @@ Example
 
 ### OpenAPI Specification
 
-`GET /api/docs`
+`GET /api/docs/services/employee`
 
 Retrieves OpenAPI v3 JSON specification
 
 
 ### Swagger UI
 
-`GET /api/docs/swagger-ui`
+`GET /api/docs/services/employee/swagger-ui`
 
 Opens Swagger OpenAPI v3 specification UI
 
@@ -307,8 +307,7 @@ This endpoint returns an information about deleted users count on success which 
 
 | Framework       | Description                                                                                                                                                                                           |
 |-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spring AOP      | Allows to add additional behavior, such as logging or security checks, to existing Java code by defining aspects that are applied to specific methods or classes at runtime                           |
-| Spring MVC      | Provides support for building web applications, including RESTful web services and web applications with MVC architecture, using Java or Kotlin                                                       |
+| Spring Web      | Provides support for building web applications, including RESTful web services and web applications with MVC architecture, using Java or Kotlin                                                       |
 | Spring Data JPA | Provides a set of abstractions and helper classes to simplify the implementation of data access layers in Java applications using the Java Persistence API (JPA)                                      |
 | Spring Boot     | Simplifies the development of stand-alone, production-grade Spring-based applications by providing a pre-configured and opinionated set of dependencies and conventions                               |
 | Liquibase       | Database schema management tool that provides a consistent and repeatable way to track, version, and deploy database changes alongside application code                                               |
@@ -316,7 +315,7 @@ This endpoint returns an information about deleted users count on success which 
 | MapStruct       | code generation tool that simplifies the process of mapping between Java classes by generating mapping code based on annotations and interface definitions                                            |
 
 
-## Environment Variables
+## Environment variables
 
 - `POSTGRES_URL`
   - Url to connect to the employee database

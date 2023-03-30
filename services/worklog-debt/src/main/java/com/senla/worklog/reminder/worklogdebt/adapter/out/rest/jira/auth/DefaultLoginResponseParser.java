@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static liquibase.repackaged.org.apache.commons.lang3.StringUtils.substringBefore;
-
 @Component
 public class DefaultLoginResponseParser implements LoginResponseParser {
     private static final String UNEXPECTED_ERROR_MESSAGE = "Unexpected error occurred";
@@ -36,7 +34,7 @@ public class DefaultLoginResponseParser implements LoginResponseParser {
     private String findSessionId(List<String> cookies) {
         return cookies.stream()
                 .filter(cookie -> cookie.startsWith("JSESSIONID"))
-                .map(cookie -> substringBefore(cookie, ";"))
+                .map(cookie -> cookie.split(";")[0])
                 .findFirst()
                 .orElseThrow(() -> new JiraAuthenticationException("JSESSIONID not found in Set-Cookie login response"));
     }
