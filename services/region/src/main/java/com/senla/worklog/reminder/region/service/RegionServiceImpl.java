@@ -1,12 +1,12 @@
 package com.senla.worklog.reminder.region.service;
 
 import com.senla.worklog.reminder.region.broker.RegionBroker;
+import com.senla.worklog.reminder.region.exception.RegionNotFoundException;
 import com.senla.worklog.reminder.region.model.Region;
 import com.senla.worklog.reminder.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +26,7 @@ public class RegionServiceImpl implements RegionService {
 
     public Region getRegionById(UUID id) {
         return regionRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new RegionNotFoundException(id));
     }
 
     public Region addRegion(Region region) {
@@ -36,8 +36,9 @@ public class RegionServiceImpl implements RegionService {
     }
 
     public Region updateRegion(Region region) {
-        if (!regionRepository.existsById(region.getId())) {
-            throw new EntityNotFoundException();
+        var id = region.getId();
+        if (!regionRepository.existsById(id)) {
+            throw new RegionNotFoundException(id);
         }
         var updatedRegion = regionRepository.save(region);
         regionBroker.sendRegionEvent(regionUpdatedEvent(region));
@@ -46,7 +47,7 @@ public class RegionServiceImpl implements RegionService {
 
     public void deleteRegionById(UUID id) {
         if (!regionRepository.existsById(id)) {
-            throw new EntityNotFoundException();
+            throw new RegionNotFoundException(id);
         }
         regionBroker.sendRegionEvent(regionDeletedEvent(id));
         regionRepository.deleteById(id);
