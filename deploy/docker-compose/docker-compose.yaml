@@ -111,6 +111,22 @@ services:
     networks:
       - worklog-reminder-network
 
+  region-db:
+    image: 'postgres:14.4'
+    container_name: region-db
+    ports:
+      - '5435:5435'
+    networks:
+      - worklog-reminder-network
+    environment:
+      POSTGRES_DB: ${REGION_DB:-region}
+      POSTGRES_USER: ${REGION_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${REGION_DB_PASS:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./region-db:/var/lib/postgresql/data
+    command: -p 5435
+
   api-gateway:
     image: letimof/api-gateway:0.0.1
     container_name: api-gateway
