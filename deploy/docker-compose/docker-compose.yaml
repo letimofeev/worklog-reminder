@@ -102,20 +102,35 @@ services:
       - ./notification-db:/var/lib/postgresql/data
     command: -p 5433
 
-  frontend:
-    image: letimof/frontend:0.0.1
-    container_name: frontend
+  region:
+    image: letimof/region:0.0.1
+    container_name: region
+    mem_reservation: 700m
     pull_policy: always
-    ports:
-      - '3000:3000'
+    expose:
+      - '8500'
     networks:
       - worklog-reminder-network
-
+    depends_on:
+      - employee-db
+    environment:
+      SERVER_PORT: 8500
+      SPRING_DATASOURCE_URL: jdbc:postgresql://region-db:5435/${EMPLOYEE_DB:-region}
+      SPRING_DATASOURCE_USERNAME: ${EMPLOYEE_DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${EMPLOYEE_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_EXCHANGE: exchange
+      RABBITMQ_REGION_CREATED_QUEUE: region.created.queue
+      RABBITMQ_REGION_UPDATED_QUEUE: region.updated.queue
+      RABBITMQ_REGION_DELETED_QUEUE: region.deleted.queue
   region-db:
     image: 'postgres:14.4'
     container_name: region-db
-    ports:
-      - '5435:5435'
+    expose:
+      - '5435'
     networks:
       - worklog-reminder-network
     environment:
@@ -126,6 +141,15 @@ services:
     volumes:
       - ./region-db:/var/lib/postgresql/data
     command: -p 5435
+
+  frontend:
+    image: letimof/frontend:0.0.1
+    container_name: frontend
+    pull_policy: always
+    ports:
+      - '3000:3000'
+    networks:
+      - worklog-reminder-network
 
   api-gateway:
     image: letimof/api-gateway:0.0.1
@@ -155,6 +179,11 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES_3_URI: http://notification:8200
       SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0: Path=/api/bot/**, /api/notifications/**, /api/users/**
       SPRING_CLOUD_GATEWAY_ROUTES_3_FILTERS_0: AddRequestHeader=Host, notification
+
+      SPRING_CLOUD_GATEWAY_ROUTES_4_ID: region-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_4_URI: http://region:8500
+      SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES_0: Path=/api/regions/**
+      SPRING_CLOUD_GATEWAY_ROUTES_4_FILTERS_0: AddRequestHeader=Host, region
     depends_on:
       - worklog-debt
       - worklog-debt-notification
@@ -168,8 +197,8 @@ services:
       - '5672:5672'
       - '15672:15672'
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
 
 networks:
   worklog-reminder-network:
