@@ -7,6 +7,7 @@ import com.senla.worklog.reminder.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import static com.senla.worklog.reminder.region.event.RegionEvent.regionDeletedE
 import static com.senla.worklog.reminder.region.event.RegionEvent.regionUpdatedEvent;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
