@@ -150,12 +150,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Download commons-spring-boot-starter
-        uses: actions/download-artifact@master
-        with:
-          name: commons-spring-boot-starter
-          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
-
       - name: Run build with Gradle Wrapper
         run: |-
           cd services/worklog-debt-notification
@@ -185,6 +179,12 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+
+      - name: Download commons-spring-boot-starter
+        uses: actions/download-artifact@master
+        with:
+          name: commons-spring-boot-starter
+          path: ~/.m2/repository/com/senla/worklog/reminder/commons-spring-boot-starter
 
       - name: Run build with Gradle Wrapper
         run: |-
