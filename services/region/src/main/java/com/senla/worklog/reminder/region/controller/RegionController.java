@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/regions")
@@ -26,7 +27,7 @@ public class RegionController {
     }
 
     @GetMapping("/{id}")
-    public Region getRegionById(@PathVariable Long id) {
+    public Region getRegionById(@PathVariable UUID id) {
         return regionService.getRegionById(id);
     }
 
@@ -41,7 +42,7 @@ public class RegionController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRegionById(@PathVariable Long id) {
+    public void deleteRegionById(@PathVariable UUID id) {
         regionService.deleteRegionById(id);
     }
 }

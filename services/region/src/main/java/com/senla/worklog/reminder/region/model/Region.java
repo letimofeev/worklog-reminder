@@ -10,19 +10,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.UniqueConstraint;
+import java.util.UUID;
 
 @Entity
-@Table(name = "regions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "regions", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_region_name", columnNames = {"name"})
+})
 public class Region {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private UUID id;
 
     @Column
     private String name;
