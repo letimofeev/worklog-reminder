@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.amqp.core.MessageProperties.CONTENT_TYPE_JSON;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class RegionRabbitMq implements RegionBroker {
 
         rabbitTemplate.convertAndSend(exchange, routingKey, event, message -> {
             var messageProperties = message.getMessageProperties();
-            messageProperties.setContentType("application/json");
+            messageProperties.setContentType(CONTENT_TYPE_JSON);
             return message;
         });
     }

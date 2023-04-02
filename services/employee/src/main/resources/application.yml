@@ -17,10 +17,11 @@ spring:
 
 rabbitmq:
   region:
+    exchange: ${RABBITMQ_REGION_EXCHANGE:region.exchange}
     queue:
-      created: ${RABBITMQ_REGION_CREATED_QUEUE:region.created.queue}
-      updated: ${RABBITMQ_REGION_UPDATED_QUEUE:region.updated.queue}
-      deleted: ${RABBITMQ_REGION_DELETED_QUEUE:region.deleted.queue}
+      created: ${RABBITMQ_REGION_CREATED_QUEUE:employee.region.created.queue}
+      updated: ${RABBITMQ_REGION_UPDATED_QUEUE:employee.region.updated.queue}
+      deleted: ${RABBITMQ_REGION_DELETED_QUEUE:employee.region.deleted.queue}
 
 notification:
   rest:

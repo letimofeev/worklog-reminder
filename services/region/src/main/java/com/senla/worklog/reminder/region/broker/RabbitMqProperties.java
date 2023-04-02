@@ -11,13 +11,4 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "rabbitmq.region")
 public class RabbitMqProperties {
     private String exchange;
-    private QueueProperties queue;
-
-    @Getter
-    @Setter
-    public static class QueueProperties {
-        private String created;
-        private String updated;
-        private String deleted;
-    }
 }
