@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1680432585203-2
+      author: letimofeev
+      comment: create regions table
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_regions
+                  name: id
+                  type: UUID
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+            tableName: regions
+  - changeSet:
+      id: 1680432585203-3
+      author: letimofeev
+      comment: add region_id columns in employees table
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: region_id
+                  type: UUID
+            tableName: employees
+  - changeSet:
+      id: 1680432585203-4
+      author: letimofeev
+      comment: add employee.skype_login unique constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: skype_login
+            constraintName: uc_employee_skypelogin
+            tableName: employees
+  - changeSet:
+      id: 1680432585203-5
+      author: letimofeev
+      comment: add region.name unique constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: uc_region_name
+            tableName: regions
+  - changeSet:
+      id: 1680432585203-6
+      author: letimofeev
+      comment: create foreign key constraint employees on regions
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: region_id
+            baseTableName: employees
+            constraintName: FK_EMPLOYEES_ON_REGION
+            referencedColumnNames: id
+            referencedTableName: regions
+  - changeSet:
+      id: 1680432585203-1
+      author: letimofeev
+      comment: update employee.skype_login length 128 -> 64 according constraint in notification db
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - modifyDataType:
+            columnName: skype_login
+            newDataType: VARCHAR(64)
+            tableName: employees
+

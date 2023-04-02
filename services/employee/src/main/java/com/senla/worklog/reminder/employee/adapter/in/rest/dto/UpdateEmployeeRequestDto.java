@@ -8,11 +8,12 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * This class represents a data transfer object (DTO) for updating an existing employee
@@ -30,24 +31,28 @@ public class UpdateEmployeeRequestDto implements Serializable {
     private Long id;
 
     @Schema(description = "The first name of the employee", example = "Arthur")
-    @NotEmpty(message = "firstName must not specified")
+    @NotBlank(message = "firstName must not specified")
     @Size(min = 1, max = 255, message = "firstName must not be more than 255 symbols or less that 1 symbol")
     private String firstName;
 
     @Schema(description = "The last name of the employee", example = "Morgan")
-    @NotEmpty(message = "lastName must be specified")
+    @NotBlank(message = "lastName must be specified")
     @Size(min = 1, max = 255, message = "lastName must not be more than 255 symbols or less that 1 symbol")
     private String lastName;
 
     @Schema(description = "The jira key of the employee", example = "arthur_morgan")
-    @NotEmpty(message = "jiraKey must be specified")
+    @NotBlank(message = "jiraKey must be specified")
     @Size(min = 1, max = 64, message = "jiraKey must not be more than 64 symbols or less that 1 symbol")
     private String jiraKey;
 
     @Schema(description = "The skype login of the employee", example = "skype-login123")
-    @NotEmpty(message = "skypeLogin must be specified")
+    @NotBlank(message = "skypeLogin must be specified")
     @Size(min = 1, max = 64, message = "skypeLogin must not be more than 64 symbols or less that 1 symbol")
     private String skypeLogin;
+
+    @NotNull
+    @Schema(description = "The region id of the employee", example = "ac7bc9b7-1515-4d57-a825-5001a83f2023")
+    private UUID regionId;
 
     @Schema(description = "Whether employee is connected to the notification service", example = "true", defaultValue = "false")
     private boolean notificationEnabled;

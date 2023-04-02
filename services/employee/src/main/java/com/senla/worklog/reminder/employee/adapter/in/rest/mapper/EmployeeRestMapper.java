@@ -5,6 +5,7 @@ import com.senla.worklog.reminder.employee.adapter.in.rest.dto.EmployeeDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.UpdateEmployeeRequestDto;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * The {@code EmployeeRestMapper} interface is responsible for mapping between
@@ -24,6 +25,7 @@ public interface EmployeeRestMapper {
      * @param createEmployeeDto the DTO object to be mapped
      * @return the domain object that was mapped from the DTO
      */
+    @Mapping(target = "region.id", source = "regionId")
     Employee mapToDomain(CreateEmployeeRequestDto createEmployeeDto);
 
     /**
@@ -32,6 +34,7 @@ public interface EmployeeRestMapper {
      * @param updateEmployeeDto the DTO object to be mapped
      * @return the domain object that was mapped from the DTO
      */
+    @Mapping(target = "region.id", source = "regionId")
     Employee mapToDomain(UpdateEmployeeRequestDto updateEmployeeDto);
 
     /**

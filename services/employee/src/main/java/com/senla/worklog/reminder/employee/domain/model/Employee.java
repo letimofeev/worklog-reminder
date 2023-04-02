@@ -22,6 +22,7 @@ public class Employee {
     private String lastName;
     private String jiraKey;
     private String skypeLogin;
+    private Region region;
     private boolean notificationEnabled;
     private boolean botConnected;
 
