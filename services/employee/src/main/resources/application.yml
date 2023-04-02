@@ -9,6 +9,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+rabbitmq:
+  region:
+    queue:
+      created: ${RABBITMQ_REGION_CREATED_QUEUE:region.created.queue}
+      updated: ${RABBITMQ_REGION_UPDATED_QUEUE:region.updated.queue}
+      deleted: ${RABBITMQ_REGION_DELETED_QUEUE:region.deleted.queue}
 
 notification:
   rest:

@@ -50,6 +50,13 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://employee-db:5434/${EMPLOYEE_DB:-employee}
       SPRING_DATASOURCE_USERNAME: ${EMPLOYEE_DB_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${EMPLOYEE_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_CREATED_QUEUE: region.created.queue
+      RABBITMQ_REGION_UPDATED_QUEUE: region.updated.queue
+      RABBITMQ_REGION_DELETED_QUEUE: region.deleted.queue
   employee-db:
     image: 'postgres:14.4'
     container_name: employee-db

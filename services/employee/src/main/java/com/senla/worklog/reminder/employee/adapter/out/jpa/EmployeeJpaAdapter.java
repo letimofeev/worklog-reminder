@@ -86,7 +86,7 @@ public class EmployeeJpaAdapter implements EmployeeJpaPort {
                 .orElseThrow(() -> new RegionNotFoundException(regionId));
         employeeEntity.setRegion(region);
 
-        employeeRepository.save(employeeEntity);
-        return entityMapper.mapToDomain(employeeEntity);
+        var savedEmployee = employeeRepository.save(employeeEntity);
+        return entityMapper.mapToDomain(savedEmployee);
     }
 }
