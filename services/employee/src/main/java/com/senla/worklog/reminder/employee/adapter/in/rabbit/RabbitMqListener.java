@@ -10,6 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import static com.senla.worklog.reminder.employee.adapter.in.rabbit.event.RegionEventType.REGION_CREATED;
+import static com.senla.worklog.reminder.employee.adapter.in.rabbit.event.RegionEventType.REGION_DELETED;
+import static com.senla.worklog.reminder.employee.adapter.in.rabbit.event.RegionEventType.REGION_UPDATED;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -19,7 +23,7 @@ public class RabbitMqListener {
 
     @RabbitListener(queues = "${rabbitmq.region.queue.created}")
     public void handleRegionCreatedEvent(RegionCreatedEvent event) {
-        log.debug("Received event from queue for region created events");
+        log.debug("Processing event from queue for {} events: {}", REGION_CREATED, event);
 
         var eventData = event.getData();
         var region = eventDataMapper.mapToDomain(eventData);
@@ -28,7 +32,7 @@ public class RabbitMqListener {
 
     @RabbitListener(queues = "${rabbitmq.region.queue.updated}")
     public void handleRegionUpdatedEvent(RegionUpdatedEvent event) {
-        log.debug("Received event from queue for region updated events");
+        log.debug("Processing event from queue for {} events: {}", REGION_UPDATED, event);
 
         var eventData = event.getData();
         var region = eventDataMapper.mapToDomain(eventData);
@@ -37,7 +41,7 @@ public class RabbitMqListener {
 
     @RabbitListener(queues = "${rabbitmq.region.queue.deleted}")
     public void handleRegionDeletedEvent(RegionDeletedEvent event) {
-        log.debug("Received event from queue for region deleted events");
+        log.debug("Processing event from queue for {} events: {}", REGION_DELETED, event);
 
         var eventData = event.getData();
         var regionId = eventData.getId();

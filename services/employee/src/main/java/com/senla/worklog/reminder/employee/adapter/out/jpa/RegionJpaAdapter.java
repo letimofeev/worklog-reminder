@@ -27,7 +27,9 @@ public class RegionJpaAdapter implements RegionJpaPort {
 
     @Override
     public void deleteRegionById(UUID id) {
-        regionRepository.deleteById(id);
+        if (regionRepository.existsById(id)) {
+            regionRepository.deleteById(id);
+        }
     }
 
     private Region saveRegionInternal(Region region) {

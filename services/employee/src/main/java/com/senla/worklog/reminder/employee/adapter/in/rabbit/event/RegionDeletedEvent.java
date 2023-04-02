@@ -13,12 +13,14 @@ import lombok.Setter;
 public class RegionDeletedEvent {
     private RegionEventType eventType;
     private RegionDeletedEventData data;
+    private Long timestamp;
 
     @Override
     public String toString() {
         return "RegionDeletedEvent{" +
                 "eventType=" + eventType +
                 ", data=" + data +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

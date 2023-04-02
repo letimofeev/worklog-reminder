@@ -14,4 +14,12 @@ import java.util.UUID;
 public class RegionEventData {
     private UUID id;
     private String name;
+
+    @Override
+    public String toString() {
+        return "RegionEventData{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
