@@ -14,7 +14,7 @@ spring:
 
 rabbitmq:
   region:
-    exchange: ${RABBITMQ_REGION_EXCHANGE:exchange}
+    exchange: ${RABBITMQ_REGION_EXCHANGE:region.exchange}
 
 logging:
   level:

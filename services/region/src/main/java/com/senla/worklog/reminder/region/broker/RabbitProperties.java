@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @ConfigurationProperties(prefix = "rabbitmq.region")
-public class RabbitMqProperties {
+public class RabbitProperties {
     private String exchange;
 }
