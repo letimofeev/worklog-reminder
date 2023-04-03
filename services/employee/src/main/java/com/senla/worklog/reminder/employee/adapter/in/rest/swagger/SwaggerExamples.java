@@ -16,9 +16,9 @@ public class SwaggerExamples {
             "}";
 
     /**
-     * An example JSON response for a 404 Not Found Error.
+     * An example JSON response for a 404 Not Found Error (Employee not found)
      */
-    public static final String API_ERROR_404 = "{\n" +
+    public static final String API_ERROR_404_EMPLOYEE_NOT_FOUND = "{\n" +
             "    \"message\": \"Resource not found\",\n" +
             "    \"status\": 404,\n" +
             "    \"errors\": [\n" +
@@ -31,27 +31,45 @@ public class SwaggerExamples {
             "}";
 
     /**
-     * An example JSON response for a 400 Bad Request Error (variant 1).
+     * An example JSON response for a 404 Not Found Error (Region not found)
      */
-    public static final String API_ERROR_400_1 = "{\n" +
-            "    \"message\": \"Failed to parse request parameter with name id and value abc\",\n" +
-            "    \"status\": 400,\n" +
+    public static final String API_ERROR_404_REGION_NOT_FOUND = "{\n" +
+            "    \"message\": \"Resource not found\",\n" +
+            "    \"status\": 404,\n" +
             "    \"errors\": [\n" +
             "        {\n" +
-            "            \"message\": \"For input string: \\\"abc\\\"\"\n" +
+            "            \"message\": \"Region with id = 'ac7bc9b7-1515-4d57-a825-5001a83f0000' not found\",\n" +
+            "            \"attributeName\": \"regionId\",\n" +
+            "            \"attributeValue\": \"ac7bc9b7-1515-4d57-a825-5001a83f0000\"\n" +
             "        }\n" +
             "    ]\n" +
             "}";
 
     /**
-     * An example JSON response for a 400 Bad Request Error (variant 2).
+     * An example JSON response for a 400 Bad Request Error (Failed to parse request parameter).
      */
-    public static final String API_ERROR_400_2 = "{\n" +
-            "    \"message\": \"Failed to parse request parameter with name id and value abc\",\n" +
+    public static final String API_ERROR_400_PARSE_PARAMETER = "{\n" +
+            "    \"message\": \"Failed to parse request parameter with name = 'id' and value = 'abc'\",\n" +
+            "    \"status\": 400,\n" +
+            "    \"errors\": []\n" +
+            "}";
+
+    /**
+     * An example JSON response for a 400 Bad Request Error (Validation failed).
+     */
+    public static final String API_ERROR_400_VALIDATION_FAILED = "{\n" +
+            "    \"message\": \"Validation failed\",\n" +
             "    \"status\": 400,\n" +
             "    \"errors\": [\n" +
             "        {\n" +
-            "            \"message\": \"For input string: \\\"abc\\\"\"\n" +
+            "            \"message\": \"lastName must be specified\",\n" +
+            "            \"attributeName\": \"lastName\",\n" +
+            "            \"attributeValue\": \"  \"\n" +
+            "        },\n" +
+            "        {\n" +
+            "            \"message\": \"firstName must not specified\",\n" +
+            "            \"attributeName\": \"firstName\",\n" +
+            "            \"attributeValue\": \"null\"\n" +
             "        }\n" +
             "    ]\n" +
             "}";

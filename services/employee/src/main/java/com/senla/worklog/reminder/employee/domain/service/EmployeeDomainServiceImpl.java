@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,23 +19,47 @@ public class EmployeeDomainServiceImpl implements EmployeeDomainService {
     public void checkUniqueConstraints(Employee employee) {
         log.trace("Checking employee attributes unique constraints");
 
-        checkJiraKeyUniqueness(employee.getJiraKey());
-        checkSkypeLoginUniqueness(employee.getSkypeLogin());
+        checkJiraKeyUniqueness(employee);
+        checkSkypeLoginUniqueness(employee);
     }
 
-    private void checkJiraKeyUniqueness(String jiraKey) {
-        log.trace("Checking employee jiraKey = '{}' uniqueness", jiraKey);
+    private void checkJiraKeyUniqueness(Employee employee) {
+        var jiraKey = employee.getJiraKey();
+        var employeeId = employee.getId();
 
-        if (employeeJpaPort.existsByJiraKey(jiraKey)) {
+        log.trace("Checking employee with id = '{}' jiraKey = '{}' uniqueness", employeeId, jiraKey);
+
+        var employees = employeeJpaPort.getEmployeesByJiraKey(jiraKey);
+
+        if (employees.size() > 1) {
+            throw new IllegalStateException("More than 1 employees found by jiraKey");
+        }
+        if (isDifferentEmployeeFound(employeeId, employees)) {
             throw new DuplicateAttributeException("jiraKey", jiraKey);
         }
     }
 
-    private void checkSkypeLoginUniqueness(String skypeLogin) {
-        log.trace("Checking employee skypeLogin = '{}' uniqueness", skypeLogin);
+    private void checkSkypeLoginUniqueness(Employee employee) {
+        var skypeLogin = employee.getSkypeLogin();
+        var employeeId = employee.getId();
 
-        if (employeeJpaPort.existsBySkypeLogin(skypeLogin)) {
+        log.trace("Checking employee with id = '{}' skypeLogin = '{}' uniqueness", employeeId, skypeLogin);
+
+        var employees = employeeJpaPort.getEmployeesBySkypeLogin(skypeLogin);
+
+        if (employees.size() > 1) {
+            throw new IllegalStateException("More than 1 employees found by skypeLogin");
+        }
+        if (isDifferentEmployeeFound(employeeId, employees)) {
             throw new DuplicateAttributeException("skypeLogin", skypeLogin);
         }
+    }
+
+    private boolean isDifferentEmployeeFound(Long employeeId, List<Employee> employees) {
+        if (employees.isEmpty()) {
+            return false;
+        }
+        var foundEmployee = employees.get(0);
+        return !foundEmployee.getId().equals(employeeId);
     }
 }

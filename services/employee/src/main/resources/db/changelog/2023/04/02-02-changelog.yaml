@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1680438657453-1
+      author: letimofeev
+      comment: add employees.first_name not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(255)
+            columnName: first_name
+            tableName: employees
+            validate: true
+  - changeSet:
+      id: 1680438657453-2
+      author: letimofeev
+      comment: add employees.jira_key not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(255)
+            columnName: jira_key
+            tableName: employees
+            validate: true
+  - changeSet:
+      id: 1680438657453-3
+      author: letimofeev
+      comment: add employees.last_name not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(255)
+            columnName: last_name
+            tableName: employees
+            validate: true
+  - changeSet:
+      id: 1680438657453-4
+      author: letimofeev
+      comment: add regions.name not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(255)
+            columnName: name
+            tableName: regions
+            validate: true
+  - changeSet:
+      id: 1680438657453-5
+      author: letimofeev
+      comment: add employees.region_id not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: UUID
+            columnName: region_id
+            tableName: employees
+            validate: true
+  - changeSet:
+      id: 1680438657453-6
+      author: letimofeev
+      comment: add employees.skype_login not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(64)
+            columnName: skype_login
+            tableName: employees
+            validate: true
+

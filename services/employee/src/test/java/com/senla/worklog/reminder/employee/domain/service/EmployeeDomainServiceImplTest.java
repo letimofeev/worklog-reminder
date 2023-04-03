@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,7 +32,7 @@ public class EmployeeDomainServiceImplTest {
                 .setJiraKey(jiraKey)
                 .setSkypeLogin(skypeLogin);
 
-        when(employeeJpaPort.existsByJiraKey(anyString())).thenReturn(true);
+        when(employeeJpaPort.getEmployeesByJiraKey(anyString())).thenReturn(List.of(new Employee().setId(10L)));
 
         assertThrows(DuplicateAttributeException.class, () -> employeeService.checkUniqueConstraints(employee));
     }
@@ -43,7 +45,7 @@ public class EmployeeDomainServiceImplTest {
                 .setJiraKey(jiraKey)
                 .setSkypeLogin(skypeLogin);
 
-        when(employeeJpaPort.existsBySkypeLogin(anyString())).thenReturn(true);
+        when(employeeJpaPort.getEmployeesBySkypeLogin(anyString())).thenReturn(List.of(new Employee().setId(10L)));
 
         assertThrows(DuplicateAttributeException.class, () -> employeeService.checkUniqueConstraints(employee));
     }
@@ -56,8 +58,9 @@ public class EmployeeDomainServiceImplTest {
         employee.setJiraKey(jiraKey);
         employee.setSkypeLogin(skypeLogin);
 
-        when(employeeJpaPort.existsByJiraKey(anyString())).thenReturn(false);
-        when(employeeJpaPort.existsBySkypeLogin(anyString())).thenReturn(false);
+        when(employeeJpaPort.getEmployeesBySkypeLogin(anyString())).thenReturn(List.of());
+        when(employeeJpaPort.getEmployeesByJiraKey(anyString())).thenReturn(List.of());
+
 
         employeeService.checkUniqueConstraints(employee);
 

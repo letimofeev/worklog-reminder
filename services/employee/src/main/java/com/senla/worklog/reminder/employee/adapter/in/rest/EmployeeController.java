@@ -40,7 +40,7 @@ public class EmployeeController implements EmployeeRestAdapter {
                 .path("{id}")
                 .buildAndExpand(createdEmployee.getId())
                 .toUri();
-        var employeeResponse = employeeMapper.mapToDto(employee);
+        var employeeResponse = employeeMapper.mapToDto(createdEmployee);
         return created(location).body(employeeResponse);
     }
 

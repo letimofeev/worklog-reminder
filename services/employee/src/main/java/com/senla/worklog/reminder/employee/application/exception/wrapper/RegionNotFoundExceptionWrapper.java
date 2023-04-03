@@ -1,20 +1,20 @@
 package com.senla.worklog.reminder.employee.application.exception.wrapper;
 
 import com.senla.worklog.reminder.employee.application.exception.ResourceNotFoundException;
-import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
+import com.senla.worklog.reminder.employee.domain.exception.RegionNotFoundException;
 import com.senla.worklog.reminder.exception.ApplicationException;
 import com.senla.worklog.reminder.exception.wrapper.ExceptionWrapper;
 import org.springframework.stereotype.Component;
 
 /**
  * This class is an implementation of the {@link ExceptionWrapper} interface.
- * It wraps a {@link EmployeeNotFoundException} in an {@link ResourceNotFoundException} and returns it
+ * It wraps a {@link RegionNotFoundException} in an {@link ResourceNotFoundException} and returns it
  */
 @Component
-public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
+public class RegionNotFoundExceptionWrapper implements ExceptionWrapper {
 
     /**
-     Wraps a {@link EmployeeNotFoundException} in an {@link ResourceNotFoundException}
+     Wraps a {@link RegionNotFoundException} in an {@link ResourceNotFoundException}
 
      @param e The exception to wrap
      @return The wrapped exception
@@ -22,23 +22,23 @@ public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
      */
     @Override
     public ApplicationException wrapInApplicationException(Exception e) {
-        if (e instanceof EmployeeNotFoundException) {
+        if (e instanceof RegionNotFoundException) {
             var message = "Resource not found";
-            var attributeName = ((EmployeeNotFoundException) e).attributeName();
-            var attributeValue = ((EmployeeNotFoundException) e).attributeValue();
+            var attributeName = "regionId";
+            var attributeValue = ((RegionNotFoundException) e).attributeValue();
             return new ResourceNotFoundException(message, e, attributeName, attributeValue);
         }
         throw new UnsupportedOperationException("Unsupported exception was passed to " +
-                "EmployeeNotFoundExceptionWrapper: " + e.getClass().getSimpleName(), e);
+                "RegionNotFoundExceptionWrapper: " + e.getClass().getSimpleName(), e);
     }
 
     /**
-     * Returns the type of exception that this wrapper can wrap, which is {@link EmployeeNotFoundException}.
+     * Returns the type of exception that this wrapper can wrap, which is {@link RegionNotFoundException}.
      *
-     * @return the {@link EmployeeNotFoundException} class
+     * @return the {@link RegionNotFoundException} class
      */
     @Override
     public Class<? extends Exception> getExceptionType() {
-        return EmployeeNotFoundException.class;
+        return RegionNotFoundException.class;
     }
 }

@@ -34,6 +34,14 @@ public interface EmployeeJpaPort {
     List<Employee> getEmployeesByJiraKey(String jiraKey);
 
     /**
+     * Gets a list of employees by their Skype login.
+     *
+     * @param skypeLogin the Skype login to search for
+     * @return a list of employees with the specified Skype login, or an empty list if none found
+     */
+    List<Employee> getEmployeesBySkypeLogin(String skypeLogin);
+
+    /**
      * Gets a list of all employees in the repository.
      *
      * @return a list of all employees
@@ -54,20 +62,4 @@ public interface EmployeeJpaPort {
      * @param id the ID of the employee to delete
      */
     void deleteEmployeeById(Long id);
-
-    /**
-     * Checks if an employee with the specified Jira key exists in the repository.
-     *
-     * @param jiraKey the Jira key to check for
-     * @return true if an employee with the specified Jira key exists, false otherwise
-     */
-    boolean existsByJiraKey(String jiraKey);
-
-    /**
-     * Checks if an employee with the specified Skype login exists in the repository.
-     *
-     * @param skypeLogin the Skype login to check for
-     * @return true if an employee with the specified Skype login exists, false otherwise
-     */
-    boolean existsBySkypeLogin(String skypeLogin);
 }

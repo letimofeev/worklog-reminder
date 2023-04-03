@@ -27,20 +27,23 @@ public class EmployeeDto implements Serializable {
     private Long id;
 
     @Schema(description = "The first name of the employee", example = "Tomas")
-    @Size(min = 1, max = 255, message = "firstName must not be more than 255 symbols or less that 1 symbol")
+    @Size(max = 255, message = "firstName must not be more than 255 symbols")
     private String firstName;
 
     @Schema(description = "The last name of the employee", example = "Shelby")
-    @Size(min = 1, max = 255, message = "lastName must not be more than 255 symbols or less that 1 symbol")
+    @Size(max = 255, message = "lastName must not be more than 255 symbols")
     private String lastName;
 
     @Schema(description = "The jira key of the employee", example = "tomas_shelby")
-    @Size(min = 1, max = 64, message = "jiraKey must not be more than 64 symbols or less that 1 symbol")
+    @Size(max = 64, message = "jiraKey must not be more than 64 symbols")
     private String jiraKey;
 
     @Schema(description = "The skype login of the employee", example = "live:skype-login322")
-    @Size(min = 1, max = 64, message = "skypeLogin must not be more than 64 symbols or less that 1 symbol")
+    @Size(max = 64, message = "skypeLogin must not be more than 64 symbols")
     private String skypeLogin;
+
+    @Schema(description = "The region of the employee")
+    private RegionDto region;
 
     @Schema(description = "Whether notifications are enabled for the employee", example = "false")
     private boolean notificationEnabled;

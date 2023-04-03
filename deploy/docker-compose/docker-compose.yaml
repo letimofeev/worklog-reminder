@@ -50,11 +50,19 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://employee-db:5434/${EMPLOYEE_DB:-employee}
       SPRING_DATASOURCE_USERNAME: ${EMPLOYEE_DB_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${EMPLOYEE_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_EXCHANGE: region.exchange
+      RABBITMQ_REGION_CREATED_QUEUE: employee.region.created.queue
+      RABBITMQ_REGION_UPDATED_QUEUE: employee.region.updated.queue
+      RABBITMQ_REGION_DELETED_QUEUE: employee.region.deleted.queue
   employee-db:
     image: 'postgres:14.4'
     container_name: employee-db
-    expose:
-      - '5434'
+    ports:
+      - '5434:5434'
     networks:
       - worklog-reminder-network
     environment:
@@ -71,8 +79,8 @@ services:
     container_name: notification
     mem_reservation: 700m
     pull_policy: always
-    expose:
-      - '8200'
+    ports:
+      - '8200:8200'
     networks:
       - worklog-reminder-network
     depends_on:
@@ -123,10 +131,7 @@ services:
       RABBITMQ_PORT: 5672
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
-      RABBITMQ_REGION_EXCHANGE: exchange
-      RABBITMQ_REGION_CREATED_QUEUE: region.created.queue
-      RABBITMQ_REGION_UPDATED_QUEUE: region.updated.queue
-      RABBITMQ_REGION_DELETED_QUEUE: region.deleted.queue
+      RABBITMQ_REGION_EXCHANGE: region.exchange
   region-db:
     image: 'postgres:14.4'
     container_name: region-db
