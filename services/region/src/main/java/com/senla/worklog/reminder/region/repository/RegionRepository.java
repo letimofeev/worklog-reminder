@@ -6,4 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface RegionRepository extends JpaRepository<Region, UUID> {
+    boolean existsByName(String name);
+
+    boolean existsByNameAndIdIsNot(String name, UUID id);
 }
