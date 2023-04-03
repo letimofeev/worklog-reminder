@@ -45,11 +45,8 @@ public class EmployeeDto implements Serializable {
     @Schema(description = "The region of the employee")
     private RegionDto region;
 
-    @Schema(description = "Whether notifications are enabled for the employee", example = "false")
-    private boolean notificationEnabled;
-
-    @Schema(description = "Whether employee is connected to the notification service", example = "true")
-    private boolean botConnected;
+    @Schema(description = "The notification status of the employee")
+    private NotificationStatusDto notificationStatus;
 
     @Override
     public String toString() {
@@ -59,8 +56,8 @@ public class EmployeeDto implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", jiraKey='" + jiraKey + '\'' +
                 ", skypeLogin='" + skypeLogin + '\'' +
-                ", notificationEnabled=" + notificationEnabled +
-                ", botConnected=" + botConnected +
+                ", region=" + region +
+                ", notificationStatus=" + notificationStatus +
                 '}';
     }
 
@@ -71,13 +68,13 @@ public class EmployeeDto implements Serializable {
 
         EmployeeDto that = (EmployeeDto) o;
 
-        if (notificationEnabled != that.notificationEnabled) return false;
-        if (botConnected != that.botConnected) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(firstName, that.firstName)) return false;
         if (!Objects.equals(lastName, that.lastName)) return false;
         if (!Objects.equals(jiraKey, that.jiraKey)) return false;
-        return Objects.equals(skypeLogin, that.skypeLogin);
+        if (!Objects.equals(skypeLogin, that.skypeLogin)) return false;
+        if (!Objects.equals(region, that.region)) return false;
+        return Objects.equals(notificationStatus, that.notificationStatus);
     }
 
     @Override
@@ -87,8 +84,8 @@ public class EmployeeDto implements Serializable {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (jiraKey != null ? jiraKey.hashCode() : 0);
         result = 31 * result + (skypeLogin != null ? skypeLogin.hashCode() : 0);
-        result = 31 * result + (notificationEnabled ? 1 : 0);
-        result = 31 * result + (botConnected ? 1 : 0);
+        result = 31 * result + (region != null ? region.hashCode() : 0);
+        result = 31 * result + (notificationStatus != null ? notificationStatus.hashCode() : 0);
         return result;
     }
 }
