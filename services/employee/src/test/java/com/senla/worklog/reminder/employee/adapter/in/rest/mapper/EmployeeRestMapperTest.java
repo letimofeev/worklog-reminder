@@ -2,17 +2,23 @@ package com.senla.worklog.reminder.employee.adapter.in.rest.mapper;
 
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.CreateEmployeeRequestDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.EmployeeDto;
+import com.senla.worklog.reminder.employee.adapter.in.rest.dto.NotificationStatusDto;
+import com.senla.worklog.reminder.employee.adapter.in.rest.dto.RegionDto;
 import com.senla.worklog.reminder.employee.adapter.in.rest.dto.UpdateEmployeeRequestDto;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder;
+import com.senla.worklog.reminder.employee.domain.model.NotificationStatus;
+import com.senla.worklog.reminder.employee.domain.model.Region;
 import org.junit.jupiter.api.Test;
 
-import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_BOT_CONNECTED;
+import java.util.UUID;
+
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_FIRST_NAME;
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_ID;
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_JIRA_KEY;
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_LAST_NAME;
-import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_NOTIFICATION_ENABLED;
+import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_NOTIFICATION_STATUS;
+import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_REGION;
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_SKYPE_LOGIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -28,12 +34,14 @@ class EmployeeRestMapperTest {
                 .setFirstName("Alex")
                 .setLastName("Taylor")
                 .setJiraKey("alex-taylor")
-                .setSkypeLogin("skype_login");
+                .setSkypeLogin("skype_login")
+                .setRegionId(UUID.fromString("ac7bc9b7-1515-4d57-a825-5001a83f0000"));
         var expected = new Employee()
                 .setFirstName("Alex")
                 .setLastName("Taylor")
                 .setJiraKey("alex-taylor")
-                .setSkypeLogin("skype_login");
+                .setSkypeLogin("skype_login")
+                .setRegion(new Region().setId(UUID.fromString("ac7bc9b7-1515-4d57-a825-5001a83f0000")));
 
         var actual = employeeRestMapper.mapToDomain(createRequest);
 
@@ -42,20 +50,24 @@ class EmployeeRestMapperTest {
 
     @Test
     void mapToDomain_shouldReturnDomain_whenInputIsUpdateEmployeeRequestDto() {
-        var createRequest = new UpdateEmployeeRequestDto()
+        var updateRequest = new UpdateEmployeeRequestDto()
                 .setId(75L)
                 .setFirstName("Henry")
                 .setLastName("Taylor")
                 .setJiraKey("henry")
-                .setSkypeLogin("skype_login_henry");
+                .setSkypeLogin("skype_login_henry")
+                .setNotificationEnabled(true)
+                .setRegionId(UUID.fromString("ac7bc9b7-1515-4d57-a825-5001a83f0000"));
         var expected = new Employee()
                 .setId(75L)
                 .setFirstName("Henry")
                 .setLastName("Taylor")
                 .setJiraKey("henry")
-                .setSkypeLogin("skype_login_henry");
+                .setSkypeLogin("skype_login_henry")
+                .setNotificationStatus(new NotificationStatus().setNotificationEnabled(true))
+                .setRegion(new Region().setId(UUID.fromString("ac7bc9b7-1515-4d57-a825-5001a83f0000")));
 
-        var actual = employeeRestMapper.mapToDomain(createRequest);
+        var actual = employeeRestMapper.mapToDomain(updateRequest);
 
         assertEquals(expected, actual);
     }
@@ -79,8 +91,9 @@ class EmployeeRestMapperTest {
                 .setLastName(TEST_LAST_NAME)
                 .setJiraKey(TEST_JIRA_KEY)
                 .setSkypeLogin(TEST_SKYPE_LOGIN)
-                .setNotificationEnabled(TEST_NOTIFICATION_ENABLED)
-                .setBotConnected(TEST_BOT_CONNECTED);
+                .setRegion(new RegionDto(TEST_REGION.getId(), TEST_REGION.getName()))
+                .setNotificationStatus(new NotificationStatusDto(TEST_NOTIFICATION_STATUS.isNotificationEnabled(),
+                        TEST_NOTIFICATION_STATUS.isBotConnected()));
         var actual = employeeRestMapper.mapToDto(employee);
 
         assertEquals(expected, actual);

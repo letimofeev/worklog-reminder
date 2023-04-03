@@ -4,7 +4,7 @@ import com.senla.worklog.reminder.employee.adapter.out.rest.dto.NotificationUser
 import com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder;
 import org.junit.jupiter.api.Test;
 
-import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_NOTIFICATION_ENABLED;
+import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_NOTIFICATION_STATUS;
 import static com.senla.worklog.reminder.employee.domain.model.EmployeeTestBuilder.TEST_SKYPE_LOGIN;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,8 +26,8 @@ class NotificationRestMapperTest {
         var domain = restMapper.mapToDomain(notificationUserDto);
 
         assertAll("Grouped assertion of employee domain model",
-                () -> assertTrue(domain.isBotConnected()),
-                () -> assertTrue(domain.isNotificationEnabled()),
+                () -> assertTrue(domain.getNotificationStatus().isBotConnected()),
+                () -> assertTrue(domain.getNotificationStatus().isNotificationEnabled()),
                 () -> assertEquals("login123", domain.getSkypeLogin())
         );
     }
@@ -39,8 +39,8 @@ class NotificationRestMapperTest {
         var domain = restMapper.mapToDomain(notificationUserDto);
 
         assertAll("Grouped assertion of employee domain model",
-                () -> assertFalse(domain.isBotConnected()),
-                () -> assertFalse(domain.isNotificationEnabled()),
+                () -> assertFalse(domain.getNotificationStatus().isBotConnected()),
+                () -> assertFalse(domain.getNotificationStatus().isNotificationEnabled()),
                 () -> assertNull(domain.getSkypeLogin()));
     }
 
@@ -59,7 +59,7 @@ class NotificationRestMapperTest {
 
         assertAll("Grouped assertion of notification user dto",
                 () -> assertEquals(7312L, userDto.getId()),
-                () -> assertEquals(TEST_NOTIFICATION_ENABLED, userDto.isEnabled()),
+                () -> assertEquals(TEST_NOTIFICATION_STATUS.isNotificationEnabled(), userDto.isEnabled()),
                 () -> assertEquals(TEST_SKYPE_LOGIN, userDto.getLogin()));
     }
 
