@@ -1,4 +1,4 @@
-package com.senla.worklog.reminder.employee.domain.model;
+package com.senla.worklog.reminder.worklogdebt.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -35,6 +35,7 @@ public interface EmployeeRestMapper {
      * @return the domain object that was mapped from the DTO
      */
     @Mapping(target = "region.id", source = "regionId")
+    @Mapping(target = "notificationStatus.notificationEnabled", source = "notificationEnabled")
     Employee mapToDomain(UpdateEmployeeRequestDto updateEmployeeDto);
 
     /**

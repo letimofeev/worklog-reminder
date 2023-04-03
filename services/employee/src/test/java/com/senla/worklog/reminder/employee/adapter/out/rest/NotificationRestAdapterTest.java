@@ -3,6 +3,7 @@ package com.senla.worklog.reminder.employee.adapter.out.rest;
 import com.senla.worklog.reminder.employee.adapter.out.rest.dto.NotificationUserDto;
 import com.senla.worklog.reminder.employee.adapter.out.rest.mapper.NotificationRestMapper;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
+import com.senla.worklog.reminder.employee.domain.model.NotificationStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -96,7 +97,7 @@ class NotificationRestAdapterTest {
     public void updateEmployee_shouldReturnUpdatedEmployee_whenUserExists() {
         var employee = new Employee()
                 .setSkypeLogin("test_login")
-                .setNotificationEnabled(true);
+                .setNotificationStatus(new NotificationStatus().setNotificationEnabled(true));
         var userDto = new NotificationUserDto().setId(98L);
 
         when(properties.getGetUsersByLoginsUri()).thenReturn("test_uri");
@@ -107,12 +108,12 @@ class NotificationRestAdapterTest {
         var updatedUserDto = new NotificationUserDto().setId(98L).setEnabled(true);
 
         when(mapper.mapToNotificationUser(employee, 98L)).thenReturn(updatedUserDto);
-        when(mapper.mapToDomain(updatedUserDto)).thenReturn(employee.setBotConnected(true));
+        when(mapper.mapToDomain(updatedUserDto)).thenReturn(employee.setNotificationStatus(new NotificationStatus(true, true)));
 
         var actual = adapter.updateEmployee(employee);
 
         assertEquals(employee, actual);
-        assertTrue(employee.isNotificationEnabled());
+        assertTrue(employee.getNotificationStatus().isNotificationEnabled());
 
         verify(restTemplate).getForEntity(fromUriString("test_uri").build().toUri(), NotificationUserDto[].class);
         verify(mapper).mapToNotificationUser(employee, 98L);

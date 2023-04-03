@@ -23,7 +23,7 @@ public interface EmployeeServiceMapper {
     @Mapping(target = "jiraKey", source = "jpaEmployee.jiraKey")
     @Mapping(target = "skypeLogin", source = "jpaEmployee.skypeLogin")
     @Mapping(target = "region", source = "jpaEmployee.region")
-    @Mapping(target = "notificationEnabled", source = "restEmployee.notificationEnabled")
-    @Mapping(target = "botConnected", source = "restEmployee.botConnected")
+    @Mapping(target = "notificationStatus.notificationEnabled", source = "restEmployee.notificationStatus.notificationEnabled")
+    @Mapping(target = "notificationStatus.botConnected", source = "restEmployee.notificationStatus.botConnected")
     Employee mergeDomains(Employee jpaEmployee, Employee restEmployee);
 }

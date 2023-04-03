@@ -21,8 +21,8 @@ public class EmployeeWorklogDebts {
     private String lastName;
     private String jiraKey;
     private String skypeLogin;
-    private boolean notificationEnabled;
-    private boolean botConnected;
+    private NotificationStatus notificationStatus;
+    private Region region;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private Integer worklogDebtsCount;
@@ -37,8 +37,8 @@ public class EmployeeWorklogDebts {
                 ", lastName='" + lastName + '\'' +
                 ", jiraKey='" + jiraKey + '\'' +
                 ", skypeLogin='" + skypeLogin + '\'' +
-                ", notificationEnabled=" + notificationEnabled +
-                ", botConnected=" + botConnected +
+                ", notificationStatus=" + notificationStatus +
+                ", region=" + region +
                 ", dateFrom=" + dateFrom +
                 ", dateTo=" + dateTo +
                 ", worklogDebtsCount=" + worklogDebtsCount +
@@ -54,13 +54,14 @@ public class EmployeeWorklogDebts {
 
         EmployeeWorklogDebts that = (EmployeeWorklogDebts) o;
 
-        if (notificationEnabled != that.notificationEnabled) return false;
-        if (botConnected != that.botConnected) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(firstName, that.firstName)) return false;
         if (!Objects.equals(lastName, that.lastName)) return false;
         if (!Objects.equals(jiraKey, that.jiraKey)) return false;
         if (!Objects.equals(skypeLogin, that.skypeLogin)) return false;
+        if (!Objects.equals(notificationStatus, that.notificationStatus))
+            return false;
+        if (!Objects.equals(region, that.region)) return false;
         if (!Objects.equals(dateFrom, that.dateFrom)) return false;
         if (!Objects.equals(dateTo, that.dateTo)) return false;
         if (!Objects.equals(worklogDebtsCount, that.worklogDebtsCount))
@@ -76,8 +77,8 @@ public class EmployeeWorklogDebts {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (jiraKey != null ? jiraKey.hashCode() : 0);
         result = 31 * result + (skypeLogin != null ? skypeLogin.hashCode() : 0);
-        result = 31 * result + (notificationEnabled ? 1 : 0);
-        result = 31 * result + (botConnected ? 1 : 0);
+        result = 31 * result + (notificationStatus != null ? notificationStatus.hashCode() : 0);
+        result = 31 * result + (region != null ? region.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
         result = 31 * result + (worklogDebtsCount != null ? worklogDebtsCount.hashCode() : 0);

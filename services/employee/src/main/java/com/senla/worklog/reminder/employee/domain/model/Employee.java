@@ -23,13 +23,10 @@ public class Employee {
     private String jiraKey;
     private String skypeLogin;
     private Region region;
-    private boolean notificationEnabled;
-    private boolean botConnected;
+    private NotificationStatus notificationStatus;
 
     public void adjustNotificationStatus() {
-        if (!botConnected && notificationEnabled) {
-            notificationEnabled = false;
-        }
+        notificationStatus.adjustStatus();
     }
 
     @Override
@@ -40,8 +37,8 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", jiraKey='" + jiraKey + '\'' +
                 ", skypeLogin='" + skypeLogin + '\'' +
-                ", notificationEnabled=" + notificationEnabled +
-                ", botConnected=" + botConnected +
+                ", region=" + region +
+                ", notificationStatus=" + notificationStatus +
                 '}';
     }
 
@@ -52,13 +49,13 @@ public class Employee {
 
         Employee employee = (Employee) o;
 
-        if (notificationEnabled != employee.notificationEnabled) return false;
-        if (botConnected != employee.botConnected) return false;
         if (!Objects.equals(id, employee.id)) return false;
         if (!Objects.equals(firstName, employee.firstName)) return false;
         if (!Objects.equals(lastName, employee.lastName)) return false;
         if (!Objects.equals(jiraKey, employee.jiraKey)) return false;
-        return Objects.equals(skypeLogin, employee.skypeLogin);
+        if (!Objects.equals(skypeLogin, employee.skypeLogin)) return false;
+        if (!Objects.equals(region, employee.region)) return false;
+        return Objects.equals(notificationStatus, employee.notificationStatus);
     }
 
     @Override
@@ -68,8 +65,8 @@ public class Employee {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (jiraKey != null ? jiraKey.hashCode() : 0);
         result = 31 * result + (skypeLogin != null ? skypeLogin.hashCode() : 0);
-        result = 31 * result + (notificationEnabled ? 1 : 0);
-        result = 31 * result + (botConnected ? 1 : 0);
+        result = 31 * result + (region != null ? region.hashCode() : 0);
+        result = 31 * result + (notificationStatus != null ? notificationStatus.hashCode() : 0);
         return result;
     }
 }
