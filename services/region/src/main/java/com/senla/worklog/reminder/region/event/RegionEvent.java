@@ -39,4 +39,13 @@ public class RegionEvent {
     public static RegionEvent regionDeletedEvent(UUID id) {
         return new RegionEvent(REGION_DELETED, new RegionDeletedEventData(id));
     }
+
+    @Override
+    public String toString() {
+        return "RegionEvent{" +
+                "eventType=" + eventType +
+                ", data=" + data +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

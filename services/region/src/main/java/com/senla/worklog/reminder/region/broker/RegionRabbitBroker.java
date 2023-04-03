@@ -11,15 +11,15 @@ import static org.springframework.amqp.core.MessageProperties.CONTENT_TYPE_JSON;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class RegionRabbitMq implements RegionBroker {
+public class RegionRabbitBroker implements RegionBroker {
     private final RabbitTemplate rabbitTemplate;
-    private final RabbitMqProperties properties;
+    private final RabbitProperties properties;
 
     @Override
     public void sendRegionEvent(RegionEvent event) {
         var routingKey = event.getEventType().toString();
         var exchange = properties.getExchange();
-        log.debug("Sending event with routing key {} to the RabbitMQ exchange {}", routingKey, exchange);
+        log.debug("Sending event {} to the RabbitMQ exchange '{}'", event, exchange);
 
         rabbitTemplate.convertAndSend(exchange, routingKey, event, message -> {
             var messageProperties = message.getMessageProperties();

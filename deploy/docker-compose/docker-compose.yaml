@@ -135,8 +135,8 @@ services:
   region-db:
     image: 'postgres:14.4'
     container_name: region-db
-    expose:
-      - '5435'
+    ports:
+      - '5435:5435'
     networks:
       - worklog-reminder-network
     environment:

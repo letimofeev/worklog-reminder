@@ -13,4 +13,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RegionDeletedEventData {
     private UUID id;
+
+    @Override
+    public String toString() {
+        return "RegionDeletedEventData{" +
+                "id=" + id +
+                '}';
+    }
 }
