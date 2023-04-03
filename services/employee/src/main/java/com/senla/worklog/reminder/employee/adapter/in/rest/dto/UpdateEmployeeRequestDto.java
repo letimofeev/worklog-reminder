@@ -50,7 +50,7 @@ public class UpdateEmployeeRequestDto implements Serializable {
     @Size(min = 1, max = 64, message = "skypeLogin must not be more than 64 symbols or less that 1 symbol")
     private String skypeLogin;
 
-    @NotNull
+    @NotNull(message = "regionId must be specified")
     @Schema(description = "The region id of the employee", example = "ac7bc9b7-1515-4d57-a825-5001a83f2023")
     private UUID regionId;
 

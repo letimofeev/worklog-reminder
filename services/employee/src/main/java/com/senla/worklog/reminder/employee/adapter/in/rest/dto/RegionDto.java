@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,13 +13,12 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "Region", description = "Representation of employee's region value object")
 public class RegionDto {
     @Schema(description = "Region uuid", example = "ac7bc9b7-1515-4d57-a825-5001a83f2023")
     private UUID id;
 
-    @NotBlank(message = "Region name must be specified")
-    @Size(max = 255, message = "firstName must not be more than 255 symbols")
-    @Schema(description = "Region uuid", example = "ac7bc9b7-1515-4d57-a825-5001a83f2023")
+    @Schema(description = "Region name", example = "Georgia")
     private String name;
 
     @Override

@@ -10,13 +10,13 @@ Implemented in Java 11 with Spring Boot.
 [<img src="https://img.shields.io/badge/springboot-2.7.8-green.svg?logo=springboot">](https://spring.io/projects/spring-boot#overview)
 
 # Table of Contents
+
 1. [Architecture](#architecture)
 2. [Employee API Endpoints](#employee-api-endpoints)
-3. [Error Responses](#error-responses)
-4. [OpenAPI](#openapi)
-5. [Integrations](#integrations)
-6. [Frameworks](#frameworks)
-7. [Environment variables](#environment-variables)
+3. [OpenAPI](#openapi)
+4. [Integrations](#integrations)
+5. [Frameworks](#frameworks)
+6. [Environment variables](#environment-variables)
 
 ## Architecture
 
@@ -34,193 +34,16 @@ to integrate with other systems or reuse components in different contexts.
 
 This API provides endpoints for managing employees.
 
-### Add Employee
+| Endpoint                           | Type       | Description                                                                |
+|------------------------------------|------------|----------------------------------------------------------------------------|
+| `/api/employees`                   | **POST**   | Adds a new employee to the system with the provided employee data          |
+| `/api/employees/{id}`              | **GET**    | Retrieves the employee with the specified ID                               |
+| `/api/employees`                   | **GET**    | Retrieves a list of all employees in the system                            |
+| `/api/employees?jiraKey={jiraKey}` | **GET**    | Retrieves a list of employees with the specified JIRA key                  |
+| `/api/employees`                   | **PUT**    | Updates an existing employee in the system with the provided employee data |
+| `/api/employees/{id}`              | **DELETE** | Deletes the employee with the specified ID                                 |
 
-`POST /api/employees`
-
-Adds a new employee to the system with the provided employee data.
-
-Request Body
-
-| Request      | Type   | Required | Description                     |
-|--------------|--------|----------|---------------------------------|
-| `firstName`  | string | Yes      | The first name of the employee  |
-| `lastName`   | string | Yes      | The last name of the employee   |
-| `jiraKey`    | string | Yes      | The jira key of the employee    |
-| `skypeLogin` | string | Yes      | The skype login of the employee |
-
-Response Body
-
-| Name                  | Type    | Description                                               |
-|-----------------------|---------|-----------------------------------------------------------|
-| `id`                  | number  | The unique identifier of the employee                     |
-| `firstName`           | string  | The first name of the employee                            |
-| `lastName`            | string  | The last name of the employee                             |
-| `jiraKey`             | string  | The jira key of the employee                              |
-| `skypeLogin`          | string  | The skype login of the employee                           |
-| `notificationEnabled` | boolean | Whether notifications are enabled for the employee        |
-| `botConnected`        | boolean | Whether employee is connected to the notification service |
-
-### Get Employee By ID
-
-`GET /api/employees/{id}`
-
-Retrieves the employee with the specified ID.
-
-Parameters
-
-| Name | Type   | Required | Description                           |
-|------|--------|----------|---------------------------------------|
-| `id` | number | Yes      | The unique identifier of the employee |
-
-Response Body
-
-| Name                  | Type    | Description                                               |
-|-----------------------|---------|-----------------------------------------------------------|
-| `id`                  | number  | The unique identifier of the employee                     |
-| `firstName`           | string  | The first name of the employee                            |
-| `lastName`            | string  | The last name of the employee                             |
-| `jiraKey`             | string  | The jira key of the employee                              |
-| `skypeLogin`          | string  | The skype login of the employee                           |
-| `notificationEnabled` | boolean | Whether notifications are enabled for the employee        |
-| `botConnected`        | boolean | Whether employee is connected to the notification service |
-
-### Get Employees By JIRA Key
-
-`GET /api/employees?jiraKey={jiraKey}`
-
-Retrieves a list of employees with the specified JIRA key.
-
-Parameters
-
-| Name      | Type   | Required | Description                               |
-|-----------|--------|----------|-------------------------------------------|
-| `jiraKey` | string | Yes      | The JIRA key associated with the employee |
-
-Response Body  
-An array of employee objects, where each employee object contains the following fields:
-
-
-| Name                  | Type    | Description                                               |
-|-----------------------|---------|-----------------------------------------------------------|
-| `id`                  | number  | The unique identifier of the employee                     |
-| `firstName`           | string  | The first name of the employee                            |
-| `lastName`            | string  | The last name of the employee                             |
-| `jiraKey`             | string  | The jira key of the employee                              |
-| `skypeLogin`          | string  | The skype login of the employee                           |
-| `notificationEnabled` | boolean | Whether notifications are enabled for the employee        |
-| `botConnected`        | boolean | Whether employee is connected to the notification service |
-
-### Get All Employees
-
-`GET /api/employees`
-
-Retrieves a list of all employees in the system.
-
-Response Body  
-An array of employee objects, where each employee object contains the following fields:
-
-| Name                  | Type    | Description                                               |
-|-----------------------|---------|-----------------------------------------------------------|
-| `id`                  | number  | The unique identifier of the employee                     |
-| `firstName`           | string  | The first name of the employee                            |
-| `lastName`            | string  | The last name of the employee                             |
-| `jiraKey`             | string  | The jira key of the employee                              |
-| `skypeLogin`          | string  | The skype login of the employee                           |
-| `notificationEnabled` | boolean | Whether notifications are enabled for the employee        |
-| `botConnected`        | boolean | Whether employee is connected to the notification service |
-
-### Update Employee
-
-`PUT /api/employees`
-
-Updates an existing employee in the system with the provided employee data.
-
-Request Body
-
-| Request      | Type   | Required | Description                           |
-|--------------|--------|----------|---------------------------------------|
-| `id`         | number | Yes      | The unique identifier of the employee |
-| `firstName`  | string | Yes      | The first name of the employee        |
-| `lastName`   | string | Yes      | The last name of the employee         |
-| `jiraKey`    | string | Yes      | The jira key of the employee          |
-| `skypeLogin` | string | Yes      | The skype login of the employee       |
-
-Response Body
-
-| Name                  | Type    | Description                                               |
-|-----------------------|---------|-----------------------------------------------------------|
-| `id`                  | number  | The unique identifier of the employee                     |
-| `firstName`           | string  | The first name of the employee                            |
-| `lastName`            | string  | The last name of the employee                             |
-| `jiraKey`             | string  | The jira key of the employee                              |
-| `skypeLogin`          | string  | The skype login of the employee                           |
-| `notificationEnabled` | boolean | Whether notifications are enabled for the employee        |
-| `botConnected`        | boolean | Whether employee is connected to the notification service |
-
-### Delete Employee By ID
-
-`DELETE /api/employees/{id}`
-
-Deletes the employee with the specified ID.
-
-Parameters
-
-| Name | Type   | Required | Description                           |
-|------|--------|----------|---------------------------------------|
-| `id` | number | Yes      | The unique identifier of the employee |
-
-Response
-
-This endpoint returns a `204 No Content` response on success, with no response body.
-
-## Error Responses
-
-### API Error
-
-Response codes
-
-| HTTP Status Code | HTTP Status           | Error Description                                     |
-|------------------|:----------------------|-------------------------------------------------------|
-| 400              | Bad Request           | One or more request parameters are missing or invalid |
-| 404              | Not Found             | The requested resource was not found                  |
-| 500              | Internal Server Error | An unexpected error occurred on the server            |
-
-Response body
-
-| Name      | Type   | Description                          |
-|-----------|--------|--------------------------------------|
-| `message` | string | Main error message                   |
-| `status`  | number | Http status code                     |
-| `errors`  | array  | Array of api sub-errors with details |
-
-### Attribute API Sub-Error
-
-Error related to employee attribute when adding/updating, for example attribute validation fail
-
-| Name             | Type   | Description                            |
-|------------------|--------|----------------------------------------|
-| `message`        | string | Error message                          |
-| `attributeName`  | string | The name of the conflicting attribute  |
-| `attributeValue` | string | The value of the conflicting attribute |
-
-Example
-
-```json
-{
-  "message": "Validation failed",
-  "status": 400,
-  "errors": [
-    {
-      "message": "lastName must be specified",
-      "attributeName": "lastName",
-      "attributeValue": "null"
-    }
-  ]
-}
-```
-
-## OpenAPI 
+## OpenAPI
 
 ### OpenAPI Specification
 
@@ -228,13 +51,11 @@ Example
 
 Retrieves OpenAPI v3 JSON specification
 
-
 ### Swagger UI
 
 `GET /api/docs/services/employee/swagger-ui`
 
 Opens Swagger OpenAPI v3 specification UI
-
 
 ## Integrations
 
@@ -244,85 +65,79 @@ The service integrates with the `Notification Service` to retrieve employee noti
 The integration is implemented using the `/api/users` endpoint provided by the Notification Service.  
 Employee and notification user mapped by skype login: `skypeLogin` corresponds `login` field.
 
-#### Get Users By Logins
+| Endpoint                     | Type       | Description                                                                                                                                                    |
+|------------------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `/api/users?logins={logins}` | **GET**    | Retrieves a list of notification users by list of Skype logins. <br/>Method used to fill `botConnected` and `notificationEnabled` fields in the Employee model |
+| `/api/users`                 | **PATCH**  | Updates the notification user. <br/>Method used to update the notification enable flag when the employee is updated                                            |
+| `/api/users/{id}`            | **DELETE** | Deletes the notification user by id. <br/>Method used to delete the corresponding notification user when the employee is deleted                               |
 
-`GET /api/users?logins={logins}`
+### Subscription on Region Events
 
-Retrieves a list of notification users by list of skype logins.  
-Method used to fill `botConnected` and `notificationEnabled` fields in the Employee model.
+The `Employee` microservice should keep information about regions in sync with the `Region` microservice.
+It listens for region events from RabbitMQ and updates its own database accordingly.
+If an event fails to process, the listener will retry a configurable number of times before sending it to a
+corresponding dead letter queue.
 
-Parameters
+Default exchange name: `region.exchange`
 
-| Name     | Type   | Required | Description                            |
-|----------|--------|----------|----------------------------------------|
-| `logins` | string | Yes      | Comma separated employees skype logins |
+| Queue (default)                 | Event Type         | Description                                               |
+|---------------------------------|--------------------|-----------------------------------------------------------|
+| `employee.region.created.queue` | **region_created** | Triggered when a new region is created in the system      |
+| `employee.region.updated.queue` | **region_updated** | Triggered when a existing region is updated in the system |
+| `employee.region.deleted.queue` | **region_deleted** | Triggered when a region is deleted from the system        |
 
-Response Body
-
-An array of notification user objects, where each user object contains the following fields:
-
-| Name          | Type    | Description                                    |
-|---------------|---------|------------------------------------------------|
-| `id`          | number  | The unique identifier of the notification user |
-| `login`       | string  | The skype login of the notification user       |
-| `displayName` | string  | The display name of notification user          |
-| `enabled`     | boolean | Whether notifications are enabled for the user |
-
-#### Update User
-
-`PATCH /api/users`
-
-Updates the notification user.  
-Method used to update the notification enable flag when the employee is updated.
-
-Request Body
-
-| Request   | Type    | Required | Description                                    |
-|-----------|---------|----------|------------------------------------------------|
-| `id`      | number  | Yes      | The unique identifier of the notification user |
-| `enabled` | boolean | Yes      | Whether notifications are enabled for the user |
-
-Response
-
-This endpoint returns an information about updated users count on success which is correctly not used.
-
-#### Delete User By ID
-
-`DELETE /api/users/{id}`
-
-Deletes the notification user by id.  
-Method used to delete the corresponding notification user when the employee is deleted.
-
-Parameters
-
-| Name | Type   | Required | Description                                    |
-|------|--------|----------|------------------------------------------------|
-| `id` | number | Yes      | The unique identifier of the notification user |
-
-Response
-
-This endpoint returns an information about deleted users count on success which is correctly not used.
+For dead letters used exchange and queues with `.dlq` postfix, f.e. `employee.region.created.queue.dql`
 
 ## Frameworks
 
-| Framework       | Description                                                                                                                                                                                           |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spring Web      | Provides support for building web applications, including RESTful web services and web applications with MVC architecture, using Java or Kotlin                                                       |
-| Spring Data JPA | Provides a set of abstractions and helper classes to simplify the implementation of data access layers in Java applications using the Java Persistence API (JPA)                                      |
-| Spring Boot     | Simplifies the development of stand-alone, production-grade Spring-based applications by providing a pre-configured and opinionated set of dependencies and conventions                               |
-| Liquibase       | Database schema management tool that provides a consistent and repeatable way to track, version, and deploy database changes alongside application code                                               |
-| Lombok          | Provides a set of annotations to automatically generate boilerplate code, such as getters, setters, and constructors, at compile time, reducing the amount of boilerplate code needed in Java classes |
-| MapStruct       | code generation tool that simplifies the process of mapping between Java classes by generating mapping code based on annotations and interface definitions                                            |
-
+| Framework       | Description                                                                                                                                                                                                                                                  |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spring Web      | Provides support for building web applications, including RESTful web services and web applications with MVC architecture, using Java or Kotlin                                                                                                              |
+| Spring Data JPA | Provides a set of abstractions and helper classes to simplify the implementation of data access layers in Java applications using the Java Persistence API (JPA)                                                                                             |
+| Spring AMPQ     | Provides support for developing AMQP-based messaging solutions. It provides abstractions and implementations for sending and receiving messages using the AMQP protocol, as well as additional features such as message conversion, retry and error handling |
+| Spring Boot     | Simplifies the development of stand-alone, production-grade Spring-based applications by providing a pre-configured and opinionated set of dependencies and conventions                                                                                      |
+| Liquibase       | Database schema management tool that provides a consistent and repeatable way to track, version, and deploy database changes alongside application code                                                                                                      |
+| Lombok          | Provides a set of annotations to automatically generate boilerplate code, such as getters, setters, and constructors, at compile time, reducing the amount of boilerplate code needed in Java classes                                                        |
+| MapStruct       | code generation tool that simplifies the process of mapping between Java classes by generating mapping code based on annotations and interface definitions                                                                                                   |
 
 ## Environment variables
 
+- `SERVER_PORT`
+  - Port on which the application server should listen for incoming HTTP requests
+  - Default value: `8300`
 - `POSTGRES_URL`
-  - Url to connect to the employee database
+    - Url to connect to the employee database
+    - Default value: `jdbc:postgresql://localhost:5434/employee`
 - `POSTGRES_USER`
-  - Username for the employee database
+    - Username for the employee database
+    - Default value: `postgres`
 - `POSTGRES_PASSWORD`
-  - Password for the employee database
+    - Password for the employee database
+    - Default value: `postgres`
 - `NOTIFICATION_BASE_URL`
-  - Notification service base url
-
+    - Notification service base url
+    - Default value: `http://localhost:8200`
+- `RABBITMQ_HOST`
+  - Hostname or IP address of the RabbitMQ server
+  - Default value: `localhost`
+- `RABBITMQ_PORT`
+  - Port number on which RabbitMQ server is listening for connections
+  - Default value: `5672`
+- `RABBITMQ_USERNAME`
+  - Username for RabbitMQ
+  - Default value: `guest`
+- `RABBITMQ_PASSWORD`
+  - Password for RabbitMQ
+  - Default value: `guest`
+- `RABBITMQ_REGION_EXCHANGE`
+  - Custom exchange name for region events
+  - Default value: `region.exchange`
+- `RABBITMQ_REGION_CREATED_QUEUE`
+  - Custom queue name for **region_created** events
+  - Default value: `employee.region.created.queue`
+- `RABBITMQ_REGION_UPDATED_QUEUE`
+  - Custom queue name for **region_updated** events
+  - Default value: `employee.region.updated.queue`
+- `RABBITMQ_REGION_DELETED_QUEUE`
+  - Custom queue name for **region_deleted** events
+  - Default value: `employee.region.deleted.queue`
