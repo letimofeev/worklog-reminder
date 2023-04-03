@@ -64,6 +64,7 @@ public class ArchitectureTest {
             .domainServices("..domain.port..", "..domain.service..")
             .applicationServices("..application..")
             .adapter("restIn", "..adapter.in.rest..")
+            .adapter("rabbitIn", "..adapter.in.rabbit..")
             .adapter("restOut", "..adapter.out.rest..")
             .adapter("jpaOut", "..adapter.out.jpa..");
 }
