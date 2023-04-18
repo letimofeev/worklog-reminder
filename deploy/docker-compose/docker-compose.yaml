@@ -148,6 +148,46 @@ services:
       - ./region-db:/var/lib/postgresql/data
     command: -p 5435
 
+  vacation:
+    image: letimof/vacation:0.0.1
+    container_name: vacation
+    mem_reservation: 700m
+    pull_policy: always
+    expose:
+      - '8600'
+    networks:
+      - worklog-reminder-network
+    depends_on:
+      - vacation-db
+    environment:
+      SERVER_PORT: 8600
+      SPRING_DATASOURCE_URL: jdbc:postgresql://vacation-db:5436/${VACATION_DB:-vacation}
+      SPRING_DATASOURCE_USERNAME: ${VACATION_DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${VACATION_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_EXCHANGE: region.exchange
+      RABBITMQ_REGION_CREATED_QUEUE: vacation.region.created.queue
+      RABBITMQ_REGION_UPDATED_QUEUE: vacation.region.updated.queue
+      RABBITMQ_REGION_DELETED_QUEUE: vacation.region.deleted.queue
+  vacation-db:
+    image: 'postgres:14.4'
+    container_name: vacation-db
+    ports:
+      - '5436:5436'
+    networks:
+      - worklog-reminder-network
+    environment:
+      POSTGRES_DB: ${VACATION_DB:-vacation}
+      POSTGRES_USER: ${VACATION_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${VACATION_DB_PASS:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./vacation-db:/var/lib/postgresql/data
+    command: -p 5436
+
   frontend:
     image: letimof/frontend:0.0.1
     container_name: frontend
@@ -178,7 +218,7 @@ services:
 
       SPRING_CLOUD_GATEWAY_ROUTES_2_ID: employee-routes
       SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://employee:8300
-      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**
+      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**, /api/docs/services/employee
       SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_0: AddRequestHeader=Host, employee
 
       SPRING_CLOUD_GATEWAY_ROUTES_3_ID: notification-routes
@@ -190,6 +230,11 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES_4_URI: http://region:8500
       SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES_0: Path=/api/regions/**
       SPRING_CLOUD_GATEWAY_ROUTES_4_FILTERS_0: AddRequestHeader=Host, region
+
+      SPRING_CLOUD_GATEWAY_ROUTES_5_ID: vacation-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://vacation:8600
+      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**
+      SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_0: AddRequestHeader=Host, vacation
     depends_on:
       - worklog-debt
       - worklog-debt-notification
