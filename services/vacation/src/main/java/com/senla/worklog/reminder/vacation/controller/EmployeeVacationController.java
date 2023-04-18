@@ -25,12 +25,12 @@ public class EmployeeVacationController {
     }
 
     @PutMapping
-    public EmployeeVacation updateRegion(@Valid @RequestBody EmployeeVacation employeeVacation) {
+    public EmployeeVacation updateEmployeeVacation(@Valid @RequestBody EmployeeVacation employeeVacation) {
         return vacationService.updateEmployeeVacation(employeeVacation);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRegionById(@PathVariable Long id) {
+    public void deleteEmployeeVacationById(@PathVariable Long id) {
         vacationService.deleteEmployeeVacationById(id);
     }
 }
