@@ -4,13 +4,14 @@ import com.senla.worklog.reminder.vacation.dto.CalendarVacationRequestDto;
 import com.senla.worklog.reminder.vacation.dto.mapper.CalendarRequestMapper;
 import com.senla.worklog.reminder.vacation.model.CalendarVacation;
 import com.senla.worklog.reminder.vacation.service.CalendarVacationService;
+import com.senla.worklog.reminder.vacation.dto.DateRangeRequestParameters;
+import com.senla.worklog.reminder.vacation.validator.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -25,14 +26,10 @@ public class CalendarVacationController {
     private final CalendarRequestMapper calendarRequestMapper;
 
     @GetMapping(path = "/region/{regionId}", params = {"dateFrom", "dateTo"})
-    public List<CalendarVacation> getCalendarVacations(@NotNull(message = "dateFrom must be specified")
-                                                       @PastOrPresent(message = "dateFrom must be past or present date")
-                                                       @DateTimeFormat(iso = DATE)
-                                                       LocalDate dateFrom,
-                                                       @NotNull(message = "dateTo must be specified")
-                                                       @DateTimeFormat(iso = DATE)
-                                                       LocalDate dateTo,
-                                                       @PathVariable UUID regionId) {
+    public List<CalendarVacation> getCalendarVacations(@PathVariable UUID regionId,
+                                                       @Validated(ValidationSequence.class) DateRangeRequestParameters parameters) {
+        var dateFrom = parameters.getDateFrom();
+        var dateTo = parameters.getDateTo();
         return vacationService.getCalendarVacations(regionId, dateFrom, dateTo);
     }
 

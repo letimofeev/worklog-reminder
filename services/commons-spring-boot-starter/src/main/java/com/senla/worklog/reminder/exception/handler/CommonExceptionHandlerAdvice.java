@@ -22,6 +22,7 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -130,6 +131,14 @@ public class CommonExceptionHandlerAdvice extends ResponseEntityExceptionHandler
                 .collect(joining());
         var message = "Not acceptable media type, supported types: " + supportedTypes;
         return new ResponseEntity<>(message, NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(UnsatisfiedServletRequestParameterException.class)
+    public ResponseEntity<ApiError> handleUnsatisfiedServletRequestParameter(UnsatisfiedServletRequestParameterException ex) {
+        log.trace("Resolved UnsatisfiedServletRequestParameterException: {}", ex.getMessage());
+        var message = ex.getMessage();
+        var apiError = badRequest(message);
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

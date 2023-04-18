@@ -5,6 +5,7 @@ import com.senla.worklog.reminder.vacation.repository.EmployeeVacationRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -13,8 +14,8 @@ public class EmployeeVacationServiceImpl implements EmployeeVacationService {
     private final EmployeeVacationRepository vacationRepository;
 
     @Override
-    public List<EmployeeVacation> getEmployeeVacations(Long employeeId) {
-        return vacationRepository.findAllByEmployeeId(employeeId);
+    public List<EmployeeVacation> getEmployeeVacations(Long employeeId, LocalDate dateFrom, LocalDate dateTo) {
+        return vacationRepository.findAllByEmployeeIdAndDateBetween(employeeId, dateFrom, dateTo);
     }
 
     @Override
