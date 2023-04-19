@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
@@ -27,5 +28,6 @@ public class Region {
     private UUID id;
 
     @Column
+    @NotBlank(message = "Region name must not be blank")
     private String name;
 }

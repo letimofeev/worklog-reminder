@@ -1,0 +1,45 @@
+server:
+  port: ${SERVER_PORT:8600}
+
+spring:
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5436/vacation}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1s
+          max-attempts: 3
+          max-interval: 10s
+          multiplier: 2
+
+rabbitmq:
+  region:
+    exchange: ${RABBITMQ_REGION_EXCHANGE:region.exchange}
+    exchange-dlq: ${RABBITMQ_REGION_EXCHANGE:region.exchange}.dlq
+    queue:
+      created: ${RABBITMQ_REGION_CREATED_QUEUE:vacation.region.created.queue}
+      updated: ${RABBITMQ_REGION_UPDATED_QUEUE:vacation.region.updated.queue}
+      deleted: ${RABBITMQ_REGION_DELETED_QUEUE:vacation.region.deleted.queue}
+
+springdoc:
+  api-docs:
+    path: /api/docs/services/vacation
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /api/docs/services/vacation/swagger-ui
+
+logging:
+  level:
+    com.senla.worklog.reminder.vacation: trace
+    com.senla.worklog.reminder.exception: trace

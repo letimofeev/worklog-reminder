@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1681851398617-1
+      author: letimofeev
+      comment: create employee_vacations table
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_employee_vacations
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: employee_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+            tableName: employee_vacations
+  - changeSet:
+      id: 1681851398617-2
+      author: letimofeev
+      comment: add employee_vacations date unique constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: date
+            constraintName: uc_employee_vacation_date
+            tableName: employee_vacations
+
