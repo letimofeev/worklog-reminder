@@ -50,11 +50,19 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://employee-db:5434/${EMPLOYEE_DB:-employee}
       SPRING_DATASOURCE_USERNAME: ${EMPLOYEE_DB_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${EMPLOYEE_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_EXCHANGE: region.exchange
+      RABBITMQ_REGION_CREATED_QUEUE: employee.region.created.queue
+      RABBITMQ_REGION_UPDATED_QUEUE: employee.region.updated.queue
+      RABBITMQ_REGION_DELETED_QUEUE: employee.region.deleted.queue
   employee-db:
     image: 'postgres:14.4'
     container_name: employee-db
-    expose:
-      - '5434'
+    ports:
+      - '5434:5434'
     networks:
       - worklog-reminder-network
     environment:
@@ -71,8 +79,8 @@ services:
     container_name: notification
     mem_reservation: 700m
     pull_policy: always
-    expose:
-      - '8200'
+    ports:
+      - '8200:8200'
     networks:
       - worklog-reminder-network
     depends_on:
@@ -102,6 +110,84 @@ services:
       - ./notification-db:/var/lib/postgresql/data
     command: -p 5433
 
+  region:
+    image: letimof/region:0.0.1
+    container_name: region
+    mem_reservation: 700m
+    pull_policy: always
+    expose:
+      - '8500'
+    networks:
+      - worklog-reminder-network
+    depends_on:
+      - region-db
+      - rabbitmq
+    environment:
+      SERVER_PORT: 8500
+      SPRING_DATASOURCE_URL: jdbc:postgresql://region-db:5435/${REGION_DB:-region}
+      SPRING_DATASOURCE_USERNAME: ${REGION_DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${REGION_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_EXCHANGE: region.exchange
+  region-db:
+    image: 'postgres:14.4'
+    container_name: region-db
+    ports:
+      - '5435:5435'
+    networks:
+      - worklog-reminder-network
+    environment:
+      POSTGRES_DB: ${REGION_DB:-region}
+      POSTGRES_USER: ${REGION_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${REGION_DB_PASS:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./region-db:/var/lib/postgresql/data
+    command: -p 5435
+
+  vacation:
+    image: letimof/vacation:0.0.1
+    container_name: vacation
+    mem_reservation: 700m
+    pull_policy: always
+    expose:
+      - '8600'
+    networks:
+      - worklog-reminder-network
+    depends_on:
+      - vacation-db
+    environment:
+      SERVER_PORT: 8600
+      SPRING_DATASOURCE_URL: jdbc:postgresql://vacation-db:5436/${VACATION_DB:-vacation}
+      SPRING_DATASOURCE_USERNAME: ${VACATION_DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${VACATION_DB_PASS:-postgres}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_REGION_EXCHANGE: region.exchange
+      RABBITMQ_REGION_CREATED_QUEUE: vacation.region.created.queue
+      RABBITMQ_REGION_UPDATED_QUEUE: vacation.region.updated.queue
+      RABBITMQ_REGION_DELETED_QUEUE: vacation.region.deleted.queue
+  vacation-db:
+    image: 'postgres:14.4'
+    container_name: vacation-db
+    ports:
+      - '5436:5436'
+    networks:
+      - worklog-reminder-network
+    environment:
+      POSTGRES_DB: ${VACATION_DB:-vacation}
+      POSTGRES_USER: ${VACATION_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${VACATION_DB_PASS:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./vacation-db:/var/lib/postgresql/data
+    command: -p 5436
+
   frontend:
     image: letimof/frontend:0.0.1
     container_name: frontend
@@ -114,6 +200,7 @@ services:
   api-gateway:
     image: letimof/api-gateway:0.0.1
     container_name: api-gateway
+    pull_policy: always
     ports:
       - '8080:8080'
     networks:
@@ -131,18 +218,40 @@ services:
 
       SPRING_CLOUD_GATEWAY_ROUTES_2_ID: employee-routes
       SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://employee:8300
-      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**
+      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**, /api/docs/services/employee/**
       SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_0: AddRequestHeader=Host, employee
 
       SPRING_CLOUD_GATEWAY_ROUTES_3_ID: notification-routes
       SPRING_CLOUD_GATEWAY_ROUTES_3_URI: http://notification:8200
       SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0: Path=/api/bot/**, /api/notifications/**, /api/users/**
       SPRING_CLOUD_GATEWAY_ROUTES_3_FILTERS_0: AddRequestHeader=Host, notification
+
+      SPRING_CLOUD_GATEWAY_ROUTES_4_ID: region-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_4_URI: http://region:8500
+      SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES_0: Path=/api/regions/**
+      SPRING_CLOUD_GATEWAY_ROUTES_4_FILTERS_0: AddRequestHeader=Host, region
+
+      SPRING_CLOUD_GATEWAY_ROUTES_5_ID: vacation-routes
+      SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://vacation:8600
+      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**, /api/docs/services/vacation/**
+      SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_0: AddRequestHeader=Host, vacation
     depends_on:
       - worklog-debt
       - worklog-debt-notification
       - employee
       - notification
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - worklog-reminder-network
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
 
 networks:
   worklog-reminder-network:

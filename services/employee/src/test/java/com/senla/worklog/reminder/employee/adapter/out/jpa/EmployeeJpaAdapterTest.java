@@ -1,8 +1,10 @@
 package com.senla.worklog.reminder.employee.adapter.out.jpa;
 
 import com.senla.worklog.reminder.employee.adapter.out.jpa.entity.EmployeeEntity;
+import com.senla.worklog.reminder.employee.adapter.out.jpa.entity.RegionEntity;
 import com.senla.worklog.reminder.employee.adapter.out.jpa.mapper.EmployeeEntityMapper;
 import com.senla.worklog.reminder.employee.adapter.out.jpa.repository.EmployeeJpaRepository;
+import com.senla.worklog.reminder.employee.adapter.out.jpa.repository.RegionJpaRepository;
 import com.senla.worklog.reminder.employee.domain.exception.EmployeeNotFoundException;
 import com.senla.worklog.reminder.employee.domain.model.Employee;
 import org.junit.jupiter.api.Test;
@@ -14,11 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -28,6 +29,9 @@ import static org.mockito.Mockito.when;
 class EmployeeJpaAdapterTest {
     @Mock
     private EmployeeJpaRepository employeeRepository;
+
+    @Mock
+    private RegionJpaRepository regionRepository;
 
     @Mock
     private EmployeeEntityMapper entityMapper;
@@ -40,9 +44,13 @@ class EmployeeJpaAdapterTest {
         var employee = new Employee().setId(11L).setFirstName("Name");
         var employeeEntity = new EmployeeEntity();
         employeeEntity.setFirstName("Name");
+        var regionId = randomUUID();
+        var region = new RegionEntity(regionId, "Name");
+        employeeEntity.setRegion(region);
 
         when(entityMapper.mapToJpaEntity(employee)).thenReturn(employeeEntity);
         when(employeeRepository.save(employeeEntity)).thenReturn(employeeEntity);
+        when(regionRepository.findById(regionId)).thenReturn(Optional.of(region));
         when(entityMapper.mapToDomain(employeeEntity)).thenReturn(employee);
 
         var result = employeeJpaAdapter.addEmployee(employee);
@@ -118,10 +126,14 @@ class EmployeeJpaAdapterTest {
         employee.setId(id);
         EmployeeEntity employeeEntity = new EmployeeEntity();
         employeeEntity.setId(id);
+        var regionId = randomUUID();
+        var region = new RegionEntity(regionId, "Name");
+        employeeEntity.setRegion(region);
 
         when(employeeRepository.existsById(id)).thenReturn(true);
         when(entityMapper.mapToJpaEntity(employee)).thenReturn(employeeEntity);
         when(employeeRepository.save(employeeEntity)).thenReturn(employeeEntity);
+        when(regionRepository.findById(regionId)).thenReturn(Optional.of(region));
         when(entityMapper.mapToDomain(employeeEntity)).thenReturn(employee);
 
         var updatedEmployee = employeeJpaAdapter.updateEmployee(employee);
@@ -148,45 +160,5 @@ class EmployeeJpaAdapterTest {
         employeeJpaAdapter.deleteEmployeeById(id);
 
         verify(employeeRepository).deleteById(id);
-    }
-
-    @Test
-    void existsByJiraKey_shouldReturnTrue_whenJiraKeyExists() {
-        var jiraKey = "JIRA-123";
-
-        when(employeeRepository.existsByJiraKey(jiraKey)).thenReturn(true);
-
-        var exists = employeeJpaAdapter.existsByJiraKey(jiraKey);
-        assertTrue(exists);
-    }
-
-    @Test
-    void existsByJiraKey_shouldReturnFalse_whenJiraKeyDoesNotExist() {
-        var jiraKey = "JIRA-123";
-
-        when(employeeRepository.existsByJiraKey(jiraKey)).thenReturn(false);
-
-        var exists = employeeJpaAdapter.existsByJiraKey(jiraKey);
-        assertFalse(exists);
-    }
-
-    @Test
-    void existsBySkypeLogin_shouldReturnTrue_whenSkypeLoginExists() {
-        var skypeLogin = "john.doe";
-
-        when(employeeRepository.existsBySkypeLogin(skypeLogin)).thenReturn(true);
-
-        var exists = employeeJpaAdapter.existsBySkypeLogin(skypeLogin);
-        assertTrue(exists);
-    }
-
-    @Test
-    void existsBySkypeLogin_shouldReturnFalse_whenSkypeLoginDoesNotExist() {
-        var skypeLogin = "john.doe";
-
-        when(employeeRepository.existsBySkypeLogin(skypeLogin)).thenReturn(false);
-
-        var exists = employeeJpaAdapter.existsBySkypeLogin(skypeLogin);
-        assertFalse(exists);
     }
 }

@@ -1,0 +1,56 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.8'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.senla.worklog.reminder'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.senla.worklog.reminder:commons-spring-boot-starter:2.7.8'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+task buildDockerImage(type: Exec) {
+	workingDir "$projectDir"
+	commandLine "docker", "build", ".",
+			"-t", "letimof/${project.name}:${project.version}",
+			"--build-arg", "PROJECT_NAME=${project.name}",
+			"--build-arg", "PROJECT_VERSION=${project.version}"
+}
+
+task loginDocker(type: Exec) {
+	commandLine "docker", "login", "-u", "$System.env.DOCKER_USERNAME", "-p", "$System.env.DOCKER_PASSWORD"
+}
+
+task pushDockerImage(type: Exec) {
+	commandLine "docker", "push", "letimof/${project.name}:${project.version}"
+}
+
+pushDockerImage.dependsOn loginDocker
+pushDockerImage.dependsOn buildDockerImage

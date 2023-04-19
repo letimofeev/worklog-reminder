@@ -1,4 +1,5 @@
 /deploy/docker-compose/notification-db
 /deploy/docker-compose/worklog-debts-db
 /deploy/docker-compose/employee-db
+/deploy/docker-compose/region-db
 /.idea

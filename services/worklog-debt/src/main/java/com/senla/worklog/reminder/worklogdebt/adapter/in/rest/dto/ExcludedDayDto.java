@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.in.rest.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class ExcludedDayDto {
+    @Schema(description = "Employee's non working day in ISO format", example = "2024-04-04")
     private LocalDate date;
+
+    @Schema(description = "Reason why this day is a non-working", example = "Vacation")
     private String reason;
 
     @Override

@@ -11,7 +11,6 @@ import org.mapstruct.Mapper;
  * <p>This interface uses the {@link Mapper} annotation from the MapStruct library,
  * which generates the implementation of the mapper methods at compile time.</p>
  *
- * @since 0.0.1
  */
 @Mapper(componentModel = "spring")
 public interface EmployeeEntityMapper {

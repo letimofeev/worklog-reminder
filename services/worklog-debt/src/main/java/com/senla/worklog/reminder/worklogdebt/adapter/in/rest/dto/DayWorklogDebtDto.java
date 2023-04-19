@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.worklogdebt.adapter.in.rest.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class DayWorklogDebtDto {
+    @Schema(description = "Date in ISO format", example = "2022-02-22")
     private LocalDate date;
+
+    @Schema(description = "Employee's worklog dept for a given day in seconds", example = "28800")
     private Long timeDeptSeconds;
 
     @Override

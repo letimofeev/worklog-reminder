@@ -26,9 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_400_1;
-import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_400_2;
-import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_404;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_400_PARSE_PARAMETER;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_400_VALIDATION_FAILED;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_404_EMPLOYEE_NOT_FOUND;
+import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_404_REGION_NOT_FOUND;
 import static com.senla.worklog.reminder.employee.adapter.in.rest.swagger.SwaggerExamples.API_ERROR_500;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
@@ -44,11 +45,15 @@ public interface EmployeeRestAdapter {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Successfully added employee",
+                    description = "Ok",
                     content = @Content(schema = @Schema(implementation = EmployeeDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Bad request",
-                    content = @Content(examples = @ExampleObject(API_ERROR_400_2),
+                    content = @Content(examples = @ExampleObject(API_ERROR_400_VALIDATION_FAILED),
+                            schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = @Content(examples = @ExampleObject(API_ERROR_404_REGION_NOT_FOUND),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
@@ -61,15 +66,15 @@ public interface EmployeeRestAdapter {
     @Operation(summary = "Get the employee with the specified ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                    description = "Successfully retrieved employee",
+                    description = "Ok",
                     content = @Content(schema = @Schema(implementation = EmployeeDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Bad request",
-                    content = @Content(examples = @ExampleObject(API_ERROR_400_1),
+                    content = @Content(examples = @ExampleObject(API_ERROR_400_PARSE_PARAMETER),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404",
-                    description = "Employee not found",
-                    content = @Content(examples = @ExampleObject(API_ERROR_404),
+                    description = "Not found",
+                    content = @Content(examples = @ExampleObject(API_ERROR_404_EMPLOYEE_NOT_FOUND),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
@@ -82,7 +87,7 @@ public interface EmployeeRestAdapter {
     @Operation(summary = "Get a list of employees")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                    description = "Successfully retrieved the list of employees",
+                    description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = EmployeeDto.class)))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
@@ -98,16 +103,19 @@ public interface EmployeeRestAdapter {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Successfully updated employee",
+                    description = "Ok",
                     content = @Content(schema = @Schema(implementation = EmployeeDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Bad request",
-                    content = @Content(examples = @ExampleObject(API_ERROR_400_2),
+                    content = @Content(examples = @ExampleObject(API_ERROR_400_VALIDATION_FAILED),
                             schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404",
-                    description = "Employee with specified id not found",
-                    content = @Content(examples = @ExampleObject(API_ERROR_404),
-                            schema = @Schema(implementation = ApiError.class))),
+                    description = "Not found",
+                    content = @Content(schema = @Schema(implementation = ApiError.class),
+                            examples = {
+                                    @ExampleObject(name = "Employee not found", value = API_ERROR_404_EMPLOYEE_NOT_FOUND),
+                                    @ExampleObject(name = "Region not found", value = API_ERROR_404_REGION_NOT_FOUND)
+                            })),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
                     content = @Content(examples = @ExampleObject(API_ERROR_500),
@@ -119,8 +127,12 @@ public interface EmployeeRestAdapter {
     @Operation(summary = "Deletes the employee with the specified ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204",
-                    description = "Successfully deleted employee",
+                    description = "No Content",
                     content = @Content(mediaType = TEXT_PLAIN_VALUE)),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = @Content(examples = @ExampleObject(API_ERROR_404_EMPLOYEE_NOT_FOUND),
+                            schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "500",
                     description = "Internal server error",
                     content = @Content(examples = @ExampleObject(API_ERROR_500),

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1681854448099-1
+      author: letimofeev
+      comment: add calendar_vacations region not null constraint
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: UUID
+            columnName: region_id
+            tableName: calendar_vacations
+            validate: true
+

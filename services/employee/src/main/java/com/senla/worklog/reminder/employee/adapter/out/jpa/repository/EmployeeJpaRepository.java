@@ -14,26 +14,18 @@ import java.util.Optional;
 public interface EmployeeJpaRepository extends JpaRepository<EmployeeEntity, Long> {
 
     /**
-     * Finds an employee entity by its JIRA key.
+     * Finds an employee entity by its Jira key.
      *
-     * @param jiraKey the JIRA key to search for
+     * @param jiraKey the Jira key to search for
      * @return an optional containing the matching employee entity, or an empty optional if not found
      */
     Optional<EmployeeEntity> findByJiraKey(String jiraKey);
 
     /**
-     * Checks whether an employee entity exists with the given Skype login.
+     * Finds an employee entity by its Skype login.
      *
      * @param skypeLogin the Skype login to search for
-     * @return true if an employee entity with the given Skype login exists, false otherwise
+     * @return an optional containing the matching employee entity, or an empty optional if not found
      */
-    boolean existsBySkypeLogin(String skypeLogin);
-
-    /**
-     * Checks whether an employee entity exists with the given JIRA key.
-     *
-     * @param jiraKey the JIRA key to search for
-     * @return true if an employee entity with the given JIRA key exists, false otherwise
-     */
-    boolean existsByJiraKey(String jiraKey);
+    Optional<EmployeeEntity> findBySkypeLogin(String skypeLogin);
 }

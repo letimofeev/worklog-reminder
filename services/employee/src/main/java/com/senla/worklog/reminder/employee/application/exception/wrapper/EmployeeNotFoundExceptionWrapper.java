@@ -29,7 +29,7 @@ public class EmployeeNotFoundExceptionWrapper implements ExceptionWrapper {
             return new ResourceNotFoundException(message, e, attributeName, attributeValue);
         }
         throw new UnsupportedOperationException("Unsupported exception was passed to " +
-                "EmployeeNotFoundExceptionMapper: " + e.getClass().getSimpleName(), e);
+                "EmployeeNotFoundExceptionWrapper: " + e.getClass().getSimpleName(), e);
     }
 
     /**
