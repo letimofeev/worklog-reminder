@@ -52,7 +52,13 @@ public class CalendarVacationServiceImpl implements CalendarVacationService {
     private void addWeekends(List<CalendarVacation> vacations, LocalDate dateFrom, LocalDate dateTo, UUID regionId) {
         var region = getRegion(vacations, regionId);
         var weekends = getWeekends(dateFrom, dateTo, region);
-        vacations.addAll(weekends);
+        var calendarVacations = new ArrayList<>(vacations);
+        for (var weekend : weekends) {
+            var date = weekend.getDate();
+            if (!isVacationWeekend(date, calendarVacations)) {
+                vacations.add(weekend);
+            }
+        }
         vacations.sort(comparing(CalendarVacation::getDate));
     }
 
@@ -67,6 +73,11 @@ public class CalendarVacationServiceImpl implements CalendarVacationService {
             date = date.plusDays(1);
         }
         return weekends;
+    }
+
+    private boolean isVacationWeekend(LocalDate date, List<CalendarVacation> vacations) {
+        return vacations.stream()
+                .anyMatch(vacation -> vacation.getDate().equals(date));
     }
 
     private Region getRegion(List<CalendarVacation> vacations, UUID regionId) {

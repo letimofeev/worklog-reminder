@@ -26,13 +26,12 @@ public class VacationServiceImpl implements VacationService {
     public List<Vacation> getVacations(UUID regionId, LocalDate dateFrom, LocalDate dateTo, Long employeeId) {
         var employeeVacations = employeeVacationService.getEmployeeVacations(employeeId, dateFrom, dateTo);
         var calendarVacations = calendarVacationService.getCalendarVacations(regionId, dateFrom, dateTo);
-        return mergeVacations(employeeId, employeeVacations, calendarVacations);
+        return mergeVacations(employeeVacations, calendarVacations);
     }
 
-    private List<Vacation> mergeVacations(Long employeeId,
-                                          List<EmployeeVacation> employeeVacations,
+    private List<Vacation> mergeVacations(List<EmployeeVacation> employeeVacations,
                                           List<CalendarVacation> calendarVacations) {
-        var calendarVacationStream = calendarVacations.stream().map(x -> vacationMapper.mapToVacation(x, employeeId));
+        var calendarVacationStream = calendarVacations.stream().map(vacationMapper::mapToVacation);
         var employeeVacationStream = employeeVacations.stream().map(vacationMapper::mapToVacation);
         return Stream.concat(calendarVacationStream, employeeVacationStream)
                 .sorted(comparing(Vacation::getDate))
