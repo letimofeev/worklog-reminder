@@ -36,7 +36,7 @@ public class EmployeeWorklogDebts {
                 .filter(worklogDebt -> {
                     var date = worklogDebt.getDate();
                     return excludedDays.stream()
-                            .anyMatch(excludedDay -> excludedDay.getDate().equals(date));
+                            .noneMatch(excludedDay -> excludedDay.getDate().equals(date));
                 })
                 .collect(toList());
     }
