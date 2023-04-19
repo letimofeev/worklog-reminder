@@ -98,8 +98,8 @@ services:
   notification-db:
     image: 'postgres:14.4'
     container_name: notification-db
-    expose:
-      - '5433'
+    ports:
+      - '5433:5433'
     networks:
       - worklog-reminder-network
     environment:

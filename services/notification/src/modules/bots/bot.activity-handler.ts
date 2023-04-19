@@ -21,7 +21,7 @@ export class BotActivityHandler extends ActivityHandler {
             if (context.activity.action === 'add') {
                 const user = {
                     skypeId: context.activity.from.id,
-                    login: context.activity.from.name,
+                    displayName: context.activity.from.name,
                     conversationReference: TurnContext.getConversationReference(context.activity)
                 } as CreateUserDto;
 
