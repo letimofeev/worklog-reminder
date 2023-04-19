@@ -39,6 +39,7 @@ public class EmployeeWorklogDebts {
                             .noneMatch(excludedDay -> excludedDay.getDate().equals(date));
                 })
                 .collect(toList());
+        worklogDebtsCount = worklogDebts.size();
     }
 
     @Override
