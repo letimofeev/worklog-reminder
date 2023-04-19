@@ -32,6 +32,13 @@ rabbitmq:
       updated: ${RABBITMQ_REGION_UPDATED_QUEUE:vacation.region.updated.queue}
       deleted: ${RABBITMQ_REGION_DELETED_QUEUE:vacation.region.deleted.queue}
 
+springdoc:
+  api-docs:
+    path: /api/docs/services/vacation
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /api/docs/services/vacation/swagger-ui
+
 logging:
   level:
     com.senla.worklog.reminder.vacation: trace

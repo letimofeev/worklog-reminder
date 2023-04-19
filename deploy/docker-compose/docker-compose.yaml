@@ -233,7 +233,7 @@ services:
 
       SPRING_CLOUD_GATEWAY_ROUTES_5_ID: vacation-routes
       SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://vacation:8600
-      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**
+      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**, /api/docs/services/vacation
       SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_0: AddRequestHeader=Host, vacation
     depends_on:
       - worklog-debt
