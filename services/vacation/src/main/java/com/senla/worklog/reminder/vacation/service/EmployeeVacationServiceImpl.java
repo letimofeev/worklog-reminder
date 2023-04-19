@@ -1,6 +1,6 @@
 package com.senla.worklog.reminder.vacation.service;
 
-import com.senla.worklog.reminder.vacation.exception.NonWorkingDayVacationException;
+import com.senla.worklog.reminder.vacation.exception.CalendarVacationException;
 import com.senla.worklog.reminder.vacation.model.EmployeeVacation;
 import com.senla.worklog.reminder.vacation.repository.EmployeeVacationRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class EmployeeVacationServiceImpl implements EmployeeVacationService {
     public EmployeeVacation addEmployeeVacation(EmployeeVacation employeeVacation) {
         var date = employeeVacation.getDate();
         if (calendarVacationService.isCalendarVacation(date)) {
-            throw new NonWorkingDayVacationException("Date '" + date + "' is calendar vacation");
+            throw new CalendarVacationException("Date '" + date + "' is calendar vacation");
         }
         return vacationRepository.save(employeeVacation);
     }
