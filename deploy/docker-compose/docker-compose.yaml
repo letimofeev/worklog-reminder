@@ -218,7 +218,7 @@ services:
 
       SPRING_CLOUD_GATEWAY_ROUTES_2_ID: employee-routes
       SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://employee:8300
-      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**, /api/docs/services/employee
+      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0: Path=/api/employees/**, /api/docs/services/employee/**
       SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_0: AddRequestHeader=Host, employee
 
       SPRING_CLOUD_GATEWAY_ROUTES_3_ID: notification-routes
@@ -233,7 +233,7 @@ services:
 
       SPRING_CLOUD_GATEWAY_ROUTES_5_ID: vacation-routes
       SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://vacation:8600
-      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**, /api/docs/services/vacation
+      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**, /api/docs/services/vacation/**
       SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_0: AddRequestHeader=Host, vacation
     depends_on:
       - worklog-debt
