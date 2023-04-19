@@ -3,6 +3,7 @@ package com.senla.worklog.reminder.vacation.service;
 import com.senla.worklog.reminder.vacation.model.CalendarVacation;
 import com.senla.worklog.reminder.vacation.model.Region;
 import com.senla.worklog.reminder.vacation.repository.CalendarVacationRepository;
+import com.senla.worklog.reminder.vacation.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import static java.util.Comparator.comparing;
 @RequiredArgsConstructor
 public class CalendarVacationServiceImpl implements CalendarVacationService {
     private final CalendarVacationRepository vacationRepository;
+    private final RegionRepository regionRepository;
 
     @Override
     public boolean isCalendarVacation(LocalDate date) {
@@ -28,7 +30,7 @@ public class CalendarVacationServiceImpl implements CalendarVacationService {
     @Override
     public List<CalendarVacation> getCalendarVacations(UUID regionId, LocalDate dateFrom, LocalDate dateTo) {
         var vacations = vacationRepository.findAllByRegionIdAndDateBetween(regionId, dateFrom, dateTo);
-        addWeekends(vacations, dateFrom, dateTo);
+        addWeekends(vacations, dateFrom, dateTo, regionId);
         return vacations;
     }
 
@@ -47,8 +49,8 @@ public class CalendarVacationServiceImpl implements CalendarVacationService {
         vacationRepository.deleteById(date);
     }
 
-    private void addWeekends(List<CalendarVacation> vacations, LocalDate dateFrom, LocalDate dateTo) {
-        var region = vacations.get(0).getRegion();
+    private void addWeekends(List<CalendarVacation> vacations, LocalDate dateFrom, LocalDate dateTo, UUID regionId) {
+        var region = getRegion(vacations, regionId);
         var weekends = getWeekends(dateFrom, dateTo, region);
         vacations.addAll(weekends);
         vacations.sort(comparing(CalendarVacation::getDate));
@@ -65,5 +67,15 @@ public class CalendarVacationServiceImpl implements CalendarVacationService {
             date = date.plusDays(1);
         }
         return weekends;
+    }
+
+    private Region getRegion(List<CalendarVacation> vacations, UUID regionId) {
+        Region region;
+        if (vacations.isEmpty()) {
+            region = regionRepository.findById(regionId).orElse(new Region());
+        } else {
+            region = vacations.get(0).getRegion();
+        }
+        return region;
     }
 }
