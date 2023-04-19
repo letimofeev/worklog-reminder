@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
@@ -24,10 +25,10 @@ public class VacationRestAdapter implements VacationRestPort {
     private final VacationsMapper mapper;
 
     @Override
-    public EmployeeWorklogDebts getVacationDays(EmployeeWorklogDebts worklogDebts, LocalDate dateFrom, LocalDate dateTo) {
-        var vacationsDto  = getVacationsDto(worklogDebts, dateFrom, dateTo).getBody();
+    public EmployeeWorklogDebts getVacationDays(UUID regionId, LocalDate dateFrom, LocalDate dateTo, Long employeeId) {
+        var vacationsDto  = getVacationsDto(regionId, dateFrom, dateTo, employeeId).getBody();
         var excludedDays = mapToExcludedDays(vacationsDto);
-        return worklogDebts
+        return new EmployeeWorklogDebts()
                 .setDateFrom(dateFrom)
                 .setDateTo(dateTo)
                 .setExcludedDays(excludedDays);
@@ -42,9 +43,7 @@ public class VacationRestAdapter implements VacationRestPort {
         return List.of();
     }
 
-    private ResponseEntity<EmployeeVacationsDto> getVacationsDto(EmployeeWorklogDebts worklogDebts, LocalDate dateFrom, LocalDate dateTo) {
-        var regionId = worklogDebts.getRegion().getId();
-        var employeeId = worklogDebts.getId();
+    private ResponseEntity<EmployeeVacationsDto> getVacationsDto(UUID regionId, LocalDate dateFrom, LocalDate dateTo, Long employeeId) {
         var uri = fromUriString(restProperties.getGetVacationsUri())
                 .buildAndExpand(regionId, dateFrom, dateTo, employeeId)
                 .toUri();
