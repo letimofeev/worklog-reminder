@@ -45,7 +45,7 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsServicePort {
                 })
                 .map(jiraDebts -> {
                     var employeeRestDebts = employeeRestPort.getEmployee(jiraDebts);
-                    var vacationRestDebts = vacationRestPort.getExcludedDays(jiraDebts, dateFrom, dateTo);
+                    var vacationRestDebts = vacationRestPort.getVacationDays(jiraDebts, dateFrom, dateTo);
                     // TODO: debts.adjustExcludedDays()
                     return debtsMapper.mergeDomains(jiraDebts, employeeRestDebts, vacationRestDebts);
                 })
