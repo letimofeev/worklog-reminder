@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.*;
 
@@ -45,9 +42,12 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsServicePort {
                 })
                 .map(jiraDebts -> {
                     var employeeRestDebts = employeeRestPort.getEmployee(jiraDebts);
-                    var vacationRestDebts = vacationRestPort.getExcludedDays(jiraDebts, dateFrom, dateTo);
-                    // TODO: debts.adjustExcludedDays()
-                    return debtsMapper.mergeDomains(jiraDebts, employeeRestDebts, vacationRestDebts);
+                    var employeeId = employeeRestDebts.getId();
+                    var regionId = employeeRestDebts.getRegion().getId();
+                    var vacationRestDebts = vacationRestPort.getVacationDays(regionId, dateFrom, dateTo, employeeId);
+                    var worklogDebts = debtsMapper.mergeDomains(jiraDebts, employeeRestDebts, vacationRestDebts);
+                    worklogDebts.applyExcludedDays();
+                    return worklogDebts;
                 })
                 .collect(toList());
     }

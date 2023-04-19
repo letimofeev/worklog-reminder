@@ -21,6 +21,11 @@ employee:
     api:
       base-url: ${EMPLOYEE_BASE_URL:http://localhost:8300}
       get-employee-by-jira-key-uri: ${EMPLOYEE_BASE_URL:http://localhost:8300}/api/employees?jiraKey={jiraKey}
+vacation:
+  rest:
+    api:
+      base-url: ${VACATION_BASE_URL:http://localhost:8600}
+      get-vacations-uri: ${VACATION_BASE_URL:http://localhost:8600}/api/vacations/region/{regionId}?dateFrom={dateFrom}&dateTo={dateTo}&employeeId={employeeId}
 
 springdoc:
   api-docs:

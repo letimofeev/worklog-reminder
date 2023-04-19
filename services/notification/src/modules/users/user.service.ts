@@ -14,7 +14,8 @@ export class UserService {
 
     async findOrCreate(userDto: CreateUserDto): Promise<[User, boolean]> {
         return await this.userRepository.findOrCreate({
-           where: {login: userDto.login}
+            where: {displayName: userDto.displayName},
+            defaults: userDto
         });
     }
 
