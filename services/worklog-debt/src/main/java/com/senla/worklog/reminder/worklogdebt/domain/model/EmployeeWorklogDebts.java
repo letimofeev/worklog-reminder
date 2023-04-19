@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.stream.Collectors.toList;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,6 +30,16 @@ public class EmployeeWorklogDebts {
     private Integer worklogDebtsCount;
     private List<DayWorklogDebt> worklogDebts;
     private List<ExcludedDay> excludedDays;
+
+    public void applyExcludedDays() {
+        worklogDebts = worklogDebts.stream()
+                .filter(worklogDebt -> {
+                    var date = worklogDebt.getDate();
+                    return excludedDays.stream()
+                            .anyMatch(excludedDay -> excludedDay.getDate().equals(date));
+                })
+                .collect(toList());
+    }
 
     @Override
     public String toString() {

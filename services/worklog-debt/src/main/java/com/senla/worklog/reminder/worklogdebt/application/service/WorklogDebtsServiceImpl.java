@@ -45,7 +45,9 @@ public class WorklogDebtsServiceImpl implements WorklogDebtsServicePort {
                     var employeeId = employeeRestDebts.getId();
                     var regionId = employeeRestDebts.getRegion().getId();
                     var vacationRestDebts = vacationRestPort.getVacationDays(regionId, dateFrom, dateTo, employeeId);
-                    return debtsMapper.mergeDomains(jiraDebts, employeeRestDebts, vacationRestDebts);
+                    var worklogDebts = debtsMapper.mergeDomains(jiraDebts, employeeRestDebts, vacationRestDebts);
+                    worklogDebts.applyExcludedDays();
+                    return worklogDebts;
                 })
                 .collect(toList());
     }
