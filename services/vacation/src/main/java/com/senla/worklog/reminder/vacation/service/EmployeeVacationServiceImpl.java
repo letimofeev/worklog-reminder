@@ -1,5 +1,6 @@
 package com.senla.worklog.reminder.vacation.service;
 
+import com.senla.worklog.reminder.vacation.exception.NonWorkingDayVacationException;
 import com.senla.worklog.reminder.vacation.model.EmployeeVacation;
 import com.senla.worklog.reminder.vacation.repository.EmployeeVacationRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeVacationServiceImpl implements EmployeeVacationService {
     private final EmployeeVacationRepository vacationRepository;
+    private final CalendarVacationService calendarVacationService;
 
     @Override
     public List<EmployeeVacation> getEmployeeVacations(Long employeeId, LocalDate dateFrom, LocalDate dateTo) {
@@ -20,6 +22,10 @@ public class EmployeeVacationServiceImpl implements EmployeeVacationService {
 
     @Override
     public EmployeeVacation addEmployeeVacation(EmployeeVacation employeeVacation) {
+        var date = employeeVacation.getDate();
+        if (calendarVacationService.isCalendarVacation(date)) {
+            throw new NonWorkingDayVacationException("Date '" + date + "' is calendar vacation");
+        }
         return vacationRepository.save(employeeVacation);
     }
 

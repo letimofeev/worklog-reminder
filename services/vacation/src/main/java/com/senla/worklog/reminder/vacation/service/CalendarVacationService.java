@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CalendarVacationService {
+    boolean isCalendarVacation(LocalDate date);
+
     List<CalendarVacation> getCalendarVacations(UUID regionId, LocalDate dateFrom, LocalDate dateTo);
 
     CalendarVacation addCalendarVacation(CalendarVacation calendarVacation);
