@@ -1,5 +1,7 @@
 import {DayWorklogDebt} from "./DayWorklogDebt";
 import {ExcludedDay} from "./ExcludedDay";
+import {Region} from "./Region";
+import {EmployeeNotificationStatus} from "./EmployeeNotificationStatus";
 
 export interface EmployeeWorklogDebts {
     id: number;
@@ -7,10 +9,10 @@ export interface EmployeeWorklogDebts {
     lastName: string;
     jiraKey: string;
     skypeLogin: string;
-    notificationEnabled: boolean;
-    botConnected: boolean;
+    notificationStatus: EmployeeNotificationStatus;
     dateFrom: string;
     dateTo: string;
+    region: Region;
     worklogDebtsCount: number;
     excludedDays: ExcludedDay[];
     worklogDebts: DayWorklogDebt[];

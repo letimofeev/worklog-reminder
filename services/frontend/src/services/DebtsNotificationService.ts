@@ -6,7 +6,7 @@ export default class DebtsNotificationService {
                                    onMessage: (event: EventSourceMessage) => void,
                                    onError: (error: any) => void,
                                    onClose: () => void) {
-        await fetchEventSource('http://localhost:8400/api/worklog-debts-notifications/custom', {
+        await fetchEventSource('http://localhost:8080/api/worklog-debts-notifications/custom', {
             method: 'POST',
             body: JSON.stringify(worklogDebts),
             headers: {

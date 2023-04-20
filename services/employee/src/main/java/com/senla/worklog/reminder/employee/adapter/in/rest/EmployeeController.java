@@ -9,7 +9,6 @@ import com.senla.worklog.reminder.employee.domain.model.Employee;
 import com.senla.worklog.reminder.employee.domain.port.in.EmployeeServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,7 +23,6 @@ import static org.springframework.http.ResponseEntity.noContent;
  * It is annotated with various Spring annotations to provide additional configuration and functionality
  */
 @DrivingAdapter
-@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class EmployeeController implements EmployeeRestAdapter {

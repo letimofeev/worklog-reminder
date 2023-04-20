@@ -4,13 +4,25 @@ import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 import {NotificationStatus} from "../models/notification/NotificationStatus";
 import ErrorBlock from "./error/ErrorBlock";
+import VacationItem from "./VacationItem";
+import {ExcludedDay} from "../models/worklogdebt/ExcludedDay";
 
 interface WorklogDebtsExpandedProps {
     worklogDebts: DayWorklogDebt[];
     notificationResponse: NotificationResponse;
+    excludedDays: ExcludedDay[];
+    dateFrom: string;
+    dateTo: string;
 }
 
-const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts, notificationResponse}) => {
+const WorklogDebtsItemExpanded: React.FC<WorklogDebtsExpandedProps> = (
+    {
+        worklogDebts,
+        notificationResponse,
+        excludedDays,
+        dateFrom,
+        dateTo
+    }) => {
     return (
         <div id="debts-expanded" className="worklog-debts-list__body-row__expanded">
             <div className="worklog-debts-list__body-row__expanded__container">
@@ -24,6 +36,12 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
                             />
                         </div>
                     }
+                    <div className="worklog-debts-list__body-row__expanded__body__header">
+                        Detailed view for period from {dateFrom} to {dateTo}
+                    </div>
+                    <div className="worklog-debts-list__body-row__expanded__body__table-header">
+                        Worklog Debts
+                    </div>
                     <div className="worklog-debts-list__body-row__expanded__header">
                         <div className="worklog-debts-list__body-row__expanded__debt-row__no__header-cell">
                             No
@@ -45,6 +63,31 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
                             />
                         ))}
                     </div>
+                    <div className="worklog-debts-list__body-row__expanded__body__table-header">
+                        Excluded Days
+                    </div>
+                    <div className="worklog-debts-list__body-row__expanded__header">
+                        <div className="worklog-debts-list__body-row__expanded__debt-row__vacation-no__header-cell">
+                            No
+                        </div>
+                        <div className="worklog-debts-list__body-row__expanded__debt-row__vacation-date__header-cell">
+                            Date
+                        </div>
+                        <div
+                            className="worklog-debts-list__body-row__expanded__debt-row__vacation-description__header-cell">
+                            Description
+                        </div>
+                    </div>
+                    <div className="worklog-debts-list__body-row__expanded__body__container">
+                        {excludedDays.map((vacation, index) => (
+                            <VacationItem
+                                key={index}
+                                date={vacation.date}
+                                description={vacation.reason}
+                                index={index + 1}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -52,4 +95,4 @@ const WorklogDebtsExpanded: React.FC<WorklogDebtsExpandedProps> = ({worklogDebts
     );
 };
 
-export default WorklogDebtsExpanded;
+export default WorklogDebtsItemExpanded;

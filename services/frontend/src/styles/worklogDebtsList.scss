@@ -27,7 +27,7 @@
   &__body-row {
     width: 100%;
 
-    &__hidden {
+    &__collapsed {
       display: flex;
       align-items: center;
       flex-direction: row;
@@ -108,7 +108,19 @@
         justify-content: space-between;
         border: 2px solid #f4f6fa;
         border-radius: 16px;
+        margin-bottom: 10px;
+      }
+
+      &__body__header {
+        color: #888888;
+        margin-top: 15px;
         margin-bottom: 5px;
+      }
+
+      &__body__table-header {
+        font-size: 20px;
+        margin-top: 15px;
+        margin-bottom: 10px;
       }
 
       &__debt-row {
@@ -155,6 +167,30 @@
             text-align: center;
           }
         }
+
+        &__vacation-no {
+          &__body-cell,
+          &__header-cell {
+            flex-basis: 10%;
+            text-align: center;
+          }
+        }
+
+        &__vacation-date {
+          &__body-cell,
+          &__header-cell {
+            flex-basis: 45%;
+            text-align: center;
+          }
+        }
+
+        &__vacation-description {
+          &__body-cell,
+          &__header-cell {
+            flex-basis: 45%;
+            text-align: center;
+          }
+        }
       }
 
       &__debt-row:hover {
@@ -163,7 +199,7 @@
     }
   }
 
-  &__body-row__hidden:hover {
+  &__body-row__collapsed:hover {
     background: #f4f6fa;
     cursor: pointer;
   }
