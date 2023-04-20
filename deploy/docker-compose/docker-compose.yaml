@@ -236,11 +236,11 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://vacation:8600
       SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0: Path=/api/vacations/**, /api/docs/services/vacation/**
       SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_0: AddRequestHeader=Host, vacation
-    depends_on:
-      - worklog-debt
-      - worklog-debt-notification
-      - employee
-      - notification
+
+      CORS_ALLOWEDORIGINS: http://localhost:3000
+      CORS_ALLOWEDMETHODS: GET,POST,PUT,DELETE,PATCH
+      CORS_ALLOWEDHEADERS: "*"
+      CORS_MAXAGE: 3600
 
   rabbitmq:
     container_name: rabbitmq
