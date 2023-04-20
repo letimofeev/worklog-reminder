@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/worklogDebtsList.scss'
 import EmpNotificationStatus from "./EmpNotificationStatus";
-import WorklogDebtsExpanded from "./WorklogDebtsExpanded";
+import WorklogDebtsItemExpanded from "./WorklogDebtsItemExpanded";
 import RoundCheckbox from "./checkbox/RoundCheckbox";
 import {CSSTransition} from 'react-transition-group';
 import {NotificationLoadingStatus} from "./WorklogDebts";
@@ -165,9 +165,12 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                 <CSSTransition in={isExpanded}
                                timeout={500}
                                classNames="worklog-debts-list__body-row__expanded">
-                    <WorklogDebtsExpanded
+                    <WorklogDebtsItemExpanded
                         worklogDebts={employeeDebts.worklogDebts}
                         notificationResponse={notificationResponse}
+                        excludedDays={employeeDebts.excludedDays}
+                        dateFrom={employeeDebts.dateFrom}
+                        dateTo={employeeDebts.dateTo}
                     />
                 </CSSTransition>
             }
