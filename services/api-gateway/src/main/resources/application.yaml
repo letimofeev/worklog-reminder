@@ -1,13 +1,14 @@
 logging:
   level:
     com.senla.worklog.reminder.apigateway: debug
+
 spring:
   cloud:
     gateway:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOriginPatterns: "${CORS_ALLOWED_ORIGIN_PATTERNS}"
-            allowedMethods: "${CORS_ALLOWED_METHODS}"
-            allowedHeaders: "${CORS_ALLOWED_HEADERS}"
-            maxAge: "${CORS_MAX_AGE}"
+            allowedOrigins: "${CORS_ALLOWED_ORIGIN_PATTERNS:*}"
+            allowedMethods: "${CORS_ALLOWED_METHODS:GET,POST,PUT,DELETE,PATCH}"
+            allowedHeaders: "${CORS_ALLOWED_HEADERS:*}"
+            maxAge: "${CORS_MAX_AGE:3600}"
