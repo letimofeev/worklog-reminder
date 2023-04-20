@@ -7,7 +7,6 @@ import com.senla.worklog.reminder.worklogdebt.adapter.in.rest.validator.DateRang
 import com.senla.worklog.reminder.worklogdebt.domain.port.in.WorklogDebtsServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -20,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 
 @Validated
 @DrivingAdapter
-@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class WorklogDebtsController implements WorklogDebtsRestAdapter {

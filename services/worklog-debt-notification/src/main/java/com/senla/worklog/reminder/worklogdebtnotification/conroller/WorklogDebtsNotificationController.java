@@ -8,7 +8,11 @@ import com.senla.worklog.reminder.worklogdebtnotification.validator.ValidationSe
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 import javax.validation.constraints.PastOrPresent;
@@ -23,7 +27,6 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 @Validated
-@CrossOrigin
 @RestController
 @RequestMapping("/api/worklog-debts-notifications")
 @RequiredArgsConstructor
