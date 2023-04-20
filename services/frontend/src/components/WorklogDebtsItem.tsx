@@ -81,7 +81,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
 
     return (
         <div className="worklog-debts-list__body-row" onClick={toggleExpanded}>
-            <div className="worklog-debts-list__body-row__hidden"
+            <div className="worklog-debts-list__body-row__collapsed"
                  style={{backgroundColor: backgroundColor}}
             >
                 <div className="worklog-debts-list__no__body-cell">
@@ -95,8 +95,8 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                 </div>
                 <div className="worklog-debts-list__status__body-cell">
                     <EmpNotificationStatus
-                        notificationEnabled={employeeDebts.notificationEnabled}
-                        botConnected={employeeDebts.botConnected}
+                        notificationEnabled={employeeDebts.notificationStatus.notificationEnabled}
+                        botConnected={employeeDebts.notificationStatus.botConnected}
                     />
                 </div>
                 <div id="debts-row-actions" className="worklog-debts-list__actions__body-cell">

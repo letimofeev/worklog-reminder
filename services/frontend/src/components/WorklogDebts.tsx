@@ -94,9 +94,9 @@ const WorklogDebts = () => {
             const empDebts = worklogDebts.at(index);
             if (empDebts) {
                 const login = empDebts.skypeLogin;
-                if (!empDebts.botConnected) {
+                if (!empDebts.notificationStatus.botConnected) {
                     handleDisconnected(index, login)
-                } else if (!empDebts.notificationEnabled) {
+                } else if (!empDebts.notificationStatus.notificationEnabled) {
                     handleDisabled(index, login);
                 } else if (!WorklogDebtsService.isLoginPresent(login)) {
                     handleNotPresentLogin(index, login);
