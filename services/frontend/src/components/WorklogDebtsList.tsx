@@ -6,7 +6,7 @@ import {FaInfoCircle} from "react-icons/fa";
 import InfoModal from "./modal/InfoModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
 import {TransitionGroup} from "react-transition-group";
-import {NotificationLoadingRows, NotificationResponses} from "./WorklogDebts";
+import {NotificationLoadingRows, NotificationResponses} from "../pages/WorklogDebts";
 
 type WorklogDebtsListProps = {
     employeesDebts: EmployeeWorklogDebts[];

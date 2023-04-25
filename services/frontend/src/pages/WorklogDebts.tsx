@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/worklogDebts.scss';
-import WorklogDebtsList from "./WorklogDebtsList";
+import WorklogDebtsList from "../components/WorklogDebtsList";
 import {useFetching} from "../hooks/useFetching";
 import WorklogDebtsService from "../services/WorklogDebtsService";
 import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
-import Loader from "./loader/Loader";
-import CustomButton from "./button/CustomButton";
+import Loader from "../components/loader/Loader";
+import CustomButton from "../components/button/CustomButton";
 import DebtsNotificationService from "../services/DebtsNotificationService";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 import {NotificationStatus} from "../models/notification/NotificationStatus";
