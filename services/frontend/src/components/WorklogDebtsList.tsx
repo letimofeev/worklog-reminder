@@ -47,7 +47,9 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
                         Notification Status
                     </div>
                     <div className="worklog-debts-list__status__header-cell__info" onClick={() => setModal(true)}>
-                        <FaInfoCircle/>
+                        <div className="flex items-center justify-center h-full">
+                            <FaInfoCircle />
+                        </div>
                     </div>
                     <InfoModal visible={modal} setVisible={setModal}>
                         <EmpNotificationStatusInfo/>
