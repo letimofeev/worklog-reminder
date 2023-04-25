@@ -4,8 +4,14 @@ import {Region} from "../models/region/Region";
 import {EmployeeNotificationStatus} from "../models/worklogdebt/EmployeeNotificationStatus";
 
 export default class EmployeeService {
+    static async updateEmployee(employee: Employee) {
+        console.log('PUT api/employees');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return employee;
+    }
+
     static async getAllEmployees() {
-        console.log('Fetching api/employees')
+        console.log('GET api/employees')
         // const response = await axios.get('http://localhost:8080/api/employees');
         // console.log(`Received api/employees response, employees count: ${response.data.length}`);
         // return response;

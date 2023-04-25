@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../styles/content.scss';
 import '../styles/worklogDebts.scss';
 import WorklogDebtsList from "../components/WorklogDebtsList";
-import {useFetching} from "../hooks/useFetching";
+import {useRequest} from "../hooks/useRequest";
 import WorklogDebtsService from "../services/WorklogDebtsService";
 import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 import Loader from "../components/loader/Loader";
@@ -33,7 +33,7 @@ const WorklogDebts = () => {
     const [notificationLoadingRows, setNotificationLoadingRows] = useState<NotificationLoadingRows>({});
     const [notificationResponses, setNotificationResponses] = useState<NotificationResponses>({});
 
-    const [fetchDebts, isDebtsLoading, error] = useFetching(async () => {
+    const [fetchDebts, isDebtsLoading, error] = useRequest(async () => {
         const response = await WorklogDebtsService.getAllEmployeesDebts()
         setWorklogDebts([...worklogDebts, ...response.data])
 

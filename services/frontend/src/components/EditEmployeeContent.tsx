@@ -2,7 +2,7 @@ import {Employee} from "../models/employee/Employee";
 import React, {Dispatch, SetStateAction} from "react";
 import {Region} from "../models/region/Region";
 
-type EditEmployeeProps = {
+type EditEmployeeContentProps = {
     formData: Employee;
     setFormData: Dispatch<SetStateAction<Employee>>;
     onUpdate: (updatedEmployee: Employee) => void;
@@ -10,7 +10,7 @@ type EditEmployeeProps = {
     regions: Region[];
 }
 
-const EditEmployeeContent: React.FC<EditEmployeeProps> = (
+const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
     {
         formData,
         setFormData,
@@ -28,7 +28,7 @@ const EditEmployeeContent: React.FC<EditEmployeeProps> = (
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white rounded px-8 pt-6 pb-8 w-[700px]">
+        <form onSubmit={handleSubmit} className="bg-white rounded px-8 pt-6 pb-8 w-[700px] h-[500px]">
             <h2 className="text-xl font-bold mb-4">Edit Employee</h2>
             <p className="mb-6 text-gray-600">Update the employee information as needed</p>
             <div className="space-y-6">
@@ -118,6 +118,7 @@ const EditEmployeeContent: React.FC<EditEmployeeProps> = (
                         type="checkbox"
                         name="notificationEnabled"
                         id="notificationEnabled"
+                        disabled={!formData.notificationStatus.botConnected}
                         checked={formData.notificationStatus.notificationEnabled}
                         onChange={(e) => setFormData({
                             ...formData, notificationStatus: {
@@ -127,6 +128,11 @@ const EditEmployeeContent: React.FC<EditEmployeeProps> = (
                         })}
                         className="focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
+                    {!formData.notificationStatus.botConnected && (
+                        <div className="ml-4 text-sm text-red-600">
+                            Cannot change notification status when employee is not connected
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="flex items-center justify-end mt-6 space-x-4">

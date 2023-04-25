@@ -7,7 +7,7 @@ import '../styles/employeeList.scss';
 import '../styles/content.scss';
 import EmployeeItem from "./EmployeeItem";
 import {Region} from "../models/region/Region";
-import {useFetching} from "../hooks/useFetching";
+import {useRequest} from "../hooks/useRequest";
 import RegionService from "../services/RegionService";
 
 type EmployeeListProps = {
@@ -18,7 +18,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({employees}) => {
     const [notificationInfoModal, setNotificationInfoModal] = useState(false);
     const [regions, setRegions] = useState<Region[]>([]);
 
-    const [fetchRegions, isRegionsLoading, error] = useFetching(async () => {
+    const [fetchRegions, isRegionsLoading, error] = useRequest(async () => {
         const response = await RegionService.getAllRegions()
         setRegions([...regions, ...response])
     })
