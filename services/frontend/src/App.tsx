@@ -1,16 +1,13 @@
 import React from 'react';
 import './styles/App.css'
-import WorklogDebts from "./pages/WorklogDebts";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Employees from "./pages/Employees";
+import {BrowserRouter} from "react-router-dom";
 import NavigationBar from "./components/navbar/NavigationBar";
-import NotFound from "./components/error/NotFound";
 import AppRouter from "./components/AppRouter";
 
 function App() {
     return (
         <BrowserRouter>
-            <div className="App">
+            <div className="mt-16">
                 <NavigationBar/>
                 <AppRouter/>
             </div>
