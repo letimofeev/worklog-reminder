@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import '../styles/content.scss';
 import '../styles/worklogDebts.scss';
 import WorklogDebtsList from "../components/WorklogDebtsList";
 import {useFetching} from "../hooks/useFetching";
@@ -149,13 +150,13 @@ const WorklogDebts = () => {
     }
 
     return (
-        <div className="worklog-debts">
-            <div className="worklog-debts__container">
-                <div className="worklog-debts__header">
+        <div className="content">
+            <div className="content__container">
+                <div className="content__header">
                     Worklog Debts Management
                 </div>
-                <div className="worklog-debts__subheader">
-                    <div className="worklog-debts__subheader__text">
+                <div className="content__subheader">
+                    <div className="content__subheader__text">
                         Manage employees work logs and notifications
                     </div>
                     <div className="worklog-debts__subheader__notification">
@@ -174,7 +175,7 @@ const WorklogDebts = () => {
                     </div>
                 </div>
                 {isDebtsLoading ?
-                    <div className="worklog-debts__loader">
+                    <div className="content__loader">
                         <Loader/>
                     </div>
                     :

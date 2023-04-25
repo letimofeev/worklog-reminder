@@ -21,20 +21,6 @@ const NavigationBar = () => {
                                 >
                                     Employees
                                 </Link>
-                                {true ? (
-                                    <button
-                                        onClick={() => console.log('click')}
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Logout
-                                    </button>
-                                ) : (
-                                    <div
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Login
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
