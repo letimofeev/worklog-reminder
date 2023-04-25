@@ -3,7 +3,7 @@ import '../styles/worklogDebtsList.scss';
 import WorklogDebtsItem from "./WorklogDebtsItem";
 import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 import {FaInfoCircle} from "react-icons/fa";
-import InfoModal from "./modal/InfoModal";
+import CustomModal from "./modal/CustomModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
 import {TransitionGroup} from "react-transition-group";
 import {NotificationLoadingRows, NotificationResponses} from "../pages/WorklogDebts";
@@ -37,8 +37,8 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
     };
 
     return (
-        <div className="worklog-debts-list">
-            <div className="worklog-debts-list__header">
+        <div className="content-list">
+            <div className="content-list__header">
                 <div className="worklog-debts-list__no__header-cell">No</div>
                 <div className="worklog-debts-list__employee__header-cell">Employee</div>
                 <div className="worklog-debts-list__debts-number__header-cell">Debts Number</div>
@@ -51,13 +51,13 @@ const WorklogDebtsList: React.FC<WorklogDebtsListProps> = (
                             <FaInfoCircle />
                         </div>
                     </div>
-                    <InfoModal visible={modal} setVisible={setModal}>
+                    <CustomModal visible={modal} onClose={() => setModal(false)}>
                         <EmpNotificationStatusInfo/>
-                    </InfoModal>
+                    </CustomModal>
                 </div>
                 <div className="worklog-debts-list__actions__header-cell">Actions</div>
             </div>
-            <div className="worklog-debts-list__body">
+            <div className="content-list__body">
                 {employeesDebts.length
                     ?
                     <TransitionGroup style={{

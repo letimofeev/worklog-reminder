@@ -49,8 +49,6 @@ const WorklogDebts = () => {
                 newNotificationLoadingRows[login] = NotificationLoadingStatus.Inactive;
             });
             setNotificationLoadingRows(newNotificationLoadingRows);
-            console.log(response.data)
-
         }
     })
 

@@ -155,7 +155,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                    style={
                                        {
                                            marginLeft: 'auto',
-                                           marginRight: '30%'
+                                           marginRight: '40%'
                                        }
                                    }
                     />
