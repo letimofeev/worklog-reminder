@@ -38,7 +38,10 @@ const Employees = () => {
                         <Loader/>
                     </div>
                     :
-                    <EmployeeList employees={employees}/>
+                    <EmployeeList
+                        employees={employees}
+                        setEmployees={setEmployees}
+                    />
                 }
             </div>
         </div>

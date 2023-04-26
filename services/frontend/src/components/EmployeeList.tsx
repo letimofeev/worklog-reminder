@@ -11,10 +11,11 @@ import {useRequest} from "../hooks/useRequest";
 import RegionService from "../services/RegionService";
 
 type EmployeeListProps = {
-    employees: Employee[]
+    employees: Employee[];
+    setEmployees: (employees: Employee[]) => void;
 }
 
-const EmployeeList: React.FC<EmployeeListProps> = ({employees}) => {
+const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees}) => {
     const [notificationInfoModal, setNotificationInfoModal] = useState(false);
     const [regions, setRegions] = useState<Region[]>([]);
 
@@ -27,6 +28,15 @@ const EmployeeList: React.FC<EmployeeListProps> = ({employees}) => {
         fetchRegions()
     }, [])
 
+    const setEmployee = (employee: Employee) => {
+        const index = employees.findIndex(emp => emp.id === employee.id);
+        const updatedEmployees = [
+            ...employees.slice(0, index),
+            employee,
+            ...employees.slice(index + 1)
+        ];
+        setEmployees(updatedEmployees);
+    }
 
     return (
         <div className="content-list">
@@ -60,6 +70,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({employees}) => {
                             key={employee.id}
                             rowNumber={index + 1}
                             employee={employee}
+                            setEmployee={setEmployee}
                             regions={regions}
                         />
                     ))

@@ -18,8 +18,14 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
         onClose,
         regions
     }) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({...formData, [e.target.name]: e.target.value});
+    };
+
+    const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const regionId = e.target.value;
+        const selectedRegion = regions.find(region => region.id === regionId);
+        setFormData({...formData, [e.target.name]: selectedRegion});
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -98,7 +104,7 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
                                 name="region"
                                 id="region"
                                 value={formData.region.name}
-                                onChange={handleChange}
+                                onChange={handleRegionChange}
                                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-500"
                             >
                                 {regions.map((region) => (

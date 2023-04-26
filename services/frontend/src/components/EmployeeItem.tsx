@@ -8,16 +8,18 @@ import {Region} from "../models/region/Region";
 type EmployeeItemProps = {
     rowNumber: number,
     employee: Employee
+    setEmployee: (employee: Employee) => void;
     regions: Region[];
 }
 
-const EmployeeItem: React.FC<EmployeeItemProps> = ({rowNumber, employee, regions}) => {
+const EmployeeItem: React.FC<EmployeeItemProps> = ({rowNumber, employee, setEmployee, regions}) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     return (
         <div className="employee-list__body-row">
             <EditEmployeeModal
                 employee={employee}
+                setEmployee={setEmployee}
                 isVisible={isEditModalOpen}
                 setIsVisible={setIsEditModalOpen}
                 regions={regions}

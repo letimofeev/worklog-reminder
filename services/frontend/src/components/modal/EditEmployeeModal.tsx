@@ -10,24 +10,35 @@ import EmployeeEditSuccess from "../EmployeeEditSuccess";
 
 type EditEmployeeModalProps = {
     employee: Employee;
+    setEmployee: (employee: Employee) => void;
     isVisible: boolean;
     setIsVisible: (isVisible: boolean) => void;
     regions: Region[];
 }
 
-const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({employee, isVisible, setIsVisible, regions}) => {
+const EditEmployeeModal: React.FC<EditEmployeeModalProps> = (
+    {
+        employee,
+        setEmployee,
+        isVisible,
+        setIsVisible,
+        regions
+    }) => {
     const [formData, setFormData] = useState(employee);
     const [showUpdateResponse, setShowUpdateResponse] = useState(false);
 
     const [updateEmployee, isEmployeeUpdating, error] = useRequest(async (employee) => {
+        setShowUpdateResponse(false);
         await EmployeeService.updateEmployee(employee);
         setShowUpdateResponse(true);
+        setEmployee(employee);
     })
 
 
     const handleClose = () => {
         setFormData({...employee});
         setIsVisible(false);
+        setShowUpdateResponse(false);
     }
 
     const handleSubmit = () => {
@@ -52,17 +63,6 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({employee, isVisibl
                         regions={regions}
                     />
                 }
-                {/*<div>*/}
-                {/*    <button onClick={() => setShowUpdateResponse(true)} className="bg-blue-500 text-white px-4 py-2 rounded">*/}
-                {/*        Show Toast*/}
-                {/*    </button>*/}
-
-                {/*    {showUpdateResponse && (*/}
-                {/*        <div className={updateResponseClasses}>*/}
-                {/*            Notification message*/}
-                {/*        </div>*/}
-                {/*    )}*/}
-                {/*</div>*/}
                 <EmployeeEditSuccess
                     message="Employee updated successfully!"
                     show={showUpdateResponse}
