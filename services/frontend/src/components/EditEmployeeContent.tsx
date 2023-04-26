@@ -25,7 +25,8 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
     const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const regionId = e.target.value;
         const selectedRegion = regions.find(region => region.id === regionId);
-        setFormData({...formData, [e.target.name]: selectedRegion});
+        const data = {...formData, region: selectedRegion} as Employee;
+        setFormData(data);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -103,7 +104,7 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
                             <select
                                 name="region"
                                 id="region"
-                                value={formData.region.name}
+                                value={formData.region.id}
                                 onChange={handleRegionChange}
                                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-500"
                             >
