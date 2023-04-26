@@ -4,6 +4,7 @@
 
   &__title {
     font-size: 18px;
+    font-weight: bold;
     color: black;
     padding: 10px 20px;
   }
@@ -17,7 +18,8 @@
     border-radius: 10px;
     margin-bottom: 5px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
+    text-transform: uppercase;
     color: #888888;
   }
 
@@ -41,14 +43,16 @@
     height: 40px;
     border-radius: 10px;
     justify-content: space-between;
-    background: #f4f6fa;
   }
 
   &__status {
     &__header-cell,
     &__body-cell {
-      text-align: left;
       flex-basis: 35%;
+    }
+
+    &__header-cell {
+      padding-left: 25px;
     }
 
     &__body-cell {

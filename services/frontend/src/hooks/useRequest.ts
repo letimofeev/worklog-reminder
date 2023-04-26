@@ -2,11 +2,11 @@ import {useState} from "react";
 
 type CallbackFunctionType = (...args: any[]) => any;
 
-export const useFetching = (callback: CallbackFunctionType): [CallbackFunctionType, boolean, any] => {
+export const useRequest = (callback: CallbackFunctionType): [CallbackFunctionType, boolean, any] => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
 
-    const fetching = async (...args: any[]) => {
+    const makeRequest = async (...args: any[]) => {
         try {
             setIsLoading(true)
             await callback(...args)
@@ -15,12 +15,12 @@ export const useFetching = (callback: CallbackFunctionType): [CallbackFunctionTy
             if (e instanceof Error) {
                 message = e.message
             }
-            console.error('Error during fetching: ', message)
+            console.error('Error during request: ', message)
             setError(message)
         } finally {
             setIsLoading(false)
         }
     }
 
-    return [fetching, isLoading, error]
+    return [makeRequest, isLoading, error]
 }

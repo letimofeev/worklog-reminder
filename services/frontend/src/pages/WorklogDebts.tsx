@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import '../styles/content.scss';
 import '../styles/worklogDebts.scss';
-import WorklogDebtsList from "./WorklogDebtsList";
-import {useFetching} from "../hooks/useFetching";
+import WorklogDebtsList from "../components/WorklogDebtsList";
+import {useRequest} from "../hooks/useRequest";
 import WorklogDebtsService from "../services/WorklogDebtsService";
 import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
-import Loader from "./loader/Loader";
-import CustomButton from "./button/CustomButton";
+import Loader from "../components/loader/Loader";
+import CustomButton from "../components/button/CustomButton";
 import DebtsNotificationService from "../services/DebtsNotificationService";
 import {NotificationResponse} from "../models/notification/NotificationResponse";
 import {NotificationStatus} from "../models/notification/NotificationStatus";
@@ -32,7 +33,7 @@ const WorklogDebts = () => {
     const [notificationLoadingRows, setNotificationLoadingRows] = useState<NotificationLoadingRows>({});
     const [notificationResponses, setNotificationResponses] = useState<NotificationResponses>({});
 
-    const [fetchDebts, isDebtsLoading, error] = useFetching(async () => {
+    const [fetchDebts, isDebtsLoading, error] = useRequest(async () => {
         const response = await WorklogDebtsService.getAllEmployeesDebts()
         setWorklogDebts([...worklogDebts, ...response.data])
 
@@ -48,8 +49,6 @@ const WorklogDebts = () => {
                 newNotificationLoadingRows[login] = NotificationLoadingStatus.Inactive;
             });
             setNotificationLoadingRows(newNotificationLoadingRows);
-            console.log(response.data)
-
         }
     })
 
@@ -149,13 +148,13 @@ const WorklogDebts = () => {
     }
 
     return (
-        <div className="worklog-debts">
-            <div className="worklog-debts__container">
-                <div className="worklog-debts__header">
+        <div className="content">
+            <div className="content__container">
+                <div className="content__header">
                     Worklog Debts Management
                 </div>
-                <div className="worklog-debts__subheader">
-                    <div className="worklog-debts__subheader__text">
+                <div className="content__subheader">
+                    <div className="content__subheader__text">
                         Manage employees work logs and notifications
                     </div>
                     <div className="worklog-debts__subheader__notification">
@@ -174,7 +173,7 @@ const WorklogDebts = () => {
                     </div>
                 </div>
                 {isDebtsLoading ?
-                    <div className="worklog-debts__loader">
+                    <div className="content__loader">
                         <Loader/>
                     </div>
                     :

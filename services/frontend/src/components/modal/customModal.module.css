@@ -1,4 +1,4 @@
-.infoModal {
+.customModal {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -9,14 +9,14 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-.infoModalContent {
+.customModalContent {
   padding: 25px;
   background: white;
   border-radius: 16px;
   min-width: 250px;
 }
 
-.infoModal.active {
+.customModal.active {
   display: flex;
   justify-content: center;
   align-items: center;

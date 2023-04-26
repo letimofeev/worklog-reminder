@@ -42,8 +42,10 @@ public class EmployeeServiceImpl implements EmployeeServicePort {
         domainService.checkUniqueConstraints(employee);
 
         var createdEmployee = employeeJpaPort.addEmployee(employee);
+        var restEmployee = notificationRestPort.getNotificationEmployee(createdEmployee);
+
         log.debug("Created employee with id = '{}'", createdEmployee.getId());
-        return createdEmployee;
+        return mapper.mergeDomains(createdEmployee, restEmployee);
     }
 
     @Override

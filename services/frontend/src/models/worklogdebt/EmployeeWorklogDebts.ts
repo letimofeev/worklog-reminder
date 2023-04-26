@@ -1,7 +1,7 @@
 import {DayWorklogDebt} from "./DayWorklogDebt";
 import {ExcludedDay} from "./ExcludedDay";
-import {Region} from "./Region";
 import {EmployeeNotificationStatus} from "./EmployeeNotificationStatus";
+import {Region} from "../region/Region";
 
 export interface EmployeeWorklogDebts {
     id: number;

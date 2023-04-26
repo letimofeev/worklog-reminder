@@ -4,7 +4,7 @@ import EmpNotificationStatus from "./EmpNotificationStatus";
 import WorklogDebtsItemExpanded from "./WorklogDebtsItemExpanded";
 import RoundCheckbox from "./checkbox/RoundCheckbox";
 import {CSSTransition} from 'react-transition-group';
-import {NotificationLoadingStatus} from "./WorklogDebts";
+import {NotificationLoadingStatus} from "../pages/WorklogDebts";
 import Loader from "./loader/Loader";
 import SuccessIcon from "./status/SuccessIcon";
 import FailIcon from "./status/FailIcon";
@@ -155,7 +155,7 @@ const WorklogDebtsItem: React.FC<WorklogDebtsItemProps> = (
                                    style={
                                        {
                                            marginLeft: 'auto',
-                                           marginRight: '30%'
+                                           marginRight: '40%'
                                        }
                                    }
                     />

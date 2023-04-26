@@ -6,7 +6,7 @@ const EmpNotificationStatusInfo = () => {
     return (
         <div className="emp-notification-status-info">
             <div className="emp-notification-status-info__title">
-                Employee notification status
+                Employee Notification Status
             </div>
             <div className="emp-notification-status-info__header">
                 <div className="emp-notification-status-info__status__header-cell">
