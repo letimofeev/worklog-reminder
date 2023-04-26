@@ -4,20 +4,35 @@ import {Employee} from "../models/employee/Employee";
 import {useRequest} from "../hooks/useRequest";
 import EmployeeService from "../services/EmployeeService";
 import Loader from "../components/loader/Loader";
+import AddEmployeeModal from "../components/modal/AddEmployeeModal";
+import {Region} from "../models/region/Region";
+import RegionService from "../services/RegionService";
 
 const Employees = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const [regions, setRegions] = useState<Region[]>([]);
+    const [isAddEmpModalOpen, setIsAddEmpModalOpen] = useState(false);
 
-    const [fetchEmployees, isEmployeesLoading, error] = useRequest(async () => {
+
+    const [fetchEmployees, isEmployeesLoading, fetchEmployeesError] = useRequest(async () => {
         const response = await EmployeeService.getAllEmployees();
         setEmployees([...employees, ...response]);
-        setIsInitialLoad(false);
+    });
+
+    const [fetchRegions, isRegionsLoading, fetchRegionsError] = useRequest(async () => {
+        const response = await RegionService.getAllRegions()
+        setRegions([...regions, ...response])
     });
 
     useEffect(() => {
-        fetchEmployees()
+        fetchEmployees();
+        fetchRegions();
     }, [])
+
+    const addEmployee = (employee: Employee) => {
+        console.log(JSON.stringify(employee))
+        setEmployees([...employees, employee])
+    }
 
     return (
         <div className="content">
@@ -29,11 +44,19 @@ const Employees = () => {
                     <div className="content__subheader__text">
                         Manage employees data
                     </div>
-                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-10">
+                    <button
+                        onClick={() => setIsAddEmpModalOpen(true)}
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-10">
                         Add Employee
                     </button>
                 </div>
-                {isEmployeesLoading || isInitialLoad ?
+                <AddEmployeeModal
+                    addEmployee={addEmployee}
+                    isVisible={isAddEmpModalOpen}
+                    setIsVisible={setIsAddEmpModalOpen}
+                    regions={regions}
+                />
+                {isEmployeesLoading ?
                     <div className="content__loader">
                         <Loader/>
                     </div>
@@ -41,6 +64,7 @@ const Employees = () => {
                     <EmployeeList
                         employees={employees}
                         setEmployees={setEmployees}
+                        regions={regions}
                     />
                 }
             </div>

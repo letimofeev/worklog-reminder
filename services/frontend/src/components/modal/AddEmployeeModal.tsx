@@ -4,68 +4,61 @@ import {Employee} from "../../models/employee/Employee";
 import {Region} from "../../models/region/Region";
 import {useRequest} from "../../hooks/useRequest";
 import EmployeeService from "../../services/EmployeeService";
-import EditEmployeeFormContent from "../EditEmployeeFormContent";
 import FormLoader from "../loader/FormLoader";
 import SuccessToast from "../SuccessToast";
-import {UpdateEmployeeData} from "../../models/employee/UpdateEmployeeData";
+import AddEmployeeFormContent from "../AddEmployeeFormContent";
+import {CreateEmployeeData} from "../../models/employee/CreateEmployeeData";
 
-type EditEmployeeModalProps = {
-    employee: Employee;
-    setEmployee: (employee: Employee) => void;
+type AddEmployeeModalProps = {
+    addEmployee: (employee: Employee) => void;
     isVisible: boolean;
     setIsVisible: (isVisible: boolean) => void;
     regions: Region[];
 }
 
-const EditEmployeeModal: React.FC<EditEmployeeModalProps> = (
+const AddEmployeeModal: React.FC<AddEmployeeModalProps> = (
     {
-        employee,
-        setEmployee,
+        addEmployee,
         isVisible,
         setIsVisible,
         regions
     }) => {
-    const getFormData = (emp: Employee): UpdateEmployeeData => {
-        return {
-            id: emp.id,
-            firstName: emp.firstName,
-            lastName: emp.lastName,
-            jiraKey: emp.jiraKey,
-            skypeLogin: emp.skypeLogin,
-            regionId: emp.region.id,
-            notificationEnabled: emp.notificationStatus.notificationEnabled
-        }
-    }
+    const defaultFormData = {
+        firstName: '',
+        lastName: '',
+        jiraKey: '',
+        skypeLogin: '',
+        regionId: '',
+    } as CreateEmployeeData
 
-    const [formData, setFormData] = useState(getFormData(employee));
+    const [formData, setFormData] = useState(defaultFormData);
     const [isSuccessToast, setIsSuccessToast] = useState(false);
 
-    const [updateEmployee, isEmployeeUpdating, error] = useRequest(async (employee) => {
+    const [postEmployee, isLoading, error] = useRequest(async (employee) => {
         setIsSuccessToast(false);
-        const response = await EmployeeService.updateEmployee(employee);
+        const response = await EmployeeService.addEmployee(employee);
         setIsSuccessToast(true);
-        setEmployee(response);
+        addEmployee(response);
     })
 
     const handleClose = () => {
-        setFormData(getFormData(employee));
+        setFormData(defaultFormData);
         setIsVisible(false);
         setIsSuccessToast(false);
     }
 
     const handleSubmit = () => {
-        updateEmployee(formData);
+        postEmployee(formData);
     }
 
     return (
         <div>
             <CustomModal visible={isVisible} onClose={handleClose}>
-                {isEmployeeUpdating ?
+                {isLoading ?
                     <FormLoader/>
                     :
-                    <EditEmployeeFormContent
+                    <AddEmployeeFormContent
                         formData={formData}
-                        botConnected={employee.notificationStatus.botConnected}
                         setFormData={setFormData}
                         onUpdate={handleSubmit}
                         onClose={handleClose}
@@ -73,7 +66,7 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = (
                     />
                 }
                 <SuccessToast
-                    message="Employee updated successfully!"
+                    message="Employee added successfully!"
                     show={isSuccessToast}
                     onHide={() => setIsSuccessToast(false)}
                 />
@@ -82,4 +75,4 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = (
     );
 };
 
-export default EditEmployeeModal;
+export default AddEmployeeModal;

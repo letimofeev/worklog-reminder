@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Employee} from "../models/employee/Employee";
 import {FaInfoCircle} from "react-icons/fa";
 import CustomModal from "./modal/CustomModal";
@@ -7,26 +7,15 @@ import '../styles/employeeList.scss';
 import '../styles/content.scss';
 import EmployeeItem from "./EmployeeItem";
 import {Region} from "../models/region/Region";
-import {useRequest} from "../hooks/useRequest";
-import RegionService from "../services/RegionService";
 
 type EmployeeListProps = {
     employees: Employee[];
     setEmployees: (employees: Employee[]) => void;
+    regions: Region[];
 }
 
-const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees}) => {
+const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees, regions}) => {
     const [notificationInfoModal, setNotificationInfoModal] = useState(false);
-    const [regions, setRegions] = useState<Region[]>([]);
-
-    const [fetchRegions, isRegionsLoading, error] = useRequest(async () => {
-        const response = await RegionService.getAllRegions()
-        setRegions([...regions, ...response])
-    })
-
-    useEffect(() => {
-        fetchRegions()
-    }, [])
 
     const setEmployee = (employee: Employee) => {
         const index = employees.findIndex(emp => emp.id === employee.id);

@@ -1,16 +1,16 @@
-import {Employee} from "../models/employee/Employee";
 import React, {Dispatch, SetStateAction} from "react";
 import {Region} from "../models/region/Region";
+import {CreateEmployeeData} from "../models/employee/CreateEmployeeData";
 
-type EditEmployeeContentProps = {
-    formData: Employee;
-    setFormData: Dispatch<SetStateAction<Employee>>;
-    onUpdate: (updatedEmployee: Employee) => void;
+type AddEmployeeContentProps = {
+    formData: CreateEmployeeData;
+    setFormData: Dispatch<SetStateAction<CreateEmployeeData>>;
+    onUpdate: (createdEmployee: CreateEmployeeData) => void;
     onClose: () => void;
     regions: Region[];
 }
 
-const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
+const AddEmployeeFormContent: React.FC<AddEmployeeContentProps> = (
     {
         formData,
         setFormData,
@@ -18,15 +18,8 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
         onClose,
         regions
     }) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({...formData, [e.target.name]: e.target.value});
-    };
-
-    const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const regionId = e.target.value;
-        const selectedRegion = regions.find(region => region.id === regionId);
-        const data = {...formData, region: selectedRegion} as Employee;
-        setFormData(data);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -36,8 +29,8 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded px-8 pt-6 pb-8 w-[700px] h-[500px]">
-            <h2 className="text-xl font-bold mb-4">Edit Employee</h2>
-            <p className="mb-6 text-gray-600">Update the employee information as needed</p>
+            <h2 className="text-xl font-bold mb-4">Add Employee</h2>
+            <p className="mb-6 text-gray-600">Add the employee with specified data</p>
             <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
@@ -102,12 +95,13 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
                         </label>
                         <div className="relative">
                             <select
-                                name="region"
-                                id="region"
-                                value={formData.region.id}
-                                onChange={handleRegionChange}
+                                name="regionId"
+                                id="regionId"
+                                value={formData.regionId}
+                                onChange={handleChange}
                                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-500"
                             >
+                                <option value="" disabled>Select a region</option>
                                 {regions.map((region) => (
                                     <option key={region.id} value={region.id}>
                                         {region.name}
@@ -116,30 +110,6 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
                             </select>
                         </div>
                     </div>
-                </div>
-                <div className="flex items-center mb-4">
-                    <label htmlFor="notificationEnabled" className="text-gray-700 text-sm font-bold mr-8">
-                        Notification Enabled
-                    </label>
-                    <input
-                        type="checkbox"
-                        name="notificationEnabled"
-                        id="notificationEnabled"
-                        disabled={!formData.notificationStatus.botConnected}
-                        checked={formData.notificationStatus.notificationEnabled}
-                        onChange={(e) => setFormData({
-                            ...formData, notificationStatus: {
-                                notificationEnabled: e.target.checked,
-                                botConnected: true
-                            }
-                        })}
-                        className="focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
-                    {!formData.notificationStatus.botConnected && (
-                        <div className="ml-4 text-sm text-red-600">
-                            Cannot change notification status when employee is not connected
-                        </div>
-                    )}
                 </div>
             </div>
             <div className="flex items-center justify-end mt-6 space-x-4">
@@ -161,4 +131,4 @@ const EditEmployeeContent: React.FC<EditEmployeeContentProps> = (
     );
 };
 
-export default EditEmployeeContent;
+export default AddEmployeeFormContent;

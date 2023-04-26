@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import SuccessIcon from "./status/SuccessIcon";
 
-type EmployeeEditSuccess = {
+type SuccessToastProps = {
     message: string;
     show: boolean;
     onHide: () => void;
 }
 
-const EmployeeUpdateSuccess: React.FC<EmployeeEditSuccess> = ({message, show, onHide}) => {
+const SuccessToast: React.FC<SuccessToastProps> = ({message, show, onHide}) => {
     const [animateOut, setAnimateOut] = useState(false);
 
     useEffect(() => {
@@ -36,4 +36,4 @@ const EmployeeUpdateSuccess: React.FC<EmployeeEditSuccess> = ({message, show, on
         : null;
 };
 
-export default EmployeeUpdateSuccess;
+export default SuccessToast;
