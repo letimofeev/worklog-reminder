@@ -47,12 +47,17 @@ export default class EmployeeService {
         } as Employee;
     }
 
+    static async deleteEmployee(employee: Employee) {
+        console.log('DELETE api/employees');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
     static async getAllEmployees() {
         console.log('GET api/employees')
         // const response = await axios.get('http://localhost:8080/api/employees');
         // console.log(`Received api/employees response, employees count: ${response.data.length}`);
         // return response;
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 1000));
         return [
             {
                 id: 1,

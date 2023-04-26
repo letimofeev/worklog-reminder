@@ -7,6 +7,7 @@ import '../styles/employeeList.scss';
 import '../styles/content.scss';
 import EmployeeItem from "./EmployeeItem";
 import {Region} from "../models/region/Region";
+import SuccessToast from "./SuccessToast";
 
 type EmployeeListProps = {
     employees: Employee[];
@@ -16,6 +17,7 @@ type EmployeeListProps = {
 
 const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees, regions}) => {
     const [notificationInfoModal, setNotificationInfoModal] = useState(false);
+    const [isEmpDeletedSuccessToast, setIsEmpDeletedSuccessToast] = useState(false);
 
     const setEmployee = (employee: Employee) => {
         const index = employees.findIndex(emp => emp.id === employee.id);
@@ -25,6 +27,12 @@ const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees, reg
             ...employees.slice(index + 1)
         ];
         setEmployees(updatedEmployees);
+    }
+
+    const deleteEmployee = (employee: Employee) => {
+        setIsEmpDeletedSuccessToast(false);
+        setEmployees(employees.filter(emp => emp.id !== employee.id));
+        setIsEmpDeletedSuccessToast(true);
     }
 
     return (
@@ -60,6 +68,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees, reg
                             rowNumber={index + 1}
                             employee={employee}
                             setEmployee={setEmployee}
+                            deleteEmployee={deleteEmployee}
                             regions={regions}
                         />
                     ))
@@ -71,6 +80,11 @@ const EmployeeList: React.FC<EmployeeListProps> = ({employees, setEmployees, reg
                     </div>
                 }
             </div>
+            <SuccessToast
+                message={"Employee deleted successfully!"}
+                show={isEmpDeletedSuccessToast}
+                onHide={() => setIsEmpDeletedSuccessToast(false)}
+            />
         </div>
     );
 };

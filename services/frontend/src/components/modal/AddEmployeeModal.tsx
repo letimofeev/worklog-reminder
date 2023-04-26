@@ -8,6 +8,7 @@ import FormLoader from "../loader/FormLoader";
 import SuccessToast from "../SuccessToast";
 import AddEmployeeFormContent from "../AddEmployeeFormContent";
 import {CreateEmployeeData} from "../../models/employee/CreateEmployeeData";
+import {EmployeeFormErrors} from "../../validation/EmployeeFormErrors";
 
 type AddEmployeeModalProps = {
     addEmployee: (employee: Employee) => void;
@@ -32,9 +33,10 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = (
     } as CreateEmployeeData
 
     const [formData, setFormData] = useState(defaultFormData);
+    const [formErrors, setFormErrors] = useState<EmployeeFormErrors>({});
     const [isSuccessToast, setIsSuccessToast] = useState(false);
 
-    const [postEmployee, isLoading, error] = useRequest(async (employee) => {
+    const [postEmployee, isLoading, error] = useRequest(async (employee: CreateEmployeeData) => {
         setIsSuccessToast(false);
         const response = await EmployeeService.addEmployee(employee);
         setIsSuccessToast(true);
@@ -45,6 +47,7 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = (
         setFormData(defaultFormData);
         setIsVisible(false);
         setIsSuccessToast(false);
+        setFormErrors({});
     }
 
     const handleSubmit = () => {
@@ -59,6 +62,8 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = (
                     :
                     <AddEmployeeFormContent
                         formData={formData}
+                        formErrors={formErrors}
+                        setFormErrors={setFormErrors}
                         setFormData={setFormData}
                         onUpdate={handleSubmit}
                         onClose={handleClose}

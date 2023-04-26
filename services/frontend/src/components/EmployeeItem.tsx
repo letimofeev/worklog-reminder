@@ -4,16 +4,33 @@ import {Employee} from "../models/employee/Employee";
 import EmpNotificationStatus from "./EmpNotificationStatus";
 import EditEmployeeModal from "./modal/EditEmployeeModal";
 import {Region} from "../models/region/Region";
+import EmployeeService from "../services/EmployeeService";
+import SuccessToast from "./SuccessToast";
+import {useRequest} from "../hooks/useRequest";
+import Loader from "./loader/Loader";
 
 type EmployeeItemProps = {
     rowNumber: number,
     employee: Employee
     setEmployee: (employee: Employee) => void;
+    deleteEmployee: (employee: Employee) => void;
     regions: Region[];
 }
 
-const EmployeeItem: React.FC<EmployeeItemProps> = ({rowNumber, employee, setEmployee, regions}) => {
+const EmployeeItem: React.FC<EmployeeItemProps> = (
+    {
+        rowNumber,
+        employee,
+        setEmployee,
+        deleteEmployee,
+        regions,
+    }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    const [removeEmployee, isDeleteLoading, error] = useRequest(async (employee: Employee) => {
+        await EmployeeService.deleteEmployee(employee);
+        deleteEmployee(employee);
+    })
 
     return (
         <div className="employee-list__body-row">
@@ -38,16 +55,32 @@ const EmployeeItem: React.FC<EmployeeItemProps> = ({rowNumber, employee, setEmpl
             </div>
             <div className="employee-list__actions__body-cell">
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => setIsEditModalOpen(true)}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                     Edit
                 </button>
-                <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
-                >
-                    Delete
-                </button>
+                <div className="inline-flex items-center ml-2 relative">
+                    <button
+                        onClick={() => removeEmployee(employee)}
+                        className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${
+                            isDeleteLoading ? 'opacity-0' : ''
+                        }`}
+                    >
+                        Delete
+                    </button>
+                    {isDeleteLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Loader style={
+                                {
+                                    height: '25px',
+                                    width: '25px',
+                                    border: '7px solid #f4f6fa',
+                                    borderTop: '7px solid #3498db'
+                                }}/>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
