@@ -40,14 +40,11 @@ public class NotificationRestAdapter implements NotificationRestPort {
     @Override
     public Employee updateEmployee(Employee employee) {
         var login = employee.getSkypeLogin();
-        var updatedEmployee = getUserByLogin(login)
+        return getUserByLogin(login)
                 .map(user -> restMapper.mapToNotificationUser(employee, user.getId()))
                 .map(this::updateNotificationUser)
                 .map(restMapper::mapToDomain)
                 .orElse(employee);
-
-        employee.adjustNotificationStatus();
-        return updatedEmployee;
     }
 
     @Override

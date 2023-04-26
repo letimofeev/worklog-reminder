@@ -25,8 +25,10 @@ public class Employee {
     private Region region;
     private NotificationStatus notificationStatus;
 
-    public void adjustNotificationStatus() {
+    public Employee setNotificationStatus(NotificationStatus notificationStatus) {
         notificationStatus.adjustStatus();
+        this.notificationStatus = notificationStatus;
+        return this;
     }
 
     @Override
