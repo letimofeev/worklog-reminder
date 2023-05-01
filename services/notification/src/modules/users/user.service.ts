@@ -14,7 +14,7 @@ export class UserService {
 
     async findOrCreate(userDto: CreateUserDto): Promise<[User, boolean]> {
         return await this.userRepository.findOrCreate({
-            where: {displayName: userDto.displayName},
+            where: {skypeId: userDto.skypeId},
             defaults: userDto
         });
     }
