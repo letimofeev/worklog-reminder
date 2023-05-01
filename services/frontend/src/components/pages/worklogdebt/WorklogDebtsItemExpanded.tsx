@@ -1,11 +1,11 @@
 import React from 'react';
 import WorklogDebtItem from "./WorklogDebtItem";
-import {DayWorklogDebt} from "../models/worklogdebt/DayWorklogDebt";
-import {NotificationResponse} from "../models/notification/NotificationResponse";
-import {NotificationStatus} from "../models/notification/NotificationStatus";
-import ErrorBlock from "./error/ErrorBlock";
+import {DayWorklogDebt} from "../../../models/worklogdebt/DayWorklogDebt";
+import {NotificationResponse} from "../../../models/notification/NotificationResponse";
+import {NotificationStatus} from "../../../models/notification/NotificationStatus";
+import ErrorBlock from "../../error/ErrorBlock";
 import VacationItem from "./VacationItem";
-import {ExcludedDay} from "../models/worklogdebt/ExcludedDay";
+import {ExcludedDay} from "../../../models/worklogdebt/ExcludedDay";
 
 interface WorklogDebtsExpandedProps {
     worklogDebts: DayWorklogDebt[];

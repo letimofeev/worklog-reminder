@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useRequest} from "../hooks/useRequest";
-import {NotificationUser} from "../models/notification/NotificationUser";
-import NotificationService from "../services/NotificationService";
-import Loader from "../components/loader/Loader";
-import NotificationUserList from "../components/NotificationUserList";
+import {useRequest} from "../../../hooks/useRequest";
+import {NotificationUser} from "../../../models/notification/NotificationUser";
+import NotificationService from "../../../api/NotificationService";
+import Loader from "../../loader/Loader";
+import NotificationUserList from "./NotificationUserList";
 
 const NotificationUsers = () => {
     const [users, setUsers] = useState<NotificationUser[]>([]);

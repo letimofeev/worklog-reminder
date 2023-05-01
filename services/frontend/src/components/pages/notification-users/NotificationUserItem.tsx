@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import '../styles/notificationUserList.scss'
-import {useRequest} from "../hooks/useRequest";
-import Loader from "./loader/Loader";
-import {NotificationUser} from "../models/notification/NotificationUser";
-import NotificationService from "../services/NotificationService";
-import EditNotificationUserModal from "./modal/EditNotificationUserModal";
+import '../../../styles/notificationUserList.scss'
+import {useRequest} from "../../../hooks/useRequest";
+import Loader from "../../loader/Loader";
+import {NotificationUser} from "../../../models/notification/NotificationUser";
+import NotificationService from "../../../api/NotificationService";
+import EditNotificationUserModal from "./EditNotificationUserModal";
 
 type NotificationUserItemProps = {
     rowNumber: number,
@@ -37,7 +37,13 @@ const NotificationUserItem: React.FC<NotificationUserItemProps> = (
             />
             <div className="notification-user-list__no__body-cell">{rowNumber}</div>
             <div className="notification-user-list__display-name__body-cell">{user.displayName}</div>
-            <div className="notification-user-list__skype__body-cell">{user.login}</div>
+            <div className="notification-user-list__skype__body-cell">
+                {user.login ??
+                    <div className="text-red-500">
+                        Login not specified
+                    </div>
+                }
+            </div>
             <div className="notification-user-list__status__body-cell">
                 {user.enabled ?
                     <div className="emp-notification-status__connected">

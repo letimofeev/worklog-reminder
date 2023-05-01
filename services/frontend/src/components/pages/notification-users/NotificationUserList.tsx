@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {NotificationUser} from "../models/notification/NotificationUser";
-import '../styles/notificationUserList.scss'
-import SuccessToast from "./SuccessToast";
+import {NotificationUser} from "../../../models/notification/NotificationUser";
+import '../../../styles/notificationUserList.scss'
+import SuccessToast from "../../SuccessToast";
 import NotificationUserItem from "./NotificationUserItem";
 
 type NotificationUserListProps = {

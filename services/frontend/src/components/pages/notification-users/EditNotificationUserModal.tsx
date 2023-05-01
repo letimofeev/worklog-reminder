@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import CustomModal from "./CustomModal";
-import {useRequest} from "../../hooks/useRequest";
-import FormLoader from "../loader/FormLoader";
-import SuccessToast from "../SuccessToast";
-import {NotificationUser} from "../../models/notification/NotificationUser";
-import {NotificationUserFormErrors} from "../../validation/NotificationUserFormErrors";
-import EditNotificationUserContent from "../EditNotificationUserFormContent";
-import NotificationService from "../../services/NotificationService";
+import CustomModal from "../../modal/CustomModal";
+import {useRequest} from "../../../hooks/useRequest";
+import FormLoader from "../../loader/FormLoader";
+import SuccessToast from "../../SuccessToast";
+import {NotificationUser} from "../../../models/notification/NotificationUser";
+import {NotificationUserFormErrors} from "../../../validation/NotificationUserFormErrors";
+import EditNotificationUserContent from "./EditNotificationUserFormContent";
+import NotificationService from "../../../api/NotificationService";
 
 type EditNotificationUserProps = {
     user: NotificationUser

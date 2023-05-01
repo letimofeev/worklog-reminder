@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import EmployeeList from "../components/EmployeeList";
-import {Employee} from "../models/employee/Employee";
-import {useRequest} from "../hooks/useRequest";
-import EmployeeService from "../services/EmployeeService";
-import Loader from "../components/loader/Loader";
-import AddEmployeeModal from "../components/modal/AddEmployeeModal";
-import {Region} from "../models/region/Region";
-import RegionService from "../services/RegionService";
+import EmployeeList from "./EmployeeList";
+import {Employee} from "../../../models/employee/Employee";
+import {useRequest} from "../../../hooks/useRequest";
+import EmployeeService from "../../../api/EmployeeService";
+import Loader from "../../loader/Loader";
+import AddEmployeeModal from "./AddEmployeeModal";
+import {Region} from "../../../models/region/Region";
+import RegionService from "../../../api/RegionService";
 
 const Employees = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);

@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import '../styles/worklogDebtsList.scss'
-import EmpNotificationStatus from "./EmpNotificationStatus";
+import '../../../styles/worklogDebtsList.scss'
+import EmpNotificationStatus from "../employee/EmpNotificationStatus";
 import WorklogDebtsItemExpanded from "./WorklogDebtsItemExpanded";
-import RoundCheckbox from "./checkbox/RoundCheckbox";
+import RoundCheckbox from "../../checkbox/RoundCheckbox";
 import {CSSTransition} from 'react-transition-group';
-import {NotificationLoadingStatus} from "../pages/WorklogDebts";
-import Loader from "./loader/Loader";
-import SuccessIcon from "./status/SuccessIcon";
-import FailIcon from "./status/FailIcon";
-import {NotificationResponse} from "../models/notification/NotificationResponse";
+import {NotificationLoadingStatus} from "./WorklogDebts";
+import Loader from "../../loader/Loader";
+import SuccessIcon from "../../status/SuccessIcon";
+import FailIcon from "../../status/FailIcon";
+import {NotificationResponse} from "../../../models/notification/NotificationResponse";
 import {BsFillQuestionCircleFill} from "react-icons/bs";
-import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
+import {EmployeeWorklogDebts} from "../../../models/worklogdebt/EmployeeWorklogDebts";
 
 type WorklogDebtsItemProps = {
     employeeDebts: EmployeeWorklogDebts;

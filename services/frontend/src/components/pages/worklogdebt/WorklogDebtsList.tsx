@@ -1,12 +1,12 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
-import '../styles/worklogDebtsList.scss';
+import '../../../styles/worklogDebtsList.scss';
 import WorklogDebtsItem from "./WorklogDebtsItem";
-import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
+import {EmployeeWorklogDebts} from "../../../models/worklogdebt/EmployeeWorklogDebts";
 import {FaInfoCircle} from "react-icons/fa";
-import CustomModal from "./modal/CustomModal";
-import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
+import CustomModal from "../../modal/CustomModal";
+import EmpNotificationStatusInfo from "../employee/EmpNotificationStatusInfo";
 import {TransitionGroup} from "react-transition-group";
-import {NotificationLoadingRows, NotificationResponses} from "../pages/WorklogDebts";
+import {NotificationLoadingRows, NotificationResponses} from "./WorklogDebts";
 
 type WorklogDebtsListProps = {
     employeesDebts: EmployeeWorklogDebts[];

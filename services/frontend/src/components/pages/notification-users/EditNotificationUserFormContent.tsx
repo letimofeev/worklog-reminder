@@ -1,7 +1,7 @@
 import React from "react";
-import {NotificationUser} from "../models/notification/NotificationUser";
-import {NotificationUserFormErrors} from "../validation/NotificationUserFormErrors";
-import {NotificationUserFormValidator} from "../validation/NotificationUserFormValidator";
+import {NotificationUser} from "../../../models/notification/NotificationUser";
+import {NotificationUserFormErrors} from "../../../validation/NotificationUserFormErrors";
+import {NotificationUserFormValidator} from "../../../validation/NotificationUserFormValidator";
 
 type EditNotificationUserContentProps = {
     formData: NotificationUser;
