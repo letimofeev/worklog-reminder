@@ -13,7 +13,7 @@ export default class WorklogDebtsService {
                 elem.skypeLogin = `anonymous-${elem.id}`;
             }
         });
-        return response;
+        return response.data;
     }
 
     static isLoginPresent(login: string) {

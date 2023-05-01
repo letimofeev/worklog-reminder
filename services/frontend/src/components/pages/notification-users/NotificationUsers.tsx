@@ -10,7 +10,7 @@ const NotificationUsers = () => {
 
     const [fetchUsers, isUsersLoading, error] = useRequest(async () => {
         const response = await NotificationService.getAllUsers();
-        setUsers([...users, ...response]);
+        setUsers([...response]);
     });
 
     useEffect(() => {

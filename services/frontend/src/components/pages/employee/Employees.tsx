@@ -15,12 +15,12 @@ const Employees = () => {
 
     const [fetchEmployees, isEmployeesLoading, fetchEmployeesError] = useRequest(async () => {
         const response = await EmployeeService.getAllEmployees();
-        setEmployees([...employees, ...response]);
+        setEmployees([ ...response]);
     });
 
     const [fetchRegions, isRegionsLoading, fetchRegionsError] = useRequest(async () => {
         const response = await RegionService.getAllRegions()
-        setRegions([...regions, ...response])
+        setRegions([...response])
     });
 
     useEffect(() => {

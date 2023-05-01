@@ -1,0 +1,45 @@
+.calendar-vacation-list {
+  &__body-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin: 2px 0;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  &__no {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 15%;
+      text-align: center;
+    }
+  }
+
+  &__date {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 30%;
+      text-align: center;
+    }
+  }
+
+  &__description {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 30%;
+      text-align: center;
+    }
+  }
+
+  &__actions {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 25%;
+      text-align: center;
+    }
+  }
+}

@@ -1,11 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {Region} from "../../../models/region/Region";
+import {useRequest} from "../../../hooks/useRequest";
+import RegionService from "../../../api/RegionService";
+import CalendarVacationList from "./CalendarVacationList";
 
 const Vacations = () => {
     const [isCalendarVacations, setIsCalendarVacations] = useState(true);
+    const [regions, setRegions] = useState<Region[]>([]);
 
     const toggleDisplayedVacations = () => {
         setIsCalendarVacations(!isCalendarVacations);
     };
+
+    const [fetchRegions, isRegionsLoading, fetchRegionsError] = useRequest(async () => {
+        const response = await RegionService.getAllRegions()
+        setRegions([...response])
+    });
+
+    useEffect(() => {
+        fetchRegions();
+    }, [])
 
     return (
         <div className="content">
@@ -36,6 +50,15 @@ const Vacations = () => {
                         Employees
                     </div>
                 </div>
+                {isCalendarVacations ?
+                    <CalendarVacationList
+                        regions={regions}
+                    />
+                    :
+                    <div>
+                        Stub
+                    </div>
+                }
             </div>
 
         </div>

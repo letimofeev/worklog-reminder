@@ -72,5 +72,13 @@
     font-weight: bold;
     font-size: 14px;
   }
+
+  &__empty {
+    &__text {
+      margin: 20px;
+      font-size: 30px;
+      font-family: cursive;
+    }
+  }
 }
 
