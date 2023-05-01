@@ -1,0 +1,68 @@
+.notification-user-list {
+  &__body-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin: 2px 0;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  &__empty {
+    &__text {
+      margin: 20px;
+      font-size: 30px;
+      font-family: cursive;
+    }
+  }
+
+  &__no {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 5%;
+      text-align: center;
+    }
+  }
+
+  &__display-name {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 25%;
+      text-align: center;
+    }
+  }
+
+  &__skype {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 25%;
+      text-align: center;
+    }
+  }
+
+  &__status {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 20%;
+      display: flex;
+      justify-content: center;
+
+      &__info {
+        margin-left: 10px;
+        color: #1960ea;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__actions {
+    &__body-cell,
+    &__header-cell {
+      flex-basis: 25%;
+      text-align: center;
+    }
+  }
+}

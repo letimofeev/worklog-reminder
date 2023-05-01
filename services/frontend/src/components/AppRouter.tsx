@@ -3,6 +3,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import WorklogDebts from "../pages/WorklogDebts";
 import Employees from "../pages/Employees";
 import NotFound from "./error/NotFound";
+import NotificationUsers from "../pages/NotificationUsers";
 
 const AppRouter = () => {
     return (
@@ -10,6 +11,7 @@ const AppRouter = () => {
             <Route path="/" element={<Navigate to="/worklog-debts"/>}/>
             <Route path="/worklog-debts" element={<WorklogDebts/>}/>
             <Route path="/employees" element={<Employees/>}/>
+            <Route path="/notification-users" element={<NotificationUsers/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     );

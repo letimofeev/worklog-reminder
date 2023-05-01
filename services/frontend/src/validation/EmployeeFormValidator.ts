@@ -34,7 +34,7 @@ export class EmployeeFormValidator {
 
         if (formData.jiraKey.length > 64) {
             isValid = false;
-            errors.jiraKey = 'Jira key must be less than 64 symbols';
+            errors.jiraKey = 'Jira key must be less than 65 symbols';
         }
 
         if (formData.skypeLogin === '') {
@@ -44,7 +44,7 @@ export class EmployeeFormValidator {
 
         if (formData.skypeLogin.length > 64) {
             isValid = false;
-            errors.skypeLogin = 'Skype login must be less than 64 symbols';
+            errors.skypeLogin = 'Skype login must be less than 65 symbols';
         }
 
         if (formData.regionId === '') {

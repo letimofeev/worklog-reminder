@@ -13,7 +13,6 @@ const Employees = () => {
     const [regions, setRegions] = useState<Region[]>([]);
     const [isAddEmpModalOpen, setIsAddEmpModalOpen] = useState(false);
 
-
     const [fetchEmployees, isEmployeesLoading, fetchEmployeesError] = useRequest(async () => {
         const response = await EmployeeService.getAllEmployees();
         setEmployees([...employees, ...response]);
@@ -30,7 +29,6 @@ const Employees = () => {
     }, [])
 
     const addEmployee = (employee: Employee) => {
-        console.log(JSON.stringify(employee))
         setEmployees([...employees, employee])
     }
 
