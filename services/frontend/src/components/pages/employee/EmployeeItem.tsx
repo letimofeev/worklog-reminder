@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import '../styles/employeeList.scss'
-import {Employee} from "../models/employee/Employee";
+import '../../../styles/employeeList.scss'
+import {Employee} from "../../../models/employee/Employee";
 import EmpNotificationStatus from "./EmpNotificationStatus";
-import EditEmployeeModal from "./modal/EditEmployeeModal";
-import {Region} from "../models/region/Region";
-import EmployeeService from "../services/EmployeeService";
-import SuccessToast from "./SuccessToast";
-import {useRequest} from "../hooks/useRequest";
-import Loader from "./loader/Loader";
+import EditEmployeeModal from "./EditEmployeeModal";
+import {Region} from "../../../models/region/Region";
+import EmployeeService from "../../../api/EmployeeService";
+import {useRequest} from "../../../hooks/useRequest";
+import Loader from "../../loader/Loader";
 
 type EmployeeItemProps = {
     rowNumber: number,

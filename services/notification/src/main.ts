@@ -43,7 +43,6 @@ async function bootstrap() {
 
     const httpAdapter = app.get(HttpAdapterHost);
 
-    app.enableCors();
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(
         new UnhandledExceptionFilter(httpAdapter),

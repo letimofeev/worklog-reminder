@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import CustomModal from "./CustomModal";
-import {Employee} from "../../models/employee/Employee";
-import {Region} from "../../models/region/Region";
-import {useRequest} from "../../hooks/useRequest";
-import EmployeeService from "../../services/EmployeeService";
-import FormLoader from "../loader/FormLoader";
-import SuccessToast from "../SuccessToast";
-import AddEmployeeFormContent from "../AddEmployeeFormContent";
-import {CreateEmployeeData} from "../../models/employee/CreateEmployeeData";
-import {EmployeeFormErrors} from "../../validation/EmployeeFormErrors";
+import CustomModal from "../../modal/CustomModal";
+import {Employee} from "../../../models/employee/Employee";
+import {Region} from "../../../models/region/Region";
+import {useRequest} from "../../../hooks/useRequest";
+import EmployeeService from "../../../api/EmployeeService";
+import FormLoader from "../../loader/FormLoader";
+import SuccessToast from "../../SuccessToast";
+import AddEmployeeFormContent from "./AddEmployeeFormContent";
+import {CreateEmployeeData} from "../../../models/employee/CreateEmployeeData";
+import {EmployeeFormErrors} from "../../../validation/EmployeeFormErrors";
 
 type AddEmployeeModalProps = {
     addEmployee: (employee: Employee) => void;

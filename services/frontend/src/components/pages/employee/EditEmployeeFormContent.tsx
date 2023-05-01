@@ -1,9 +1,9 @@
 import React, {Dispatch, SetStateAction} from "react";
-import {Region} from "../models/region/Region";
-import {UpdateEmployeeData} from "../models/employee/UpdateEmployeeData";
-import {CreateEmployeeData} from "../models/employee/CreateEmployeeData";
-import {EmployeeFormValidator} from "../validation/EmployeeFormValidator";
-import {EmployeeFormErrors} from "../validation/EmployeeFormErrors";
+import {Region} from "../../../models/region/Region";
+import {UpdateEmployeeData} from "../../../models/employee/UpdateEmployeeData";
+import {CreateEmployeeData} from "../../../models/employee/CreateEmployeeData";
+import {EmployeeFormValidator} from "../../../validation/EmployeeFormValidator";
+import {EmployeeFormErrors} from "../../../validation/EmployeeFormErrors";
 
 type EditEmployeeContentProps = {
     formData: UpdateEmployeeData;

@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {Employee} from "../models/employee/Employee";
+import {Employee} from "../../../models/employee/Employee";
 import {FaInfoCircle} from "react-icons/fa";
-import CustomModal from "./modal/CustomModal";
+import CustomModal from "../../modal/CustomModal";
 import EmpNotificationStatusInfo from "./EmpNotificationStatusInfo";
-import '../styles/employeeList.scss';
-import '../styles/content.scss';
+import '../../../styles/employeeList.scss';
+import '../../../styles/content.scss';
 import EmployeeItem from "./EmployeeItem";
-import {Region} from "../models/region/Region";
-import SuccessToast from "./SuccessToast";
+import {Region} from "../../../models/region/Region";
+import SuccessToast from "../../SuccessToast";
 
 type EmployeeListProps = {
     employees: Employee[];
