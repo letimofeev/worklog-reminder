@@ -130,7 +130,6 @@ const CalendarVacationList: React.FC<CalendarVacationListProps> = ({regions}) =>
                         <div className="calendar-vacation-list__no__header-cell">No</div>
                         <div className="calendar-vacation-list__date__header-cell">Date</div>
                         <div className="calendar-vacation-list__description__header-cell">Description</div>
-                        <div className="calendar-vacation-list__actions__header-cell">Actions</div>
                     </div>
                     <div className="content-list__body">
                         {vacations.length

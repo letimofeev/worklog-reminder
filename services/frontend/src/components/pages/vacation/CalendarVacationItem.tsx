@@ -13,7 +13,6 @@ const CalendarVacationItem: React.FC<CalendarVacationItemProps> = ({rowNumber, v
             <div className="calendar-vacation-list__no__body-cell">{rowNumber}</div>
             <div className="calendar-vacation-list__date__body-cell">{vacation.date}</div>
             <div className="calendar-vacation-list__description__body-cell">{vacation.name}</div>
-            <div className="calendar-vacation-list__actions__body-cell">Actions</div>
         </div>
     );
 };
