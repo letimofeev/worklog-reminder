@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
@@ -20,7 +19,6 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 @DateFromMoreRecentThanDateTo
 public class DateRangeRequestParameters {
     @NotNull(message = "dateFrom must be specified")
-    @PastOrPresent(message = "dateFrom must be past or present date")
     @DateTimeFormat(iso = DATE)
     private LocalDate dateFrom;
 

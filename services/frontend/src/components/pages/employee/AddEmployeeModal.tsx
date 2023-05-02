@@ -31,7 +31,6 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = (
         skypeLogin: '',
         regionId: '',
     } as CreateEmployeeData
-
     const [formData, setFormData] = useState(defaultFormData);
     const [formErrors, setFormErrors] = useState<EmployeeFormErrors>({});
     const [isSuccessToast, setIsSuccessToast] = useState(false);

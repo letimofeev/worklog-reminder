@@ -4,7 +4,7 @@ import {DayWorklogDebt} from "../../../models/worklogdebt/DayWorklogDebt";
 import {NotificationResponse} from "../../../models/notification/NotificationResponse";
 import {NotificationStatus} from "../../../models/notification/NotificationStatus";
 import ErrorBlock from "../../error/ErrorBlock";
-import VacationItem from "./VacationItem";
+import WorklogDebtsVacationItem from "./WorklogDebtsVacationItem";
 import {ExcludedDay} from "../../../models/worklogdebt/ExcludedDay";
 
 interface WorklogDebtsExpandedProps {
@@ -80,7 +80,7 @@ const WorklogDebtsItemExpanded: React.FC<WorklogDebtsExpandedProps> = (
                     </div>
                     <div className="worklog-debts-list__body-row__expanded__body__container">
                         {excludedDays.map((vacation, index) => (
-                            <VacationItem
+                            <WorklogDebtsVacationItem
                                 key={index}
                                 date={vacation.date}
                                 description={vacation.reason}

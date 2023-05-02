@@ -6,7 +6,7 @@ interface VacationItemProps {
     index: number;
 }
 
-const VacationItem: React.FC<VacationItemProps> = (
+const WorklogDebtsVacationItem: React.FC<VacationItemProps> = (
     {
         date,
         description,
@@ -27,4 +27,4 @@ const VacationItem: React.FC<VacationItemProps> = (
     );
 };
 
-export default VacationItem;
+export default WorklogDebtsVacationItem;

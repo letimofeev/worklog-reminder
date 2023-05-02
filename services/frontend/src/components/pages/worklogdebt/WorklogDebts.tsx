@@ -35,7 +35,7 @@ const WorklogDebts = () => {
 
     const [fetchDebts, isDebtsLoading, error] = useRequest(async () => {
         const response = await WorklogDebtsService.getAllEmployeesDebts()
-        setWorklogDebts([...worklogDebts, ...response.data])
+        setWorklogDebts([...response])
 
         if (response.data && response.data.length) {
             const rowsNum = response.data.length;
