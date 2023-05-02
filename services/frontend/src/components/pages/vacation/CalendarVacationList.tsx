@@ -19,7 +19,7 @@ type CalendarVacationListProps = {
 const CalendarVacationList: React.FC<CalendarVacationListProps> = ({regions}) => {
     const [vacations, setVacations] = useState<CalendarVacation[]>([]);
     const [selectedRegionId, setSelectedRegionId] = useState('');
-    const [isDateRangePickerCollapsed, setIsDateRangePickerCollapsed] = useState(true);
+    const [isDateRangePickerVisible, setIsDateRangePickerVisible] = useState(false);
     const [dateRange, setDateRange] = useState(
         {
             startDate: new Date(),
@@ -39,18 +39,18 @@ const CalendarVacationList: React.FC<CalendarVacationListProps> = ({regions}) =>
 
     const handleDateRangeClick = (event: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
         event.stopPropagation();
-        if (!isDateRangePickerCollapsed) {
+        if (isDateRangePickerVisible) {
             handleDateRangeClose(event);
         } else {
-            setIsDateRangePickerCollapsed(false);
+            setIsDateRangePickerVisible(true);
         }
     };
 
     const handleDateRangeClose = (event: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
         event.stopPropagation();
-        if (!isDateRangePickerCollapsed) {
+        if (isDateRangePickerVisible) {
             findVacations();
-            setIsDateRangePickerCollapsed(true);
+            setIsDateRangePickerVisible(false);
         }
     };
 
@@ -93,13 +93,13 @@ const CalendarVacationList: React.FC<CalendarVacationListProps> = ({regions}) =>
                                 onClick={(e) => handleDateRangeClick(e)}
                                 className={`py-2 px-4 text-white font-semibold rounded ${
                                     selectedRegionId === '' ? 'bg-blue-300' :
-                                        isDateRangePickerCollapsed ? 'bg-blue-500 hover:bg-blue-700' : 'bg-blue-700 hover:bg-blue-800'
+                                        isDateRangePickerVisible ? 'bg-blue-700 hover:bg-blue-800' : 'bg-blue-500 hover:bg-blue-700'
                                 }`}
                             >
                                 Choose dates
                             </button>
                             <div className="collapsable-container">
-                                {!isDateRangePickerCollapsed &&
+                                {isDateRangePickerVisible &&
                                     <div
                                         onClick={e => e.stopPropagation()}
                                         className="collapsable-content absolute bg-white z-10 mt-1 p-4 border border-gray-300 rounded">
