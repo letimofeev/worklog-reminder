@@ -4,13 +4,13 @@ import {UpdateEmployeeData} from "../models/employee/UpdateEmployeeData";
 import {CreateEmployeeData} from "../models/employee/CreateEmployeeData";
 
 export default class EmployeeService {
-    static async updateEmployee(updateEmployee: UpdateEmployeeData) {
+    static async updateEmployee(updateEmployee: UpdateEmployeeData): Promise<Employee> {
         console.log('PUT api/employees');
         const response = await axios.put('http://localhost:8080/api/employees', updateEmployee);
         return response.data;
     }
 
-    static async addEmployee(createEmployee: CreateEmployeeData) {
+    static async addEmployee(createEmployee: CreateEmployeeData): Promise<Employee> {
         console.log('POST api/employees');
         const response = await axios.post('http://localhost:8080/api/employees', createEmployee);
         return response.data;
@@ -21,10 +21,9 @@ export default class EmployeeService {
         await axios.delete(`http://localhost:8080/api/employees/${employee.id}`);
     }
 
-    static async getAllEmployees() {
+    static async getAllEmployees(): Promise<Employee[]> {
         console.log('GET api/employees')
         const response = await axios.get('http://localhost:8080/api/employees');
-        console.log(`Received api/employees response, employees count: ${response.data.length}`);
         return response.data;
     }
 }

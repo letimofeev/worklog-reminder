@@ -3,22 +3,32 @@ import {Region} from "../../../models/region/Region";
 import {useRequest} from "../../../hooks/useRequest";
 import RegionService from "../../../api/RegionService";
 import CalendarVacationList from "./CalendarVacationList";
+import {Employee} from '../../../models/employee/Employee';
+import EmployeeVacationList from "./EmployeeVacationList";
+import EmployeeService from "../../../api/EmployeeService";
 
 const Vacations = () => {
     const [isCalendarVacations, setIsCalendarVacations] = useState(true);
     const [regions, setRegions] = useState<Region[]>([]);
+    const [employees, setEmployees] = useState<Employee[]>([]);
 
     const toggleDisplayedVacations = () => {
         setIsCalendarVacations(!isCalendarVacations);
     };
 
     const [fetchRegions, isRegionsLoading, fetchRegionsError] = useRequest(async () => {
-        const response = await RegionService.getAllRegions()
-        setRegions([...response])
+        const response = await RegionService.getAllRegions();
+        setRegions([...response]);
+    });
+
+    const [fetchEmployees, isEmployeesLoading, fetchEmployeesError] = useRequest(async () => {
+        const response = await EmployeeService.getAllEmployees();
+        setEmployees([...response]);
     });
 
     useEffect(() => {
         fetchRegions();
+        fetchEmployees();
     }, [])
 
     return (
@@ -55,9 +65,9 @@ const Vacations = () => {
                         regions={regions}
                     />
                     :
-                    <div>
-                        Stub
-                    </div>
+                    <EmployeeVacationList
+                     employees={employees}
+                    />
                 }
             </div>
 
