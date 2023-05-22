@@ -10,6 +10,8 @@ import CustomButton from "../../button/CustomButton";
 import DebtsNotificationService from "../../../api/DebtsNotificationService";
 import {NotificationResponse} from "../../../models/notification/NotificationResponse";
 import {NotificationStatus} from "../../../models/notification/NotificationStatus";
+import {addDays} from "date-fns";
+import {DateRangePicker} from "react-date-range";
 
 export enum NotificationLoadingStatus {
     Inactive,
@@ -32,28 +34,61 @@ const WorklogDebts = () => {
     const [selectedRows, setSelectedRows] = useState<boolean[]>([]);
     const [notificationLoadingRows, setNotificationLoadingRows] = useState<NotificationLoadingRows>({});
     const [notificationResponses, setNotificationResponses] = useState<NotificationResponses>({});
+    const [isDateRangePickerCollapsed, setIsDateRangePickerCollapsed] = useState(true);
+    const [dateRange, setDateRange] = useState(
+        {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 7),
+            key: 'selection',
+        },
+    );
 
-    const [fetchDebts, isDebtsLoading, error] = useRequest(async () => {
-        const response = await WorklogDebtsService.getAllEmployeesDebts()
-        setWorklogDebts([...response])
+    const handleDateRangeClick = (event: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (!isDateRangePickerCollapsed) {
+            handleDateRangeClose(event);
+        } else {
+            setIsDateRangePickerCollapsed(false);
+        }
+    };
 
-        if (response.data && response.data.length) {
-            const rowsNum = response.data.length;
+    const handleDateRangeClose = (event: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (!isDateRangePickerCollapsed) {
+            const dateFrom = convertToISO(dateRange.startDate);
+            const dateTo = convertToISO(dateRange.endDate);
+            fetchDebts(dateFrom, dateTo);
+            setIsDateRangePickerCollapsed(true);
+        }
+    };
 
-            setSelectedRows(new Array<boolean>(rowsNum).fill(false));
+    const convertToISO = (date: Date) => {
+        return date.toLocaleDateString().split('.').reverse().join('-')
+    }
+
+    const [fetchDebts, isDebtsLoading, error] = useRequest(async (dateFrom: string, dateTo: string) => {
+        const debts = (dateFrom && dateTo) ?
+            await WorklogDebtsService.getEmployeesDebts(dateFrom, dateTo) :
+            await WorklogDebtsService.getCurrentWeekEmployeesDebts();
+        setWorklogDebts([...debts])
+
+        if (debts && debts.length) {
+            setSelectedRows(new Array<boolean>(debts.length).fill(false));
             setIsButtonsActive(true);
 
             const newNotificationLoadingRows = {} as NotificationLoadingRows;
-            response.data.forEach((empDebts: EmployeeWorklogDebts) => {
+            debts.forEach((empDebts: EmployeeWorklogDebts) => {
                 const login = empDebts.skypeLogin;
                 newNotificationLoadingRows[login] = NotificationLoadingStatus.Inactive;
             });
             setNotificationLoadingRows(newNotificationLoadingRows);
+        } else {
+            setIsButtonsActive(false);
         }
     })
 
     useEffect(() => {
-        fetchDebts()
+        fetchDebts();
     }, [])
 
     const sendNotifications = () => {
@@ -148,7 +183,7 @@ const WorklogDebts = () => {
     }
 
     return (
-        <div className="content">
+        <div className="content" onClick={handleDateRangeClose}>
             <div className="content__container">
                 <div className="content__header">
                     Worklog Debts Management
@@ -170,6 +205,32 @@ const WorklogDebts = () => {
                                           callback={selectAllOrToggle}
                             />
                         </div>
+                    </div>
+                </div>
+                <div className="ml-4">
+                    <button
+                        onClick={(e) => handleDateRangeClick(e)}
+                        className={`py-2 px-4 text-white font-semibold rounded ${
+                            isDateRangePickerCollapsed ? 'bg-blue-500 hover:bg-blue-700' : 'bg-blue-700 hover:bg-blue-800'
+                        }`}
+                    >
+                        Choose dates
+                    </button>
+                    <div className="collapsable-container">
+                        {!isDateRangePickerCollapsed &&
+                            <div
+                                onClick={e => e.stopPropagation()}
+                                className="collapsable-content absolute bg-white z-10 mt-1 p-4 border border-gray-300 rounded">
+                                <DateRangePicker
+                                    onChange={(item: any) => setDateRange(item.selection)}
+                                    showPreview={true}
+                                    moveRangeOnFirstSelection={false}
+                                    months={1}
+                                    ranges={[dateRange]}
+                                    direction="horizontal"
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
                 {isDebtsLoading ?
