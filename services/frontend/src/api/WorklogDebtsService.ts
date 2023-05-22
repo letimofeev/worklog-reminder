@@ -2,18 +2,27 @@ import axios from "axios";
 import {EmployeeWorklogDebts} from "../models/worklogdebt/EmployeeWorklogDebts";
 
 export default class WorklogDebtsService {
-    static async getAllEmployeesDebts() {
-        console.log('Fetching api/worklog-debts')
+    static async getCurrentWeekEmployeesDebts() {
         const response = await axios.get('http://localhost:8080/api/worklog-debts');
-        console.log(`Received api/worklog-debts response, debts count: ${response.data.length}`);
         const debts = response.data as EmployeeWorklogDebts[];
+        this.handleEmptyLogins(debts);
+        return response.data;
+    }
+
+    static async getEmployeesDebts(dateFrom: string, dateTo: string) {
+        const response = await axios.get(`http://localhost:8080/api/worklog-debts?dateFrom=${dateFrom}&dateTo=${dateTo}`);
+        const debts = response.data as EmployeeWorklogDebts[];
+        this.handleEmptyLogins(debts);
+        return response.data;
+    }
+
+    static handleEmptyLogins(debts: EmployeeWorklogDebts[]) {
         debts.forEach(elem => {
             const login = elem.skypeLogin;
             if (!login) {
                 elem.skypeLogin = `anonymous-${elem.id}`;
             }
         });
-        return response.data;
     }
 
     static isLoginPresent(login: string) {
